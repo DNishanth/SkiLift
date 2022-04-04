@@ -22,7 +22,6 @@ import java.security.spec.KeySpec;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Semaphore;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
@@ -32,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseDatabase db;
     private EditText usernameEditText;
     private EditText passwordEditText;
+    public String tempHashedPassword = "";
+    public String tempSalt = "";
+    private final boolean DISABLE_PASSWORD_CHECKING = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,28 +86,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void login(String username, String password) {
-        // TODO: Check the username with the hashed password
+        MainActivity mainActivity = this;
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-//                    String[] hashedPasswordAndSalt = retrieveHashedPasswordAndSalt(username);
-//                    String hashedPassword = hashedPasswordAndSalt[0];
-//                    String salt = hashedPasswordAndSalt[1];
-//                    Log.d(TAG, "Login Hashed Password: " + hashedPassword);
-//                    Log.d(TAG, "Login Salt: " + salt);
-                    // TODO: Get password from database and check
-                    // if (checkPassword(password, hashedPassword)) {
-                    if (true) {
-                        Intent i = new Intent(MainActivity.this, HomeActivity.class);
-                        i.putExtra("username", username);
-                        updateDeviceID(username);
-                        startActivity(i);
-                    }
-                    else {
-                        // TODO: Should have a limit of incorrect passwords for period of time (like phone login locks you out)
-                        shortToast("Password incorrect");
-                    }
+                    // TODO: Have loading icon while logging in
+                    queryRetrieveHashedPasswordAndSalt thread = new queryRetrieveHashedPasswordAndSalt();
+                    thread.username = username;
+                    thread.password = password;
+                    thread.mainActivity = mainActivity;
+                    new Thread(thread).start();
                 }
                 else {
                     shortToast("User is not registered");
@@ -121,8 +112,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dbRef.addListenerForSingleValueEvent(valueEventListener);
     }
 
+    public void continueLogin(String username, String password) {
+        Log.d(TAG, "Continuing login");
+        // Get password from database and check valid (if password checking disabled flag is off)
+        if (!this.tempHashedPassword.equals("") && !this.tempSalt.equals("")) {
+             if (this.DISABLE_PASSWORD_CHECKING || checkPassword(password, this.tempHashedPassword, this.tempSalt)) {
+                 this.tempHashedPassword = "";
+                 this.tempSalt = "";
+                 Intent i = new Intent(MainActivity.this, HomeActivity.class);
+                 i.putExtra("username", username);
+                 updateDeviceID(username);
+                 startActivity(i);
+            }
+            else {
+                // TODO: Should have a limit of incorrect passwords for period of time (like phone login locks you out)
+                shortToast("Password incorrect");
+            }
+        }
+    }
+
 
     private void register(String username, String password) {
+        // TODO: Do queries in separate thread?
+        // TODO: Make loading icon
         try {
             // Store the username
             ValueEventListener valueEventListener = new ValueEventListener() {
@@ -250,35 +262,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
 
-    private String[] retrieveHashedPasswordAndSalt(String username) {
-        // TODO: Doesn't work (semaphores are never released)
-        // Get hashed password and salt in thread
-        Semaphore passwordSemaphore = new Semaphore(0);
-        Semaphore saltSemaphore = new Semaphore(0);
-        Semaphore allFinishedSemaphore = new Semaphore(0);
-        queryRetrieveHashedPasswordAndSalt thread = new queryRetrieveHashedPasswordAndSalt();
-        thread.username = username;
-        thread.passwordSemaphore = passwordSemaphore;
-        thread.saltSemaphore = saltSemaphore;
-        thread.allFinishedSemaphore = allFinishedSemaphore;
-        new Thread(thread).start();
-
-        // Free the thread
-        try {
-            Log.d(TAG, "Got allFinishedSemaphore");
-            allFinishedSemaphore.acquire();
-        } catch (InterruptedException e) {
-            // TODO: Log
-            e.printStackTrace();
-        }
-        String[] hashedPasswordAndSalt = {thread.hashedPasswordAndSalt[0], thread.hashedPasswordAndSalt[1]};
-        thread.isFree = true;
-
-        Log.d(TAG, "Hashed password in retrieve: " + hashedPasswordAndSalt[0]);
-        Log.d(TAG, "Salt in retrieve: " + hashedPasswordAndSalt[1]);
-        return hashedPasswordAndSalt;
-    }
-
     private void shortToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
@@ -287,11 +270,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 class queryRetrieveHashedPasswordAndSalt implements Runnable {
 
     public String username;
-    public String[] hashedPasswordAndSalt = {"", ""};
-    public boolean isFree = false;
-    public Semaphore passwordSemaphore;
-    public Semaphore saltSemaphore;
-    public Semaphore allFinishedSemaphore;
+    public String password;
+    public MainActivity mainActivity;
 
     @Override
     public void run() {
@@ -305,8 +285,8 @@ class queryRetrieveHashedPasswordAndSalt implements Runnable {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     Log.d(MainActivity.TAG, (String)snapshot.getValue());
-                    hashedPasswordAndSalt[0] = (String) snapshot.getValue();
-                    passwordSemaphore.release();
+                    mainActivity.tempHashedPassword = (String) snapshot.getValue();
+                    mainActivity.continueLogin(username, password);
                 }
             }
             @Override
@@ -323,8 +303,8 @@ class queryRetrieveHashedPasswordAndSalt implements Runnable {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     Log.d(MainActivity.TAG, (String)snapshot.getValue());
-                    hashedPasswordAndSalt[1] = (String) snapshot.getValue();
-                    saltSemaphore.release();
+                    mainActivity.tempSalt = (String) snapshot.getValue();
+                    mainActivity.continueLogin(username, password);
                 }
             }
             @Override
@@ -334,17 +314,5 @@ class queryRetrieveHashedPasswordAndSalt implements Runnable {
         };
         DatabaseReference saltRef = FirebaseDatabase.getInstance().getReference("users").child(username).child("salt");
         saltRef.addListenerForSingleValueEvent(saltValueEventListener);
-
-        try {
-            Log.d(MainActivity.TAG, "Got password semaphore");
-            passwordSemaphore.acquire();
-            Log.d(MainActivity.TAG, "Got salt semaphore");
-            saltSemaphore.acquire();
-        } catch (InterruptedException e) {
-            // TODO: Log
-            e.printStackTrace();
-        }
-        allFinishedSemaphore.release();
-        Log.d(MainActivity.TAG, "Released allFinishedSemaphore");
     }
 }
