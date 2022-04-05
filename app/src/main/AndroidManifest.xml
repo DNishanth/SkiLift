@@ -10,6 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkiLift">
         <activity
+            android:name=".MessagesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GiveRideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FindRideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyRidesActivity"
+            android:exported="false" />
+        <activity
             android:name=".HomeActivity"
             android:exported="false" />
         <activity
