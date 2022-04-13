@@ -79,8 +79,12 @@
     android:ems="10"
     android:inputType="textPersonName"
     android:textSize="16sp"
-    tools:layout_editor_absoluteX="170dp"
-    tools:layout_editor_absoluteY="405dp" />
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.765"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.585" />
 
   <EditText
     android:id="@+id/editTextTextPersonName3"
@@ -90,8 +94,12 @@
     android:ems="10"
     android:inputType="textPersonName"
     android:textSize="16sp"
-    tools:layout_editor_absoluteX="170dp"
-    tools:layout_editor_absoluteY="459dp" />
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.765"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.668" />
 
   <EditText
     android:id="@+id/editTextTextPersonName4"
@@ -101,8 +109,12 @@
     android:ems="10"
     android:inputType="textPersonName"
     android:textSize="16sp"
-    tools:layout_editor_absoluteX="170dp"
-    tools:layout_editor_absoluteY="513dp" />
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.765"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.75" />
 
   <EditText
     android:id="@+id/editTextTextPersonName5"
@@ -112,8 +124,12 @@
     android:ems="10"
     android:inputType="textPersonName"
     android:textSize="16sp"
-    tools:layout_editor_absoluteX="170dp"
-    tools:layout_editor_absoluteY="576dp" />
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.765"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.835" />
 
   <EditText
     android:id="@+id/editTextTextPersonName6"
@@ -123,8 +139,12 @@
     android:ems="10"
     android:inputType="textPersonName"
     android:textSize="16sp"
-    tools:layout_editor_absoluteX="170dp"
-    tools:layout_editor_absoluteY="633dp" />
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.765"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.924" />
 
   <TextView
     android:id="@+id/textView6"
@@ -134,7 +154,22 @@
     android:gravity="center_horizontal"
     android:text="Pickup Location"
     android:textStyle="bold"
-    tools:layout_editor_absoluteX="23dp"
-    tools:layout_editor_absoluteY="302dp" />
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.483" />
+
+  <ImageView
+    android:id="@+id/imageView"
+    android:layout_width="361dp"
+    android:layout_height="199dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.52"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.159"
+    app:srcCompat="@drawable/border" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
