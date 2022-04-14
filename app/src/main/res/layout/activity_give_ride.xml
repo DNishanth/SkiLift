@@ -8,58 +8,65 @@
     android:layout_height = "match_parent"
     tools:context = ".GiveRideActivity" >
 
-    <TextView
-        android:id = "@+id/leavingOnPrompt"
+    <LinearLayout
+        android:id = "@+id/giveARidePrompts"
         android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:text = "@string/leavingOnPromptText" />
+        android:layout_height = "wrap_content" >
 
-    <TextView
-        android:id = "@+id/pickupTimePrompt"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:text = "@string/pickupTimePromptText" />
+        <TextView
+            android:id = "@+id/giveARideLeavingOnPrompt"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARideLeavingOnPromptText" />
 
-    <TextView
-        android:id = "@+id/returnDatePrompt"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:text = "@string/returnDatePromptText" />
+        <TextView
+            android:id = "@+id/giveARidePickupTimePrompt"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARidePickupTimePromptText" />
 
-    <TextView
-        android:id = "@+id/returnTimePrompt"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:text = "@string/returnTimePromptText" />
+        <TextView
+            android:id = "@+id/giveARideReturnDatePrompt"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARideReturnDatePromptText" />
 
-    <TextView
-        android:id = "@+id/destinationPrompt"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:text = "@string/destinationPromptText" />
+        <TextView
+            android:id = "@+id/giveARideReturnTimePrompt"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARideReturnTimePromptText" />
 
-    <TextView
-        android:id = "@+id/passengersPrompt"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:text = "@string/passengersPromptText" />
+        <TextView
+            android:id = "@+id/giveARideDestinationPrompt"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARideDestinationPromptText" />
 
-    <TextView
-        android:id = "@+id/carLicenseModelPrompt"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:text = "@string/carLicenseModelPromptText" />
+        <TextView
+            android:id = "@+id/giveARidePassengersPrompt"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARidePassengersPromptText" />
 
-    <TextView
-        android:id = "@+id/skiRackPrompt"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:text = "@string/skiRackPromptText" />
+        <TextView
+            android:id = "@+id/giveARideCarLicenseModelPrompt"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARideCarLicenseModelPromptText" />
 
-    <TextView
-        android:id = "@+id/specialRequestsPrompt"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:text = "@string/specialRequestsPromptText" />
+        <TextView
+            android:id = "@+id/giveARideSkiRackPrompt"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARideSkiRackPromptText" />
+
+        <TextView
+            android:id = "@+id/giveARideSpecialRequestsPrompt"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARideSpecialRequestsPromptText" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
