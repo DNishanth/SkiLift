@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SkiLift</string>
+    <string name = "leavingOnPromptText">Leaving On:</string>
+    <string name = "pickupTimePromptText">Pickup Time:</string>
+    <string name = "returnDatePromptText">Return Date:</string>
+    <string name = "returnTimePromptText">Return Time:</string>
+    <string name = "destinationPromptText">Destination:</string>
+    <string name = "passengersPromptText">Passengers:</string>
 </resources>
