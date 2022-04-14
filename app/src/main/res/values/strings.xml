@@ -6,4 +6,7 @@
     <string name = "returnTimePromptText">Return Time:</string>
     <string name = "destinationPromptText">Destination:</string>
     <string name = "passengersPromptText">Passengers:</string>
+    <string name = "carLicenseModelPromptText">Car License/Model:</string>
+    <string name = "skiRackPromptText">Ski Rack:</string>
+    <string name = "specialRequestsPromptText">Special Requests:</string>
 </resources>

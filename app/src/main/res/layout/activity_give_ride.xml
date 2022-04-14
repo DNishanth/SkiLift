@@ -44,4 +44,22 @@
         android:layout_height = "wrap_content"
         android:text = "@string/passengersPromptText" />
 
+    <TextView
+        android:id = "@+id/carLicenseModelPrompt"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:text = "@string/carLicenseModelPromptText" />
+
+    <TextView
+        android:id = "@+id/skiRackPrompt"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:text = "@string/skiRackPromptText" />
+
+    <TextView
+        android:id = "@+id/specialRequestsPrompt"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:text = "@string/specialRequestsPromptText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
