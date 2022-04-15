@@ -11,7 +11,8 @@
     <LinearLayout
         android:id = "@+id/giveARidePrompts"
         android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content" >
+        android:layout_height = "wrap_content"
+        android:orientation = "vertical" >
 
         <TextView
             android:id = "@+id/giveARideLeavingOnPrompt"
@@ -66,6 +67,68 @@
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
             android:text = "@string/giveARideSpecialRequestsPromptText" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id = "@+id/giveARideFields"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:orientation = "vertical" >
+
+        <TextView
+            android:id = "@+id/giveARideLeavingOnField"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARideLeavingOnFieldText" />
+
+        <TextView
+            android:id = "@+id/giveARidePickupTimeField"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARidePickupTimeFieldText" />
+
+        <TextView
+            android:id = "@+id/giveARideReturnDateField"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARideReturnDateFieldText" />
+
+        <TextView
+            android:id = "@+id/giveARideReturnTimeField"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARideReturnTimeFieldText" />
+
+        <TextView
+            android:id = "@+id/giveARideDestinationField"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARideDestinationFieldText" />
+
+        <TextView
+            android:id = "@+id/giveARidePassengersField"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARidePassengersFieldText" />
+
+        <TextView
+            android:id = "@+id/giveARideCarLicenseModelField"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARideCarLicenseModelFieldText" />
+
+        <TextView
+            android:id = "@+id/giveARideSkiRackField"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARideSkiRackFieldText" />
+
+        <TextView
+            android:id = "@+id/giveARideSpecialRequestsField"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "@string/giveARideSpecialRequestsFieldText" />
 
     </LinearLayout>
 
