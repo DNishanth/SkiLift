@@ -10,4 +10,14 @@
     <string name = "giveARideCarLicenseModelPromptText">Car License/Model:</string>
     <string name = "giveARideSkiRackPromptText">Ski Rack:</string>
     <string name = "giveARideSpecialRequestsPromptText">Special Requests:</string>
+
+    <string name = "giveARideLeavingOnFieldText">12/25/22</string>
+    <string name = "giveARidePickupTimeFieldText">6:00 A.M.</string>
+    <string name = "giveARideReturnDateFieldText">12/28/22</string>
+    <string name = "giveARideReturnTimeFieldText">6:00 P.M.</string>
+    <string name = "giveARideDestinationFieldText">Sunday River</string>
+    <string name = "giveARidePassengersFieldText">4</string>
+    <string name = "giveARideCarLicenseModelFieldText">3M5 GG6 | Toyota Avalon</string>
+    <string name = "giveARideSkiRackFieldText">No</string>
+    <string name = "giveARideSpecialRequestsFieldText">Have Fun!</string>
 </resources>
