@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkiLift">
         <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".MessagesActivity"
             android:exported="false" />
         <activity
