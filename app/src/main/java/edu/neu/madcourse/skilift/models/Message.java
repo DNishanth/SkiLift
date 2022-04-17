@@ -1,17 +1,19 @@
 package edu.neu.madcourse.skilift.models;
 
-import java.sql.Timestamp;
-
 public class Message {
-    private final String sender; // Username of message sender
-    private final String message; // File name of sticker
-    private final String timestamp;
+    private String sender; // Username of message sender
+    private String message; // File name of sticker
+    private long timestamp;
 
     public Message(String sender, String message) {
         this.sender = sender;
         this.message = message;
-        this.timestamp = new Timestamp(System.currentTimeMillis()).toString();
+        this.timestamp = System.currentTimeMillis();
     }
+
+    // Used by Firebase to reconstruct Messages
+    @SuppressWarnings("unused")
+    public Message() {}
 
     public String getSender() {
         return sender;
@@ -21,7 +23,7 @@ public class Message {
         return message;
     }
 
-    public String getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 }
