@@ -4,22 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity">
+    tools:context=".EditProfileActivity">
 
-    <Button
-        android:id="@+id/editProfileButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit Profile"
+    <Spinner
+        android:id="@+id/preferredResortsSpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.02" />
+        app:layout_constraintVertical_bias="0.5" />
 
     <ImageView
-        android:id="@+id/profilePictureImageView"
+        android:id="@+id/editProfilePictureImageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,15 +28,18 @@
         app:layout_constraintVertical_bias="0.15"
         app:srcCompat="@drawable/default_user_img" />
 
-    <TextView
-        android:id="@+id/profileUsernameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Username"
-        android:textSize="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/editProfilePictureFloatingActionButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:contentDescription="Edit profile picture"
+        app:backgroundTint="#FFFFFF"
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_constraintBottom_toBottomOf="@+id/editProfilePictureImageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePictureImageView"
-        app:layout_constraintVertical_bias="0" />
+        app:layout_constraintStart_toEndOf="@+id/editProfilePictureImageView"
+        app:layout_constraintTop_toTopOf="@+id/editProfilePictureImageView"
+        app:srcCompat="@drawable/adaptive_icon" />
 </androidx.constraintlayout.widget.ConstraintLayout>
