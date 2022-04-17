@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -15,13 +16,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        TextView usernameTextView = findViewById(R.id.profileUsernameTextView);
         Button editProfileButton = findViewById(R.id.editProfileButton);
         editProfileButton.setOnClickListener(this);
 
         Intent intent = getIntent();
         this.username = intent.getStringExtra("username");
 
-        // TODO: Display username
+        // Display username
+        usernameTextView.setText(this.username);
         // TODO: Set image to profile picture
         // TODO: System for preferred destinations?
         // TODO: Default location for pickup? (Could store general and/or specific location)
