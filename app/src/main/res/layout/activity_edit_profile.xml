@@ -15,5 +15,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.30" />
+        app:layout_constraintVertical_bias="0.5" />
+
+    <ImageView
+        android:id="@+id/editProfilePictureImageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15"
+        app:srcCompat="@drawable/default_user_img" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/editProfilePictureFloatingActionButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:contentDescription="Edit profile picture"
+        app:backgroundTint="#FFFFFF"
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_constraintBottom_toBottomOf="@+id/editProfilePictureImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editProfilePictureImageView"
+        app:layout_constraintTop_toTopOf="@+id/editProfilePictureImageView"
+        app:srcCompat="@drawable/adaptive_icon" />
 </androidx.constraintlayout.widget.ConstraintLayout>
