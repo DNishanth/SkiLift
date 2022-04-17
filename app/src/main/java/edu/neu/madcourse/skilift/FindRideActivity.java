@@ -8,7 +8,7 @@ import com.google.android.gms.maps.GoogleMap;
 
 import android.os.Bundle;
 
-public class FindRideActivity extends AppCompatActivity {
+public class FindRideActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
 
@@ -19,7 +19,7 @@ public class FindRideActivity extends AppCompatActivity {
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.maps);
 
-        //mapFragment.getMapAsync();
+        mapFragment.getMapAsync(this);
     }
 
 

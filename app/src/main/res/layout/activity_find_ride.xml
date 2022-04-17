@@ -6,17 +6,18 @@
   android:layout_height="match_parent"
   tools:context=".FindRideActivity">
 
+
   <androidx.fragment.app.FragmentContainerView
     android:id="@+id/maps"
     android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="162dp"
-    android:layout_height="64dp"
+    android:layout_width="364dp"
+    android:layout_height="203dp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.489"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.023"></androidx.fragment.app.FragmentContainerView>
+    app:layout_constraintVertical_bias="0.117"></androidx.fragment.app.FragmentContainerView>
 
   <TextView
     android:id="@+id/textView"
@@ -90,6 +91,7 @@
     android:background="@drawable/border"
     android:ems="10"
     android:inputType="textPersonName"
+    android:textColor="@color/ic_launcher_sl_background"
     android:textSize="16sp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
@@ -105,6 +107,7 @@
     android:background="@drawable/border"
     android:ems="10"
     android:inputType="textPersonName"
+    android:textColor="@color/ic_launcher_sl_background"
     android:textSize="16sp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
@@ -120,6 +123,7 @@
     android:background="@drawable/border"
     android:ems="10"
     android:inputType="textPersonName"
+    android:textColor="@color/ic_launcher_sl_background"
     android:textSize="16sp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
@@ -135,6 +139,7 @@
     android:background="@drawable/border"
     android:ems="10"
     android:inputType="textPersonName"
+    android:textColor="@color/ic_launcher_sl_background"
     android:textSize="16sp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
@@ -150,6 +155,7 @@
     android:background="@drawable/border"
     android:ems="10"
     android:inputType="textPersonName"
+    android:textColor="@color/ic_launcher_sl_background"
     android:textSize="16sp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
@@ -165,23 +171,12 @@
     android:background="@drawable/border"
     android:gravity="center_horizontal"
     android:text="Pickup Location"
+    android:textColor="@color/ic_launcher_sl_background"
     android:textStyle="bold"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_bias="0.483" />
-
-  <ImageView
-    android:id="@+id/imageView"
-    android:layout_width="361dp"
-    android:layout_height="199dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.48"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.178"
-    app:srcCompat="@drawable/border" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

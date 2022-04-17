@@ -18,6 +18,7 @@
         <activity
             android:name=".GiveRideActivity"
             android:exported="false" />
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyB4jUraCSORXpVnOocSY9KaOJJlV3XGFmM"></meta-data>
         <activity
             android:name=".FindRideActivity"
             android:exported="false" />
