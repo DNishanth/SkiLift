@@ -35,8 +35,11 @@ public class GroupMessageRVAdapter extends RecyclerView.Adapter<GroupMessageView
     @Override
     public void onBindViewHolder(@NonNull GroupMessageViewHolder holder, int position) {
         GroupMessage groupMessage = groupMessageList.get(position);
-        String groupMembers = groupMessage.getGroupMembers();
-        holder.groupMembers.setText(groupMembers);
+        ArrayList<String> groupMembersList = groupMessage.getGroupMembers();
+        groupMembersList.sort(String.CASE_INSENSITIVE_ORDER);
+        String groupMembers = groupMembersList.toString();
+        String sortedGroupMembers = groupMembers.substring(1, groupMembers.length() - 1);
+        holder.groupMembers.setText(sortedGroupMembers);
     }
 
     @Override

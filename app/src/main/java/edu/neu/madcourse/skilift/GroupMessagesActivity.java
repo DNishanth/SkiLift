@@ -101,10 +101,7 @@ public class GroupMessagesActivity extends AppCompatActivity implements View.OnC
                         assert name != null;
                         if (!name.equals(username)) groupMembersList.add(name);
                     }
-                    groupMembersList.sort(String.CASE_INSENSITIVE_ORDER);
-                    String groupMembers = groupMembersList.toString();
-                    String sortedGroupMembers = groupMembers.substring(1, groupMembers.length() - 1);
-                    groupMessageList.add(new GroupMessage(groupID, sortedGroupMembers));
+                    groupMessageList.add(new GroupMessage(groupID, groupMembersList));
                     adapter.notifyItemInserted(groupMembersList.size());
                 }
             }
