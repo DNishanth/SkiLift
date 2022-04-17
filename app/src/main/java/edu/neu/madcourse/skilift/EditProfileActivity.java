@@ -1,16 +1,15 @@
 package edu.neu.madcourse.skilift;
 
-import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -19,14 +18,21 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import java.io.ByteArrayOutputStream;
 import edu.neu.madcourse.skilift.models.Resorts;
 
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageView profilePictureImageView;
-    // TODO: Set image
+    StorageReference profilePictureRef;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    String username;
     // TODO: Be able to change name??
     // TODO: Set favorite destination(s)
     // TODO: Set default location for pickup (general and/or specific)
@@ -36,9 +42,15 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        // Create the image
+        Intent intent = getIntent();
+        this.username = intent.getStringExtra("username");
+
+        // Set reference to path of profile picture
+        this.profilePictureRef = storage.getReference().child("profile_pictures").child(username+".jpg");
+
+        // Set profile picture to stored image
         this.profilePictureImageView = findViewById(R.id.editProfilePictureImageView);
-        // TODO: Get the image of this user's profile picture and set ImageView
+        setProfilePicture();
 
         // Edit image button
         FloatingActionButton editProfilePictureButton = findViewById(R.id.editProfilePictureFloatingActionButton);
@@ -70,14 +82,14 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 ActivityCompat.requestPermissions(EditProfileActivity.this, new String[]{Manifest.permission.CAMERA}, 100);
             }
             else {
-                // TODO: Take the picture
+                // Take the picture
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, 100);
             }
         }
         else {
-            Log.d(MainActivity.TAG, "Device does not have a camera");
             // TODO: Tell user that you need camera to take picture
+            Log.d(MainActivity.TAG, "Device does not have a camera");
         }
     }
 
@@ -88,9 +100,46 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             if (resultCode == RESULT_OK) {
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 profilePictureImageView.setImageBitmap(bitmap);
-                // TODO: Send bitmap as file to cloud storage
-                // TODO: Save path of file to user data
+                savePictureToCloud(bitmap);
             }
         }
+    }
+
+    private void savePictureToCloud(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = profilePictureRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // TODO: Handle unsuccessful uploads
+                Toast.makeText(getApplicationContext(), "Could not upload image", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(getApplicationContext(), "Image uploaded", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setProfilePicture() {
+        final long ONE_MEGABYTE = 1024 * 1024;
+        profilePictureRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Set profile picture ImageView to downloaded data
+                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                profilePictureImageView.setImageBitmap(bmp);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Could not get image, so set profile pic to default
+                profilePictureImageView.setImageResource(R.drawable.default_user_img);
+            }
+        });
     }
 }
