@@ -22,7 +22,7 @@ public class GiveRideActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.giveARideBackButton:
-                openActivity(MainActivity.class);
+                openActivity(HomeActivity.class);
                 break;
             case R.id.giveARideSubmitButton:
                 break;
