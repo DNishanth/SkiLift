@@ -41,7 +41,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(profileIntent);
                 break;
             case R.id.messagesHomeFloatingActionButton:
-                Intent messagesIntent = new Intent(HomeActivity.this, MessagesActivity.class);
+                Intent messagesIntent = new Intent(HomeActivity.this, GroupMessagesActivity.class);
                 messagesIntent.putExtra("username", username);
                 startActivity(messagesIntent);
                 break;

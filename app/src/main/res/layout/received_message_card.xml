@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginVertical="10dp">
+
+    <TextView
+        android:id="@+id/received_message_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Username"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/received_card"
+        android:paddingStart="10dp"
+        tools:ignore="RtlSymmetry" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/received_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/received_message_username"
+        app:layout_constraintWidth_max="wrap"
+        app:layout_constraintWidth_percent=".75"
+        app:cardBackgroundColor="@color/gray"
+        app:contentPadding="5dp"
+        app:shapeAppearanceOverlay="@style/ReceivedMessageStyle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/received_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Message content here"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/received_message_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="6:00 AM"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_gravity="end" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
