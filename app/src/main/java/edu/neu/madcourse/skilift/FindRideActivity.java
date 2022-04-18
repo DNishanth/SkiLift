@@ -44,7 +44,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_ride);
-        System.out.println("find a ride mounted");
+
 
         locationText = findViewById(R.id.locationText);
 
