@@ -12,61 +12,101 @@
         android:id = "@+id/giveARidePrompts"
         android:layout_width = "wrap_content"
         android:layout_height = "wrap_content"
-        android:orientation = "vertical" >
+        android:orientation = "vertical"
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintEnd_toStartOf = "@id/giveARideFields"
+        app:layout_constraintStart_toStartOf = "parent"
+        app:layout_constraintTop_toTopOf = "parent" >
 
         <TextView
             android:id = "@+id/giveARideLeavingOnPrompt"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:text = "@string/giveARideLeavingOnPromptText" />
+            android:text = "@string/giveARideLeavingOnPromptText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARidePickupTimePrompt"
+            app:layout_constraintEnd_toStartOf = "@id/giveARideLeavingOnField"
+            app:layout_constraintStart_toStartOf = "parent"
+            app:layout_constraintTop_toTopOf = "parent" />
 
         <TextView
             android:id = "@+id/giveARidePickupTimePrompt"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:text = "@string/giveARidePickupTimePromptText" />
+            android:text = "@string/giveARidePickupTimePromptText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARideReturnDatePrompt"
+            app:layout_constraintEnd_toStartOf = "@id/giveARidePickupTimeField"
+            app:layout_constraintStart_toStartOf = "parent"
+            app:layout_constraintTop_toBottomOf = "@id/giveARideLeavingOnPrompt" />
 
         <TextView
             android:id = "@+id/giveARideReturnDatePrompt"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:text = "@string/giveARideReturnDatePromptText" />
+            android:text = "@string/giveARideReturnDatePromptText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARideReturnTimePrompt"
+            app:layout_constraintEnd_toStartOf = "@id/giveARideReturnDateField"
+            app:layout_constraintStart_toStartOf = "parent"
+            app:layout_constraintTop_toBottomOf = "@id/giveARidePickupTimePrompt" />
 
         <TextView
             android:id = "@+id/giveARideReturnTimePrompt"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:text = "@string/giveARideReturnTimePromptText" />
+            android:text = "@string/giveARideReturnTimePromptText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARideDestinationPrompt"
+            app:layout_constraintEnd_toStartOf = "@id/giveARideReturnTimeField"
+            app:layout_constraintStart_toStartOf = "parent"
+            app:layout_constraintTop_toBottomOf = "@id/giveARideReturnDatePrompt" />
 
         <TextView
             android:id = "@+id/giveARideDestinationPrompt"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:text = "@string/giveARideDestinationPromptText" />
+            android:text = "@string/giveARideDestinationPromptText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARidePassengersPrompt"
+            app:layout_constraintEnd_toStartOf = "@id/giveARideDestinationField"
+            app:layout_constraintStart_toStartOf = "parent"
+            app:layout_constraintTop_toBottomOf = "@id/giveARideReturnTimePrompt" />
 
         <TextView
             android:id = "@+id/giveARidePassengersPrompt"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:text = "@string/giveARidePassengersPromptText" />
+            android:text = "@string/giveARidePassengersPromptText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARideCarLicenseModelPrompt"
+            app:layout_constraintEnd_toStartOf = "@id/giveARidePassengersField"
+            app:layout_constraintStart_toStartOf = "parent"
+            app:layout_constraintTop_toBottomOf = "@id/giveARideDestinationPrompt" />
 
         <TextView
             android:id = "@+id/giveARideCarLicenseModelPrompt"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:text = "@string/giveARideCarLicenseModelPromptText" />
+            android:text = "@string/giveARideCarLicenseModelPromptText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARideSkiRackPrompt"
+            app:layout_constraintEnd_toStartOf = "@id/giveARideCarLicenseModelField"
+            app:layout_constraintStart_toStartOf = "parent"
+            app:layout_constraintTop_toBottomOf = "@id/giveARidePassengersPrompt" />
 
         <TextView
             android:id = "@+id/giveARideSkiRackPrompt"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:text = "@string/giveARideSkiRackPromptText" />
+            android:text = "@string/giveARideSkiRackPromptText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARideSpecialRequestsPrompt"
+            app:layout_constraintEnd_toStartOf = "@id/giveARideSkiRackField"
+            app:layout_constraintStart_toStartOf = "parent"
+            app:layout_constraintTop_toBottomOf = "@id/giveARideCarLicenseModelPrompt" />
 
         <TextView
             android:id = "@+id/giveARideSpecialRequestsPrompt"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:text = "@string/giveARideSpecialRequestsPromptText" />
+            android:text = "@string/giveARideSpecialRequestsPromptText"
+            app:layout_constraintBottom_toBottomOf = "parent"
+            app:layout_constraintEnd_toStartOf = "@id/giveARideSpecialRequestsField"
+            app:layout_constraintStart_toStartOf = "parent"
+            app:layout_constraintTop_toBottomOf = "@id/giveARideSkiRackPrompt" />
 
     </LinearLayout>
 
@@ -74,7 +114,11 @@
         android:id = "@+id/giveARideFields"
         android:layout_width = "wrap_content"
         android:layout_height = "wrap_content"
-        android:orientation = "vertical" >
+        android:orientation = "vertical"
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintEnd_toEndOf = "parent"
+        app:layout_constraintStart_toEndOf = "@id/giveARidePrompts"
+        app:layout_constraintTop_toTopOf = "parent" >
 
         <EditText
             android:id = "@+id/giveARideLeavingOnField"
