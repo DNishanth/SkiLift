@@ -8,15 +8,15 @@
     android:layout_height = "match_parent"
     tools:context = ".GiveRideActivity" >
 
-    <LinearLayout
-        android:id = "@+id/giveARidePrompts"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:orientation = "vertical"
-        app:layout_constraintBottom_toBottomOf = "parent"
-        app:layout_constraintEnd_toStartOf = "@id/giveARideFields"
-        app:layout_constraintStart_toStartOf = "parent"
-        app:layout_constraintTop_toTopOf = "parent" >
+<!--    <LinearLayout-->
+<!--        android:id = "@+id/giveARidePrompts"-->
+<!--        android:layout_width = "wrap_content"-->
+<!--        android:layout_height = "wrap_content"-->
+<!--        android:orientation = "vertical"-->
+<!--        app:layout_constraintBottom_toBottomOf = "parent"-->
+<!--        app:layout_constraintEnd_toStartOf = "@id/giveARideFields"-->
+<!--        app:layout_constraintStart_toStartOf = "parent"-->
+<!--        app:layout_constraintTop_toTopOf = "parent" >-->
 
         <TextView
             android:id = "@+id/giveARideLeavingOnPrompt"
@@ -108,72 +108,108 @@
             app:layout_constraintStart_toStartOf = "parent"
             app:layout_constraintTop_toBottomOf = "@id/giveARideSkiRackPrompt" />
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
-    <LinearLayout
-        android:id = "@+id/giveARideFields"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:orientation = "vertical"
-        app:layout_constraintBottom_toBottomOf = "parent"
-        app:layout_constraintEnd_toEndOf = "parent"
-        app:layout_constraintStart_toEndOf = "@id/giveARidePrompts"
-        app:layout_constraintTop_toTopOf = "parent" >
+<!--    <LinearLayout-->
+<!--        android:id = "@+id/giveARideFields"-->
+<!--        android:layout_width = "wrap_content"-->
+<!--        android:layout_height = "wrap_content"-->
+<!--        android:orientation = "vertical"-->
+<!--        app:layout_constraintBottom_toBottomOf = "parent"-->
+<!--        app:layout_constraintEnd_toEndOf = "parent"-->
+<!--        app:layout_constraintStart_toEndOf = "@id/giveARidePrompts"-->
+<!--        app:layout_constraintTop_toTopOf = "parent" >-->
 
         <EditText
             android:id = "@+id/giveARideLeavingOnField"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:hint = "@string/giveARideLeavingOnFieldText" />
+            android:hint = "@string/giveARideLeavingOnFieldText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARidePickupTimeField"
+            app:layout_constraintEnd_toEndOf = "parent"
+            app:layout_constraintStart_toEndOf = "@id/giveARideLeavingOnPrompt"
+            app:layout_constraintTop_toTopOf = "parent" />
 
         <EditText
             android:id = "@+id/giveARidePickupTimeField"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:hint = "@string/giveARidePickupTimeFieldText" />
+            android:hint = "@string/giveARidePickupTimeFieldText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARideReturnDateField"
+            app:layout_constraintEnd_toEndOf = "parent"
+            app:layout_constraintStart_toEndOf = "@id/giveARidePickupTimePrompt"
+            app:layout_constraintTop_toBottomOf = "@id/giveARideLeavingOnField" />
 
         <EditText
             android:id = "@+id/giveARideReturnDateField"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:hint = "@string/giveARideReturnDateFieldText" />
+            android:hint = "@string/giveARideReturnDateFieldText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARideReturnTimeField"
+            app:layout_constraintEnd_toEndOf = "parent"
+            app:layout_constraintStart_toEndOf = "@id/giveARideReturnDatePrompt"
+            app:layout_constraintTop_toBottomOf = "@id/giveARidePickupTimeField" />
 
         <EditText
             android:id = "@+id/giveARideReturnTimeField"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:hint = "@string/giveARideReturnTimeFieldText" />
+            android:hint = "@string/giveARideReturnTimeFieldText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARideDestinationField"
+            app:layout_constraintEnd_toEndOf = "parent"
+            app:layout_constraintStart_toEndOf = "@id/giveARideReturnTimePrompt"
+            app:layout_constraintTop_toBottomOf = "@id/giveARideReturnDateField" />
 
         <EditText
             android:id = "@+id/giveARideDestinationField"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:hint = "@string/giveARideDestinationFieldText" />
+            android:hint = "@string/giveARideDestinationFieldText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARidePassengersField"
+            app:layout_constraintEnd_toEndOf = "parent"
+            app:layout_constraintStart_toEndOf = "@id/giveARideDestinationPrompt"
+            app:layout_constraintTop_toBottomOf = "@id/giveARideReturnTimeField" />
 
         <EditText
             android:id = "@+id/giveARidePassengersField"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:hint = "@string/giveARidePassengersFieldText" />
+            android:hint = "@string/giveARidePassengersFieldText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARideCarLicenseModelField"
+            app:layout_constraintEnd_toEndOf = "parent"
+            app:layout_constraintStart_toEndOf = "@id/giveARidePassengersPrompt"
+            app:layout_constraintTop_toBottomOf = "@id/giveARideDestinationField" />
 
         <EditText
             android:id = "@+id/giveARideCarLicenseModelField"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:hint = "@string/giveARideCarLicenseModelFieldText" />
+            android:hint = "@string/giveARideCarLicenseModelFieldText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARideSkiRackField"
+            app:layout_constraintEnd_toEndOf = "parent"
+            app:layout_constraintStart_toEndOf = "@id/giveARideCarLicenseModelPrompt"
+            app:layout_constraintTop_toBottomOf = "@id/giveARidePassengersField" />
 
         <EditText
             android:id = "@+id/giveARideSkiRackField"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:hint = "@string/giveARideSkiRackFieldText" />
+            android:hint = "@string/giveARideSkiRackFieldText"
+            app:layout_constraintBottom_toTopOf = "@id/giveARideSpecialRequestsField"
+            app:layout_constraintEnd_toEndOf = "parent"
+            app:layout_constraintStart_toEndOf = "@id/giveARideSkiRackPrompt"
+            app:layout_constraintTop_toBottomOf = "@id/giveARideCarLicenseModelField" />
 
         <EditText
             android:id = "@+id/giveARideSpecialRequestsField"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:hint = "@string/giveARideSpecialRequestsFieldText" />
+            android:hint = "@string/giveARideSpecialRequestsFieldText"
+            app:layout_constraintBottom_toBottomOf = "parent"
+            app:layout_constraintEnd_toEndOf = "parent"
+            app:layout_constraintStart_toEndOf = "@id/giveARideSpecialRequestsPrompt"
+            app:layout_constraintTop_toBottomOf = "@id/giveARideSkiRackField" />
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
