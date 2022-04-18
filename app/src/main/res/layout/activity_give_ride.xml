@@ -8,15 +8,15 @@
     android:layout_height = "match_parent"
     tools:context = ".GiveRideActivity" >
 
-    <LinearLayout
-        android:id = "@+id/giveARidePrompts"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:orientation = "vertical"
-        app:layout_constraintBottom_toBottomOf = "parent"
-        app:layout_constraintEnd_toStartOf = "@id/giveARideFields"
-        app:layout_constraintStart_toStartOf = "parent"
-        app:layout_constraintTop_toTopOf = "parent" >
+<!--    <LinearLayout-->
+<!--        android:id = "@+id/giveARidePrompts"-->
+<!--        android:layout_width = "wrap_content"-->
+<!--        android:layout_height = "wrap_content"-->
+<!--        android:orientation = "vertical"-->
+<!--        app:layout_constraintBottom_toBottomOf = "parent"-->
+<!--        app:layout_constraintEnd_toStartOf = "@id/giveARideFields"-->
+<!--        app:layout_constraintStart_toStartOf = "parent"-->
+<!--        app:layout_constraintTop_toTopOf = "parent" >-->
 
         <TextView
             android:id = "@+id/giveARideLeavingOnPrompt"
@@ -108,17 +108,17 @@
             app:layout_constraintStart_toStartOf = "parent"
             app:layout_constraintTop_toBottomOf = "@id/giveARideSkiRackPrompt" />
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
-    <LinearLayout
-        android:id = "@+id/giveARideFields"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:orientation = "vertical"
-        app:layout_constraintBottom_toBottomOf = "parent"
-        app:layout_constraintEnd_toEndOf = "parent"
-        app:layout_constraintStart_toEndOf = "@id/giveARidePrompts"
-        app:layout_constraintTop_toTopOf = "parent" >
+<!--    <LinearLayout-->
+<!--        android:id = "@+id/giveARideFields"-->
+<!--        android:layout_width = "wrap_content"-->
+<!--        android:layout_height = "wrap_content"-->
+<!--        android:orientation = "vertical"-->
+<!--        app:layout_constraintBottom_toBottomOf = "parent"-->
+<!--        app:layout_constraintEnd_toEndOf = "parent"-->
+<!--        app:layout_constraintStart_toEndOf = "@id/giveARidePrompts"-->
+<!--        app:layout_constraintTop_toTopOf = "parent" >-->
 
         <EditText
             android:id = "@+id/giveARideLeavingOnField"
@@ -210,6 +210,6 @@
             app:layout_constraintStart_toEndOf = "@id/giveARideSpecialRequestsPrompt"
             app:layout_constraintTop_toBottomOf = "@id/giveARideSkiRackField" />
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
