@@ -2,10 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.neu.madcourse.skilift">
 
+
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
+
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_sl"
         android:label="@string/app_name"
@@ -27,6 +33,7 @@
         <activity
             android:name=".GiveRideActivity"
             android:exported="false" />
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyB4jUraCSORXpVnOocSY9KaOJJlV3XGFmM"></meta-data>
         <activity
             android:name=".FindRideActivity"
             android:exported="false" />
