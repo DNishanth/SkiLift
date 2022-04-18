@@ -127,7 +127,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
 
       try {
         List<Address> addresses = geo.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-        locationText.setText(String.valueOf(addresses.get(0).getAddressLine(0)));
+        locationText.setText("Pickup Location\n" + String.valueOf(addresses.get(0).getAddressLine(0)));
       }catch(Exception e){
         locationText.setText(String.valueOf("Pickup Location\n" + location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
       }
