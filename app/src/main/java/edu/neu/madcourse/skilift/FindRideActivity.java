@@ -16,12 +16,19 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 public class FindRideActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -46,7 +53,20 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
         mapFragment.getMapAsync(this);
 
         updateGPS();
+
+        Button back = findViewById(R.id.backButton);
+        back.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            openHomeActivity();
+          }
+        });
     }
+
+  public void openHomeActivity() {
+    Intent theIntent = new Intent(this, HomeActivity.class);
+    startActivity(theIntent);
+  };
 
 
     public void onMapReady(@NonNull GoogleMap googleMap){
@@ -60,7 +80,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
 
     }
     private void updateGPS(){
-      System.out.println("Firing updateGPS");
+
       fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(FindRideActivity.this);
       if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
           fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -80,7 +100,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
-      System.out.println("Firing onRequest Permissions Result");
+
       super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
       if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
@@ -95,13 +115,22 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     private void updateUIValues(Location location){
-      System.out.println("Firing Update UI values");
+
 
       locationText.setText(String.valueOf("Pickup Location\n" + location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
       LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
       map.addMarker(new MarkerOptions().position(currentLocation).title("Current Location"));
       map.moveCamera(CameraUpdateFactory.zoomTo(15.0F));
       map.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+
+      Geocoder geo = new Geocoder(FindRideActivity.this);
+
+      try {
+        List<Address> addresses = geo.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+        locationText.setText(String.valueOf(addresses.get(0).getAddressLine(0)));
+      }catch(Exception e){
+        locationText.setText(String.valueOf("Pickup Location\n" + location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
+      }
 
     }
 
