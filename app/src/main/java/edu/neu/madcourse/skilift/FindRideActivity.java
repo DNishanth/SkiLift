@@ -3,6 +3,7 @@ package edu.neu.madcourse.skilift;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.location.LocationManagerCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -14,13 +15,17 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 
 import android.Manifest;
+import android.accessibilityservice.AccessibilityService;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -41,6 +46,20 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
   GoogleMap map;
 
   @Override
+  protected void onStart() {
+    super.onStart();
+    if(isLocationDataOn(this)){
+      updateGPS();
+    }else{
+      View findARideLayout = findViewById(R.id.findARideLayout);
+      Snackbar snackbar = Snackbar.make(findARideLayout, "Location services need to be enabled in Settings to use App", Snackbar.LENGTH_INDEFINITE);
+      snackbar.getView().setOnClickListener(view -> snackbar.dismiss());
+      snackbar.show();
+    }
+  }
+
+
+  @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_ride);
@@ -51,8 +70,6 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.maps);
 
         mapFragment.getMapAsync(this);
-
-        updateGPS();
 
         Button back = findViewById(R.id.backButton);
         back.setOnClickListener(new View.OnClickListener() {
@@ -133,5 +150,10 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
       }
 
     }
+  public boolean isLocationDataOn (Context context){
+    LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    return manager != null && LocationManagerCompat.isLocationEnabled(manager);
+  }
+
 
 }
