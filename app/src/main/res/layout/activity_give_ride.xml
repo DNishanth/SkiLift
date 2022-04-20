@@ -8,14 +8,32 @@
     android:layout_height = "match_parent"
     tools:context = ".GiveRideActivity" >
 
-        <Button
-            android:id = "@+id/giveARideBackButton"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:onClick = "onClick"
-            android:text = "@string/giveARideBackButtonText"
+        <androidx.fragment.app.FragmentContainerView
+            android:id = "@+id/giveARideMap"
+            android:name = "com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width = "364dp"
+            android:layout_height = "203dp"
+            app:layout_constraintBottom_toBottomOf = "parent"
+            app:layout_constraintEnd_toEndOf = "parent"
+            app:layout_constraintHorizontal_bias = "0.489"
             app:layout_constraintStart_toStartOf = "parent"
-            app:layout_constraintTop_toTopOf = "parent" />
+            app:layout_constraintTop_toTopOf = "parent"
+            app:layout_constraintVertical_bias = "0.117" ></androidx.fragment.app.FragmentContainerView>
+
+        <TextView
+            android:id = "@+id/giveARideLocationText"
+            android:layout_width = "363dp"
+            android:layout_height = "71dp"
+            android:background = "@drawable/border"
+            android:gravity = "center_horizontal"
+            android:text = "Pickup Location"
+            android:textColor = "@color/black"
+            android:textStyle = "bold"
+            app:layout_constraintBottom_toBottomOf = "parent"
+            app:layout_constraintEnd_toEndOf = "parent"
+            app:layout_constraintStart_toStartOf = "parent"
+            app:layout_constraintTop_toTopOf = "parent"
+            app:layout_constraintVertical_bias = "0.483" />
 
 <!--    <LinearLayout-->
 <!--        android:id = "@+id/giveARidePrompts"-->
@@ -32,16 +50,18 @@
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
             android:text = "@string/giveARideLeavingOnPromptText"
+            android:textStyle = "bold"
             app:layout_constraintBottom_toTopOf = "@id/giveARidePickupTimePrompt"
             app:layout_constraintEnd_toStartOf = "@id/giveARideLeavingOnField"
             app:layout_constraintStart_toStartOf = "parent"
-            app:layout_constraintTop_toTopOf = "parent" />
+            app:layout_constraintTop_toBottomOf = "@id/giveARideLocationText" />
 
         <TextView
             android:id = "@+id/giveARidePickupTimePrompt"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
             android:text = "@string/giveARidePickupTimePromptText"
+            android:textStyle = "bold"
             app:layout_constraintBottom_toTopOf = "@id/giveARideReturnDatePrompt"
             app:layout_constraintEnd_toStartOf = "@id/giveARidePickupTimeField"
             app:layout_constraintStart_toStartOf = "parent"
@@ -52,6 +72,7 @@
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
             android:text = "@string/giveARideReturnDatePromptText"
+            android:textStyle = "bold"
             app:layout_constraintBottom_toTopOf = "@id/giveARideReturnTimePrompt"
             app:layout_constraintEnd_toStartOf = "@id/giveARideReturnDateField"
             app:layout_constraintStart_toStartOf = "parent"
@@ -62,6 +83,7 @@
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
             android:text = "@string/giveARideReturnTimePromptText"
+            android:textStyle = "bold"
             app:layout_constraintBottom_toTopOf = "@id/giveARideDestinationPrompt"
             app:layout_constraintEnd_toStartOf = "@id/giveARideReturnTimeField"
             app:layout_constraintStart_toStartOf = "parent"
@@ -72,6 +94,7 @@
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
             android:text = "@string/giveARideDestinationPromptText"
+            android:textStyle = "bold"
             app:layout_constraintBottom_toTopOf = "@id/giveARidePassengersPrompt"
             app:layout_constraintEnd_toStartOf = "@id/giveARideDestinationField"
             app:layout_constraintStart_toStartOf = "parent"
@@ -82,6 +105,7 @@
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
             android:text = "@string/giveARidePassengersPromptText"
+            android:textStyle = "bold"
             app:layout_constraintBottom_toTopOf = "@id/giveARideCarLicenseModelPrompt"
             app:layout_constraintEnd_toStartOf = "@id/giveARidePassengersField"
             app:layout_constraintStart_toStartOf = "parent"
@@ -92,6 +116,7 @@
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
             android:text = "@string/giveARideCarLicenseModelPromptText"
+            android:textStyle = "bold"
             app:layout_constraintBottom_toTopOf = "@id/giveARideSkiRackPrompt"
             app:layout_constraintEnd_toStartOf = "@id/giveARideCarLicenseModelField"
             app:layout_constraintStart_toStartOf = "parent"
@@ -102,6 +127,7 @@
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
             android:text = "@string/giveARideSkiRackPromptText"
+            android:textStyle = "bold"
             app:layout_constraintBottom_toTopOf = "@id/giveARideSpecialRequestsPrompt"
             app:layout_constraintEnd_toStartOf = "@id/giveARideSkiRackField"
             app:layout_constraintStart_toStartOf = "parent"
@@ -112,6 +138,7 @@
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
             android:text = "@string/giveARideSpecialRequestsPromptText"
+            android:textStyle = "bold"
             app:layout_constraintBottom_toBottomOf = "parent"
             app:layout_constraintEnd_toStartOf = "@id/giveARideSpecialRequestsField"
             app:layout_constraintStart_toStartOf = "parent"
@@ -131,18 +158,24 @@
 
         <EditText
             android:id = "@+id/giveARideLeavingOnField"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
+            android:layout_width = "189dp"
+            android:layout_height = "25dp"
+            android:background = "@drawable/border"
+            android:ems = "10"
+            android:textSize = "10sp"
             android:hint = "@string/giveARideLeavingOnFieldText"
             app:layout_constraintBottom_toTopOf = "@id/giveARidePickupTimeField"
             app:layout_constraintEnd_toEndOf = "parent"
             app:layout_constraintStart_toEndOf = "@id/giveARideLeavingOnPrompt"
-            app:layout_constraintTop_toTopOf = "parent" />
+            app:layout_constraintTop_toBottomOf = "@id/giveARideLocationText" />
 
         <EditText
             android:id = "@+id/giveARidePickupTimeField"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
+            android:layout_width = "189dp"
+            android:layout_height = "25dp"
+            android:background = "@drawable/border"
+            android:ems = "10"
+            android:textSize = "10sp"
             android:hint = "@string/giveARidePickupTimeFieldText"
             app:layout_constraintBottom_toTopOf = "@id/giveARideReturnDateField"
             app:layout_constraintEnd_toEndOf = "parent"
@@ -151,8 +184,11 @@
 
         <EditText
             android:id = "@+id/giveARideReturnDateField"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
+            android:layout_width = "189dp"
+            android:layout_height = "25dp"
+            android:background = "@drawable/border"
+            android:ems = "10"
+            android:textSize = "10sp"
             android:hint = "@string/giveARideReturnDateFieldText"
             app:layout_constraintBottom_toTopOf = "@id/giveARideReturnTimeField"
             app:layout_constraintEnd_toEndOf = "parent"
@@ -161,8 +197,11 @@
 
         <EditText
             android:id = "@+id/giveARideReturnTimeField"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
+            android:layout_width = "189dp"
+            android:layout_height = "25dp"
+            android:background = "@drawable/border"
+            android:ems = "10"
+            android:textSize = "10sp"
             android:hint = "@string/giveARideReturnTimeFieldText"
             app:layout_constraintBottom_toTopOf = "@id/giveARideDestinationField"
             app:layout_constraintEnd_toEndOf = "parent"
@@ -171,8 +210,11 @@
 
         <EditText
             android:id = "@+id/giveARideDestinationField"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
+            android:layout_width = "189dp"
+            android:layout_height = "25dp"
+            android:background = "@drawable/border"
+            android:ems = "10"
+            android:textSize = "10sp"
             android:hint = "@string/giveARideDestinationFieldText"
             app:layout_constraintBottom_toTopOf = "@id/giveARidePassengersField"
             app:layout_constraintEnd_toEndOf = "parent"
@@ -181,8 +223,11 @@
 
         <EditText
             android:id = "@+id/giveARidePassengersField"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
+            android:layout_width = "189dp"
+            android:layout_height = "25dp"
+            android:background = "@drawable/border"
+            android:ems = "10"
+            android:textSize = "10sp"
             android:hint = "@string/giveARidePassengersFieldText"
             app:layout_constraintBottom_toTopOf = "@id/giveARideCarLicenseModelField"
             app:layout_constraintEnd_toEndOf = "parent"
@@ -191,8 +236,11 @@
 
         <EditText
             android:id = "@+id/giveARideCarLicenseModelField"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
+            android:layout_width = "189dp"
+            android:layout_height = "25dp"
+            android:background = "@drawable/border"
+            android:ems = "10"
+            android:textSize = "10sp"
             android:hint = "@string/giveARideCarLicenseModelFieldText"
             app:layout_constraintBottom_toTopOf = "@id/giveARideSkiRackField"
             app:layout_constraintEnd_toEndOf = "parent"
@@ -201,8 +249,11 @@
 
         <EditText
             android:id = "@+id/giveARideSkiRackField"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
+            android:layout_width = "189dp"
+            android:layout_height = "25dp"
+            android:background = "@drawable/border"
+            android:ems = "10"
+            android:textSize = "10sp"
             android:hint = "@string/giveARideSkiRackFieldText"
             app:layout_constraintBottom_toTopOf = "@id/giveARideSpecialRequestsField"
             app:layout_constraintEnd_toEndOf = "parent"
@@ -211,8 +262,11 @@
 
         <EditText
             android:id = "@+id/giveARideSpecialRequestsField"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
+            android:layout_width = "189dp"
+            android:layout_height = "25dp"
+            android:background = "@drawable/border"
+            android:ems = "10"
+            android:textSize = "10sp"
             android:hint = "@string/giveARideSpecialRequestsFieldText"
             app:layout_constraintBottom_toBottomOf = "parent"
             app:layout_constraintEnd_toEndOf = "parent"
@@ -222,13 +276,25 @@
 <!--    </LinearLayout>-->
 
         <Button
+            android:id = "@+id/giveARideBackButton"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:backgroundTint = "@color/ic_launcher_sl_background"
+            android:onClick = "onClick"
+            android:text = "@string/giveARideBackButtonText"
+            app:cornerRadius = "20dp"
+            app:layout_constraintBottom_toBottomOf = "parent"
+            app:layout_constraintStart_toStartOf = "parent" />
+
+        <Button
             android:id = "@+id/giveARideSubmitButton"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
+            android:backgroundTint = "@color/ic_launcher_sl_background"
             android:onClick = "onClick"
             android:text = "@string/giveARideSubmitButtonText"
+            app:cornerRadius = "20dp"
             app:layout_constraintBottom_toBottomOf = "parent"
-            app:layout_constraintEnd_toEndOf = "parent"
-            app:layout_constraintStart_toStartOf = "parent" />
+            app:layout_constraintEnd_toEndOf = "parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
