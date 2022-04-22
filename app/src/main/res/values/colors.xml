@@ -10,4 +10,5 @@
     <color name="gray">#D3D3D3</color>
     <color name="recycler_bg">#FFFFFFFF</color>
     <color name="group_card_bg">#FFFFFFFF</color>
+    <color name="text_color_bw">#000000</color>
 </resources>

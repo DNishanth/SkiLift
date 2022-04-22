@@ -3,4 +3,5 @@
     <color name="gray">#404040</color>
     <color name="recycler_bg">#404040</color>
     <color name="group_card_bg">#222222</color>
+    <color name="text_color_bw">#FFFFFF</color>
 </resources>
