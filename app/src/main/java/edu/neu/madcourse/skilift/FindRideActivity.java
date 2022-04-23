@@ -29,11 +29,15 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+
+import edu.neu.madcourse.skilift.models.Resorts;
 
 public class FindRideActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -78,6 +82,13 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
             openHomeActivity();
           }
         });
+
+        // Create adapter to autocomplete destination field
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                com.google.android.material.R.layout.support_simple_spinner_dropdown_item,
+                Resorts.resortArray);
+        AutoCompleteTextView textView = findViewById(R.id.findARideDestinationField);
+        textView.setAdapter(adapter);
     }
 
   public void openHomeActivity() {

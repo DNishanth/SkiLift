@@ -149,8 +149,8 @@
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_bias="0.835" />
 
-  <EditText
-    android:id="@+id/editTextTextPersonName6"
+  <AutoCompleteTextView
+    android:id="@+id/findARideDestinationField"
     android:layout_width="189dp"
     android:layout_height="46dp"
     android:background="@drawable/border"
