@@ -26,5 +26,10 @@
     <string name="giveARideSpecialRequestsFieldText">Have Fun!</string>
 
     <string name="send_message">Send message</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="rideInfoDepLocation">&lt;b>Leaving From: &lt;/b>%1$s</string>
+    <string name="rideInfoDestination">&lt;b>Going To: &lt;/b>%1$s</string>
+    <string name="rideInfoDepDate">&lt;b>Departure: &lt;/b>%1$s</string>
+    <string name="rideInfoReturnDate">&lt;b>Return: &lt;/b>%1$s</string>
 
 </resources>

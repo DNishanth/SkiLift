@@ -2,12 +2,18 @@ package edu.neu.madcourse.skilift;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -48,14 +54,31 @@ public class FoundRidesActivity extends AppCompatActivity {
             startActivity(rideInfoIntent);
         };
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        adapter = new RideInfoRVAdapter(rideInfoList, rideInfoClickListener);
+        adapter = new RideInfoRVAdapter(rideInfoList, rideInfoClickListener, this);
         RecyclerView recyclerView = findViewById(R.id.ride_info_rv);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
+    // TODO: Currently displays all rides, we need to filter based on destination/location
     private void populateGroupMessages() {
+        DatabaseReference ridesRef = db.getReference("rides");
+        ValueEventListener getRides = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot rideID : snapshot.getChildren()) {
+                        rideInfoList.add(rideID.getValue(RideInfo.class));
+                    }
+                    adapter.notifyItemInserted(rideInfoList.size());
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "onCancelled: " + error);
+            }
+        };
+        ridesRef.addListenerForSingleValueEvent(getRides);
     }
-
 }
