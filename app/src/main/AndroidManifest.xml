@@ -2,22 +2,31 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.neu.madcourse.skilift">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
-
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_sl"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_sl_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SkiLift">
+        <activity
+            android:name=".RideConfirmedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RideInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FoundRidesActivity"
+            android:exported="false" />
         <activity
             android:name=".EditProfileActivity"
             android:exported="false" />
@@ -33,7 +42,11 @@
         <activity
             android:name=".GiveRideActivity"
             android:exported="false" />
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyB4jUraCSORXpVnOocSY9KaOJJlV3XGFmM"></meta-data>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB4jUraCSORXpVnOocSY9KaOJJlV3XGFmM" />
+
         <activity
             android:name=".FindRideActivity"
             android:exported="false" />
