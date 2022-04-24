@@ -4,21 +4,23 @@
     xmlns:android = "http://schemas.android.com/apk/res/android"
     xmlns:app = "http://schemas.android.com/apk/res-auto"
     xmlns:tools = "http://schemas.android.com/tools"
+    android:id = "@+id/giveARideLayout"
     android:layout_width = "match_parent"
     android:layout_height = "match_parent"
     tools:context = ".GiveRideActivity" >
 
-<!--    <androidx.fragment.app.FragmentContainerView-->
-<!--        android:id = "@+id/giveARideMap"-->
-<!--        android:name = "com.google.android.gms.maps.SupportMapFragment"-->
-<!--        android:layout_width = "364dp"-->
-<!--        android:layout_height = "203dp"-->
-<!--        app:layout_constraintBottom_toBottomOf = "parent"-->
-<!--        app:layout_constraintEnd_toEndOf = "parent"-->
-<!--        app:layout_constraintHorizontal_bias = "0.489"-->
-<!--        app:layout_constraintStart_toStartOf = "parent"-->
-<!--        app:layout_constraintTop_toTopOf = "parent"-->
-<!--        app:layout_constraintVertical_bias = "0.117" ></androidx.fragment.app.FragmentContainerView>-->
+    <androidx.fragment.app.FragmentContainerView
+        android:id = "@+id/giveARideMap"
+        android:name = "com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width = "364dp"
+        android:layout_height = "203dp"
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintEnd_toEndOf = "parent"
+        app:layout_constraintHorizontal_bias = "0.489"
+        app:layout_constraintStart_toStartOf = "parent"
+        app:layout_constraintTop_toTopOf = "parent"
+        app:layout_constraintVertical_bias = "0.117" >
+    </androidx.fragment.app.FragmentContainerView>
 
     <TextView
         android:id = "@+id/giveARideLocationText"
