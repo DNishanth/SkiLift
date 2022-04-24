@@ -8,17 +8,17 @@
     android:layout_height = "match_parent"
     tools:context = ".GiveRideActivity" >
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id = "@+id/giveARideMap"
-        android:name = "com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width = "364dp"
-        android:layout_height = "203dp"
-        app:layout_constraintBottom_toBottomOf = "parent"
-        app:layout_constraintEnd_toEndOf = "parent"
-        app:layout_constraintHorizontal_bias = "0.489"
-        app:layout_constraintStart_toStartOf = "parent"
-        app:layout_constraintTop_toTopOf = "parent"
-        app:layout_constraintVertical_bias = "0.117" ></androidx.fragment.app.FragmentContainerView>
+<!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:id = "@+id/giveARideMap"-->
+<!--        android:name = "com.google.android.gms.maps.SupportMapFragment"-->
+<!--        android:layout_width = "364dp"-->
+<!--        android:layout_height = "203dp"-->
+<!--        app:layout_constraintBottom_toBottomOf = "parent"-->
+<!--        app:layout_constraintEnd_toEndOf = "parent"-->
+<!--        app:layout_constraintHorizontal_bias = "0.489"-->
+<!--        app:layout_constraintStart_toStartOf = "parent"-->
+<!--        app:layout_constraintTop_toTopOf = "parent"-->
+<!--        app:layout_constraintVertical_bias = "0.117" ></androidx.fragment.app.FragmentContainerView>-->
 
     <TextView
         android:id = "@+id/giveARideLocationText"
@@ -280,6 +280,7 @@
                     android:textSize = "16sp"
                     android:textColor="@color/ic_launcher_sl_background"
                     android:hint = "@string/giveARidePassengersFieldText"
+                    android:inputType="number"
                     app:layout_constraintBottom_toTopOf = "@id/giveARideCarLicenseModelField"
                     app:layout_constraintEnd_toEndOf = "parent"
                     app:layout_constraintStart_toEndOf = "@id/giveARidePassengersPrompt"
@@ -299,15 +300,13 @@
                     app:layout_constraintStart_toEndOf = "@id/giveARideCarLicenseModelPrompt"
                     app:layout_constraintTop_toBottomOf = "@id/giveARidePassengersField" />
 
-                <EditText
+                <Spinner
                     android:id = "@+id/giveARideSkiRackField"
                     android:layout_width = "189dp"
                     android:layout_height = "46dp"
-                    android:background = "@drawable/border"
                     android:ems = "10"
                     android:textSize = "16sp"
                     android:textColor="@color/ic_launcher_sl_background"
-                    android:hint = "@string/giveARideSkiRackFieldText"
                     app:layout_constraintBottom_toTopOf = "@id/giveARideSpecialRequestsField"
                     app:layout_constraintEnd_toEndOf = "parent"
                     app:layout_constraintStart_toEndOf = "@id/giveARideSkiRackPrompt"
