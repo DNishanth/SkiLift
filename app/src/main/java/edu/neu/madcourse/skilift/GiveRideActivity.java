@@ -37,6 +37,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import edu.neu.madcourse.skilift.models.Resorts;
@@ -44,6 +46,7 @@ import edu.neu.madcourse.skilift.models.RideInfo;
 
 public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCallback {
     private final FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private String username;
 
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
@@ -56,6 +59,7 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
 
         setContentView(R.layout.activity_give_ride);
         locationText = findViewById(R.id.giveARideLocationText);
+        username = getIntent().getExtras().getString("username");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.giveARideMap);
         mapFragment.getMapAsync(this);
@@ -91,6 +95,7 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
 
     protected void openActivity(Class activity) {
         Intent intent = new Intent(this, activity);
+        intent.putExtra("username", username);
         startActivity(intent);
     }
 
@@ -120,8 +125,11 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
         Spinner skiRack = findViewById(R.id.giveARideSkiRackField);
         EditText specialRequests = findViewById(R.id.giveARideSpecialRequestsField);
 
+        String rideID = db.getReference("rides").push().getKey();
         RideInfo rideInfo = new RideInfo(
-                getIntent().getExtras().getString("username"),
+                rideID,
+                username,
+                "placeholder location",
                 1650780310,
                 1650891600,
                 destination.getText().toString(),
@@ -130,7 +138,7 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
                 "123 1234",
                 skiRack.getSelectedItem().toString(),
                 specialRequests.getText().toString());
-        db.getReference("rides").push().setValue(rideInfo);
+        db.getReference("rides/" + rideID).setValue(rideInfo);
         openActivity(MyRidesActivity.class);
     }
 

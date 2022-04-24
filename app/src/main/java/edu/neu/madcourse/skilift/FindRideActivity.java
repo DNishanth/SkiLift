@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import edu.neu.madcourse.skilift.models.Message;
 import edu.neu.madcourse.skilift.models.Resorts;
 
 public class FindRideActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -71,17 +72,15 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
 
         locationText = findViewById(R.id.locationText);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.maps);
+//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.maps);
 
-        mapFragment.getMapAsync(this);
+//        mapFragment.getMapAsync(this);
 
         Button back = findViewById(R.id.backButton);
-        back.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-            openHomeActivity();
-          }
-        });
+        back.setOnClickListener(view -> openActivity(HomeActivity.class));
+
+        Button searchRidesButton = findViewById(R.id.searchRidesButton);
+        searchRidesButton.setOnClickListener(view -> openActivity(FoundRidesActivity.class));
 
         // Create adapter to autocomplete destination field
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -91,9 +90,11 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
         textView.setAdapter(adapter);
     }
 
-  public void openHomeActivity() {
-    Intent theIntent = new Intent(this, HomeActivity.class);
-    startActivity(theIntent);
+  public void openActivity(Class activity) {
+    String username = getIntent().getExtras().getString("username");
+    Intent intent = new Intent(this, activity);
+    intent.putExtra("username", username);
+    startActivity(intent);
   };
 
 
@@ -165,6 +166,4 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     return manager != null && LocationManagerCompat.isLocationEnabled(manager);
   }
-
-
 }

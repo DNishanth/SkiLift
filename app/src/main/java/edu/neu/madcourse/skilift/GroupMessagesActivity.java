@@ -51,15 +51,14 @@ public class GroupMessagesActivity extends AppCompatActivity implements View.OnC
         // Open group message on click
         IGroupMessageClickListener messageGroupClickListener = itemPosition -> {
             String groupID = groupMessageList.get(itemPosition).getGroupID();
-            Intent messagesIntent = new Intent(GroupMessagesActivity.this,
-                    MessagesActivity.class);
+            Intent messagesIntent = new Intent(this, MessagesActivity.class);
             messagesIntent.putExtra("username", username);
             messagesIntent.putExtra("groupID", groupID);
             startActivity(messagesIntent);
         };
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         adapter = new GroupMessageRVAdapter(groupMessageList, messageGroupClickListener);
-        RecyclerView recyclerView = findViewById(R.id.message_groups_rv);
+        RecyclerView recyclerView = findViewById(R.id.group_messages_rv);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }

@@ -8,7 +8,7 @@
     tools:context=".GroupMessagesActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/message_groups_rv"
+        android:id="@+id/group_messages_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/recycler_bg"

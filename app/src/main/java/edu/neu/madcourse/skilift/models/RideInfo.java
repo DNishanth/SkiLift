@@ -1,7 +1,9 @@
 package edu.neu.madcourse.skilift.models;
 
 public class RideInfo {
+    private String rideID;
     private String username;
+    private String departureLocation;
     private long pickupDate;
 //    private int pickupTime;
     private long returnDate;
@@ -13,10 +15,12 @@ public class RideInfo {
     private String skiRack;
     private String specialRequests;
 
-    public RideInfo(String username, long pickupDate, long returnDate, String destination,
-                    int passengers, String carModel, String licensePlate, String skiRack,
-                    String specialRequests) {
+    public RideInfo(String rideID, String username, String departureLocation, long pickupDate,
+                    long returnDate, String destination, int passengers, String carModel,
+                    String licensePlate, String skiRack, String specialRequests) {
+        this.rideID = rideID;
         this.username = username;
+        this.departureLocation = departureLocation;
         this.pickupDate = pickupDate;
         this.returnDate = returnDate;
         this.destination = destination;
@@ -31,8 +35,16 @@ public class RideInfo {
     @SuppressWarnings("unused")
     public RideInfo() {}
 
+    public String getRideID() {
+        return rideID;
+    }
+
     public String getUsername() {
         return username;
+    }
+
+    public String getDepartureLocation() {
+        return departureLocation;
     }
 
     public long getPickupDate() {
