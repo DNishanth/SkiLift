@@ -2,17 +2,18 @@ package edu.neu.madcourse.skilift;
 
 import static android.text.Html.FROM_HTML_MODE_LEGACY;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
-import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -31,11 +33,17 @@ import edu.neu.madcourse.skilift.models.UserProfile;
 public class RideInfoActivity extends AppCompatActivity {
     private static final String TAG = FoundRidesActivity.class.getSimpleName();
     private final FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private String username;
+    private String rideHostUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ride_info);
+        username = getIntent().getExtras().getString("username");
+
+        Button messageUserButton = findViewById(R.id.messageUserButton);
+        messageUserButton.setOnClickListener(view -> sendMessage());
 
         getRide(getIntent().getExtras().getString("rideID"));
     }
@@ -61,7 +69,8 @@ public class RideInfoActivity extends AppCompatActivity {
     }
 
     private void getUserProfile(RideInfo rideInfo) {
-        String profilePath = "users/" + rideInfo.getUsername() + "/profile";
+        rideHostUsername = rideInfo.getUsername();
+        String profilePath = "users/" + rideHostUsername + "/profile";
         DatabaseReference profileRef = db.getReference(profilePath);
         ValueEventListener getProfile = new ValueEventListener() {
             @Override
@@ -121,5 +130,47 @@ public class RideInfoActivity extends AppCompatActivity {
 
     private Spanned formatString(int resId, String text) {
         return Html.fromHtml(getString(resId, text), FROM_HTML_MODE_LEGACY);
+    }
+
+    private void sendMessage() {
+        ArrayList<String> users = new ArrayList<>();
+        users.add(username);
+        users.add(rideHostUsername);
+        users.sort(String.CASE_INSENSITIVE_ORDER);
+        String groupMembers = users.toString();
+        String groupID = groupMembers.substring(1, groupMembers.length() - 1);
+
+        Intent messagesIntent = new Intent(this, MessagesActivity.class);
+        messagesIntent.putExtra("username", username);
+        messagesIntent.putExtra("groupID", groupID);
+        startActivity(messagesIntent);
+
+        DatabaseReference groupRef = db.getReference("groups/" + groupID);
+        ValueEventListener getGroup = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    startActivity(messagesIntent);
+                }
+                else {
+                    String groupMembersPath = "groups/" + groupID + "/members";
+                    users.forEach(user -> {
+                        // Store username under group
+                        DatabaseReference groupMembersRef = db.getReference(groupMembersPath).push();
+                        groupMembersRef.setValue(user);
+                        // Store groupID under username
+                        String userGroupsPath = "users/" + user + "/groups";
+                        DatabaseReference userGroupsRef = db.getReference(userGroupsPath).push();
+                        userGroupsRef.setValue(groupID);
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "onCancelled: " + error);
+            }
+        };
+        groupRef.addListenerForSingleValueEvent(getGroup);
     }
 }
