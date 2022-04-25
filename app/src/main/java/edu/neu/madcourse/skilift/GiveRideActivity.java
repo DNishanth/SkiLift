@@ -53,6 +53,17 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
     TextView locationText;
     GoogleMap map;
 
+    String leavingOnDateText;
+    String pickupTimeText;
+    String returnDateText;
+    String returnTimeText;
+    String destinationText;
+    String passengersText;
+    String carLicenseText;
+    String carModelText;
+    String skiRackText;
+    String specialRequestsText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

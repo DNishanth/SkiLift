@@ -11,7 +11,8 @@
     <string name="giveARideReturnTimePromptText">Return Time:</string>
     <string name="giveARideDestinationPromptText">Destination:</string>
     <string name="giveARidePassengersPromptText">Passengers:</string>
-    <string name="giveARideCarLicenseModelPromptText">Car License/Model:</string>
+    <string name="giveARideCarLicensePromptText">License Plate:</string>
+    <string name="giveARideCarModelPromptText">Car Model:</string>
     <string name="giveARideSkiRackPromptText">Ski Rack:</string>
     <string name="giveARideSpecialRequestsPromptText">Special Requests:</string>
 
@@ -21,7 +22,8 @@
     <string name="giveARideReturnTimeFieldText">6:00 P.M.</string>
     <string name="giveARideDestinationFieldText">Sunday River</string>
     <string name="giveARidePassengersFieldText">4</string>
-    <string name="giveARideCarLicenseModelFieldText">3M5 GG6 | Toyota Avalon</string>
+    <string name="giveARideCarLicenseFieldText">3M5 GG6</string>
+    <string name="giveARideCarModelFieldText">Toyota Avalon</string>
     <string name="giveARideSkiRackFieldText">No</string>
     <string name="giveARideSpecialRequestsFieldText">Have Fun!</string>
 

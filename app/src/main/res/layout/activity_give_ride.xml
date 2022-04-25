@@ -144,24 +144,38 @@
                     android:text = "@string/giveARidePassengersPromptText"
                     android:textColor = "@color/text_color_bw"
                     android:textStyle = "bold"
-                    app:layout_constraintBottom_toTopOf = "@id/giveARideCarLicenseModelPrompt"
+                    app:layout_constraintBottom_toTopOf = "@id/giveARideCarLicensePrompt"
                     app:layout_constraintEnd_toStartOf = "@id/giveARidePassengersField"
                     app:layout_constraintStart_toStartOf = "parent"
                     app:layout_constraintTop_toBottomOf = "@id/giveARideDestinationPrompt" />
 
                 <TextView
-                    android:id = "@+id/giveARideCarLicenseModelPrompt"
+                    android:id = "@+id/giveARideCarLicensePrompt"
                     android:layout_width = "wrap_content"
                     android:layout_height = "wrap_content"
                     android:padding = "12dp"
                     android:layout_marginTop = "2dp"
-                    android:text = "@string/giveARideCarLicenseModelPromptText"
+                    android:text = "@string/giveARideCarLicensePromptText"
+                    android:textColor = "@color/text_color_bw"
+                    android:textStyle = "bold"
+                    app:layout_constraintBottom_toTopOf = "@id/giveARideCarModelPrompt"
+                    app:layout_constraintEnd_toStartOf = "@id/giveARideCarLicenseField"
+                    app:layout_constraintStart_toStartOf = "parent"
+                    app:layout_constraintTop_toBottomOf = "@id/giveARidePassengersPrompt" />
+
+                <TextView
+                    android:id = "@+id/giveARideCarModelPrompt"
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:padding = "12dp"
+                    android:layout_marginTop = "2dp"
+                    android:text = "@string/giveARideCarModelPromptText"
                     android:textColor = "@color/text_color_bw"
                     android:textStyle = "bold"
                     app:layout_constraintBottom_toTopOf = "@id/giveARideSkiRackPrompt"
-                    app:layout_constraintEnd_toStartOf = "@id/giveARideCarLicenseModelField"
+                    app:layout_constraintEnd_toStartOf = "@id/giveARideCarModelField"
                     app:layout_constraintStart_toStartOf = "parent"
-                    app:layout_constraintTop_toBottomOf = "@id/giveARidePassengersPrompt" />
+                    app:layout_constraintTop_toBottomOf = "@id/giveARideCarLicensePrompt" />
 
                 <TextView
                     android:id = "@+id/giveARideSkiRackPrompt"
@@ -175,7 +189,7 @@
                     app:layout_constraintBottom_toTopOf = "@id/giveARideSpecialRequestsPrompt"
                     app:layout_constraintEnd_toStartOf = "@id/giveARideSkiRackField"
                     app:layout_constraintStart_toStartOf = "parent"
-                    app:layout_constraintTop_toBottomOf = "@id/giveARideCarLicenseModelPrompt" />
+                    app:layout_constraintTop_toBottomOf = "@id/giveARideCarModelPrompt" />
 
                 <TextView
                     android:id = "@+id/giveARideSpecialRequestsPrompt"
@@ -283,24 +297,38 @@
                     android:textColor="@color/ic_launcher_sl_background"
                     android:hint = "@string/giveARidePassengersFieldText"
                     android:inputType="number"
-                    app:layout_constraintBottom_toTopOf = "@id/giveARideCarLicenseModelField"
+                    app:layout_constraintBottom_toTopOf = "@id/giveARideCarLicenseField"
                     app:layout_constraintEnd_toEndOf = "parent"
                     app:layout_constraintStart_toEndOf = "@id/giveARidePassengersPrompt"
                     app:layout_constraintTop_toBottomOf = "@id/giveARideDestinationField" />
 
                 <EditText
-                    android:id = "@+id/giveARideCarLicenseModelField"
+                    android:id = "@+id/giveARideCarLicenseField"
                     android:layout_width = "189dp"
                     android:layout_height = "46dp"
                     android:background = "@drawable/border"
                     android:ems = "10"
                     android:textSize = "16sp"
                     android:textColor="@color/ic_launcher_sl_background"
-                    android:hint = "@string/giveARideCarLicenseModelFieldText"
+                    android:hint = "@string/giveARideCarLicenseFieldText"
+                    app:layout_constraintBottom_toTopOf = "@id/giveARideCarModelField"
+                    app:layout_constraintEnd_toEndOf = "parent"
+                    app:layout_constraintStart_toEndOf = "@id/giveARideCarLicensePrompt"
+                    app:layout_constraintTop_toBottomOf = "@id/giveARidePassengersField" />
+
+                <EditText
+                    android:id = "@+id/giveARideCarModelField"
+                    android:layout_width = "189dp"
+                    android:layout_height = "46dp"
+                    android:background = "@drawable/border"
+                    android:ems = "10"
+                    android:textSize = "16sp"
+                    android:textColor="@color/ic_launcher_sl_background"
+                    android:hint = "@string/giveARideCarModelFieldText"
                     app:layout_constraintBottom_toTopOf = "@id/giveARideSkiRackField"
                     app:layout_constraintEnd_toEndOf = "parent"
-                    app:layout_constraintStart_toEndOf = "@id/giveARideCarLicenseModelPrompt"
-                    app:layout_constraintTop_toBottomOf = "@id/giveARidePassengersField" />
+                    app:layout_constraintStart_toEndOf = "@id/giveARideCarModelPrompt"
+                    app:layout_constraintTop_toBottomOf = "@id/giveARideCarLicenseField" />
 
                 <Spinner
                     android:id = "@+id/giveARideSkiRackField"
@@ -312,7 +340,7 @@
                     app:layout_constraintBottom_toTopOf = "@id/giveARideSpecialRequestsField"
                     app:layout_constraintEnd_toEndOf = "parent"
                     app:layout_constraintStart_toEndOf = "@id/giveARideSkiRackPrompt"
-                    app:layout_constraintTop_toBottomOf = "@id/giveARideCarLicenseModelField" />
+                    app:layout_constraintTop_toBottomOf = "@id/giveARideCarModelField" />
 
                 <EditText
                     android:id = "@+id/giveARideSpecialRequestsField"
