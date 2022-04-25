@@ -5,7 +5,6 @@ import static android.text.Html.FROM_HTML_MODE_LEGACY;
 import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,19 +44,20 @@ public class RideInfoRVAdapter extends RecyclerView.Adapter<RideInfoViewHolder> 
     }
 
     // TODO: Get user profile data to set profile picture src, user rating
+    // TODO: Look into why dates are 1970
     @Override
     public void onBindViewHolder(@NonNull RideInfoViewHolder holder, int position) {
         RideInfo rideInfo = rideInfoList.get(position);
         holder.username.setText(rideInfo.getUsername());
         holder.userRating.setRating(5);
-        holder.departureLocation.setText(formatString(R.string.rideInfoDepLocation,
+        holder.departureLocation.setText(formatString(R.string.departureLocation,
                 rideInfo.getDepartureLocation()));
         holder.destination.setText(formatString(
-                R.string.rideInfoDestination, rideInfo.getDestination()));
+                R.string.destination, rideInfo.getDestination()));
         DateFormat dateFormat = new SimpleDateFormat("M/d/y 'at' h:mm a", Locale.US);
-        holder.departureDate.setText(formatString(R.string.rideInfoDepDate,
+        holder.departureDate.setText(formatString(R.string.departureDate,
                 dateFormat.format(new Date(rideInfo.getPickupDate()))));
-        holder.returnDate.setText(formatString(R.string.rideInfoReturnDate,
+        holder.returnDate.setText(formatString(R.string.returnDate,
                 dateFormat.format(new Date(rideInfo.getReturnDate()))));
     }
 

@@ -26,7 +26,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 app:srcCompat="@drawable/default_user_img"
-                android:contentDescription="@string/profile_picture" />
+                android:contentDescription="@string/profilePicture" />
 
             <TextView
                 android:id="@+id/rideInfoUsername"
@@ -62,27 +62,25 @@
                 android:id="@+id/rideInfoDepLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/rideInfoDepLocation" />
+                android:text="@string/departureLocation"/>
 
             <TextView
                 android:id="@+id/rideInfoDestination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/rideInfoDestination" />
+                android:text="@string/destination" />
 
             <TextView
                 android:id="@+id/rideInfoDepDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/rideInfoDepDate" />
+                android:text="@string/departureDate" />
 
             <TextView
                 android:id="@+id/rideInfoReturnDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/rideInfoReturnDate" />
+                android:text="@string/returnDate" />
         </LinearLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
