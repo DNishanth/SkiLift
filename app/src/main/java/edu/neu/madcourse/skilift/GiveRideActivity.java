@@ -16,6 +16,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -52,17 +53,6 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
     LocationRequest locationRequest;
     TextView locationText;
     GoogleMap map;
-
-    String leavingOnDateText;
-    String pickupTimeText;
-    String returnDateText;
-    String returnTimeText;
-    String destinationText;
-    String passengersText;
-    String carLicenseText;
-    String carModelText;
-    String skiRackText;
-    String specialRequestsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,15 +114,78 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
         }
     }
 
+    private boolean checkFields() {
+
+        boolean anyFieldEmpty = false;
+
+        EditText leavingOnDateEditText = findViewById(R.id.giveARideLeavingOnField);
+        EditText pickupTimeEditText = findViewById(R.id.giveARidePickupTimeField);
+        EditText returnDateEditText = findViewById(R.id.giveARideReturnDateField);
+        EditText returnTimeEditText = findViewById(R.id.giveARideReturnTimeField);
+        AutoCompleteTextView destinationAutoCompleteTextView = findViewById(R.id.giveARideDestinationField);
+        EditText passengersEditText = findViewById(R.id.giveARidePassengersField);
+        EditText carLicenseEditText = findViewById(R.id.giveARideCarLicenseField);
+        EditText carModelEditText = findViewById(R.id.giveARideCarModelField);
+        Spinner skiRackSpinner = findViewById(R.id.giveARideSkiRackField);
+        EditText specialRequestsEditText = findViewById(R.id.giveARideSpecialRequestsField);
+
+        if (TextUtils.isEmpty(leavingOnDateEditText.getText().toString())) {
+            leavingOnDateEditText.setError("Please enter a departure date!");
+            anyFieldEmpty = true;
+        }
+        if (TextUtils.isEmpty(pickupTimeEditText.getText().toString())) {
+            pickupTimeEditText.setError("Please enter a pickup time!");
+            anyFieldEmpty = true;
+        }
+        if (TextUtils.isEmpty(returnDateEditText.getText().toString())) {
+            returnDateEditText.setError("Please enter a return date!");
+            anyFieldEmpty = true;
+        }
+        if (TextUtils.isEmpty(returnTimeEditText.getText().toString())) {
+            returnTimeEditText.setError("Please enter a return time!");
+            anyFieldEmpty = true;
+        }
+        if (TextUtils.isEmpty(destinationAutoCompleteTextView.getText().toString())) {
+            destinationAutoCompleteTextView.setError("Please enter a destination!");
+            anyFieldEmpty = true;
+        }
+        if (TextUtils.isEmpty(passengersEditText.getText().toString())) {
+            passengersEditText.setError("Please enter the maximum number of passengers!");
+            anyFieldEmpty = true;
+        }
+        if (TextUtils.isEmpty(carLicenseEditText.getText().toString())) {
+            carLicenseEditText.setError("Please enter your license plate number!");
+            anyFieldEmpty = true;
+        }
+        if (TextUtils.isEmpty(carModelEditText.getText().toString())) {
+            carModelEditText.setError("Please enter the model of your car!");
+            anyFieldEmpty = true;
+        }
+//        if (TextUtils.isEmpty(skiRackSpinner.getText().toString())) {
+//            skiRackSpinner.setError("Please enter whether or not your car has a ski rack!");
+//            anyFieldEmpty = true;
+//        }
+//        if (TextUtils.isEmpty(specialRequestsEditText.getText().toString())) {
+//            specialRequestsEditText.setError("Please enter any special requests!");
+//            anyFieldEmpty = true;
+//        }
+
+        return anyFieldEmpty;
+
+    }
 
     // TODO: Use some type of date/time picker to get time info
-    // TODO: We need to split car license and model if we want to display separately in RideInfo
-    // TODO: Add a method to check fields aren't empty, show error messages with EditText's setError
     private void submitRide() {
+
+        // Do not submit ride details if any required fields are empty (special requests may be empty)
+        if (checkFields()) {
+            return;
+        }
+
         AutoCompleteTextView destination = findViewById(R.id.giveARideDestinationField);
         EditText passengers = findViewById(R.id.giveARidePassengersField);
-        EditText carModel = findViewById(R.id.giveARideCarLicenseModelField);
-//        EditText carLicence = findViewById(R.id.giveARideCarLicenceField);
+        EditText carLicense = findViewById(R.id.giveARideCarLicenseField);
+        EditText carModel = findViewById(R.id.giveARideCarModelField);
         Spinner skiRack = findViewById(R.id.giveARideSkiRackField);
         EditText specialRequests = findViewById(R.id.giveARideSpecialRequestsField);
 
@@ -146,7 +199,7 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
                 destination.getText().toString(),
                 Integer.parseInt(passengers.getText().toString()),
                 carModel.getText().toString(),
-                "123 1234",
+                carLicense.getText().toString(),
                 skiRack.getSelectedItem().toString(),
                 specialRequests.getText().toString());
         db.getReference("rides/" + rideID).setValue(rideInfo);
