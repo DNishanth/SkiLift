@@ -78,7 +78,7 @@ public class RideInfoRVAdapter extends RecyclerView.Adapter<RideInfoViewHolder> 
 
     private void setProfilePicture(ImageView profilePictureImageView, String username) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference profilePictureRef = storage.getReference().child("profile_pictures").child(username+".jpg");;
+        StorageReference profilePictureRef = storage.getReference().child("profile_pictures").child(username+".jpg");
         final long ONE_MEGABYTE = 1024 * 1024;
         profilePictureRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override

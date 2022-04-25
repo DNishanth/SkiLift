@@ -3,6 +3,8 @@ package edu.neu.madcourse.skilift;
 import static android.text.Html.FROM_HTML_MODE_LEGACY;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
@@ -15,11 +17,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -126,6 +132,8 @@ public class RideInfoActivity extends AppCompatActivity {
                 userProfile.getFavoriteMountains()));
         funFact.setText(formatString(R.string.funFact,
                 userProfile.getFunFact()));
+        // Set the profile picture
+        setProfilePicture(profilePicture, rideInfo.getUsername());
     }
 
     private Spanned formatString(int resId, String text) {
@@ -172,5 +180,25 @@ public class RideInfoActivity extends AppCompatActivity {
             }
         };
         groupRef.addListenerForSingleValueEvent(getGroup);
+    }
+
+    private void setProfilePicture(ImageView profilePictureImageView, String username) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference profilePictureRef = storage.getReference().child("profile_pictures").child(username+".jpg");
+        final long ONE_MEGABYTE = 1024 * 1024;
+        profilePictureRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Set profile picture ImageView to downloaded data
+                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                profilePictureImageView.setImageBitmap(bmp);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Could not get image, so set profile pic to default
+                profilePictureImageView.setImageResource(R.drawable.default_user_img);
+            }
+        });
     }
 }
