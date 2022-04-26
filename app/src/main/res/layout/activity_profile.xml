@@ -47,11 +47,12 @@
         android:layout_height="wrap_content"
         android:text="# Rides Completed"
         android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/profileSkiTypeTextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
+        app:layout_constraintTop_toBottomOf="@+id/profileUsernameTextView"
+        app:layout_constraintVertical_bias="0.10" />
 
     <TextView
         android:id="@+id/profileSkiTypeTextView"
@@ -59,11 +60,11 @@
         android:layout_height="wrap_content"
         android:text="Ski Type"
         android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.50" />
+        app:layout_constraintBottom_toTopOf="@+id/profileFavoriteMountainsTextView"
+        app:layout_constraintEnd_toEndOf="@+id/profileRidesCompletedTextView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/profileRidesCompletedTextView"
+        app:layout_constraintTop_toBottomOf="@+id/profileRidesCompletedTextView" />
 
     <TextView
         android:id="@+id/profileFavoriteMountainsTextView"
@@ -71,11 +72,11 @@
         android:layout_height="wrap_content"
         android:text="Favorite Mountains"
         android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.55" />
+        app:layout_constraintBottom_toTopOf="@+id/profileFunFactTextView"
+        app:layout_constraintEnd_toEndOf="@+id/profileSkiTypeTextView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/profileSkiTypeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/profileSkiTypeTextView" />
 
     <TextView
         android:id="@+id/profileFunFactTextView"
@@ -83,11 +84,11 @@
         android:layout_height="wrap_content"
         android:text="Fun Fact"
         android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.60" />
+        app:layout_constraintBottom_toTopOf="@+id/profileRatingTextView"
+        app:layout_constraintEnd_toEndOf="@+id/profileFavoriteMountainsTextView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/profileFavoriteMountainsTextView"
+        app:layout_constraintTop_toBottomOf="@+id/profileFavoriteMountainsTextView" />
 
     <TextView
         android:id="@+id/profileRatingTextView"
@@ -96,8 +97,8 @@
         android:text="Rating"
         android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.65" />
+        app:layout_constraintEnd_toEndOf="@+id/profileFunFactTextView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/profileFunFactTextView"
+        app:layout_constraintTop_toBottomOf="@+id/profileFunFactTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
