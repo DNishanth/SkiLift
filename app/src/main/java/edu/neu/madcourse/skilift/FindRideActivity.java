@@ -32,6 +32,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,26 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
   TextView locationText;
 
   GoogleMap map;
+
+  EditText pickupDateEditText;
+  EditText pickupTimeEditText;
+  EditText returnDateEditText;
+  EditText returnTimeEditText;
+  EditText destinationEditText;
+
+  private int pickupDateMonth;
+  private int pickupDateDay;
+  private int pickupDateYear;
+
+  private int pickupTimeHour;
+  private int pickupTimeMinute;
+
+  private int returnDateMonth;
+  private int returnDateDay;
+  private int returnDateYear;
+
+  private int returnTimeHour;
+  private int returnTimeMinute;
 
   @Override
   protected void onStart() {
@@ -68,7 +89,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_ride);
-
+        findViewsFields();
 
         locationText = findViewById(R.id.locationText);
 
@@ -96,6 +117,16 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     intent.putExtra("username", username);
     startActivity(intent);
   };
+
+  private void findViewsFields() {
+
+    pickupDateEditText = findViewById(R.id.editTextTextPersonName2);
+    pickupTimeEditText = findViewById(R.id.editTextTextPersonName3);
+    returnDateEditText = findViewById(R.id.editTextTextPersonName4);
+    returnTimeEditText = findViewById(R.id.editTextTextPersonName5);
+    destinationEditText = findViewById(R.id.findARideDestinationField);
+
+  }
 
 
     public void onMapReady(@NonNull GoogleMap googleMap){
