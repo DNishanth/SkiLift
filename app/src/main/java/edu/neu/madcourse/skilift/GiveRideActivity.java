@@ -46,6 +46,32 @@ import edu.neu.madcourse.skilift.models.Resorts;
 import edu.neu.madcourse.skilift.models.RideInfo;
 
 public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    EditText leavingOnDateEditText;
+    EditText pickupTimeEditText;
+    EditText returnDateEditText;
+    EditText returnTimeEditText;
+    AutoCompleteTextView destinationAutoCompleteTextView;
+    EditText passengersEditText;
+    EditText carLicenseEditText;
+    EditText carModelEditText;
+    Spinner skiRackSpinner;
+    EditText specialRequestsEditText;
+
+    private int leavingOnDateMonth;
+    private int leavingOnDateDay;
+    private int leavingOnDateYear;
+
+    private int pickupTimeHour;
+    private int pickupTimeMinute;
+
+    private int returnDateMonth;
+    private int returnDateDay;
+    private int returnDateYear;
+
+    private int returnTimeHour;
+    private int returnTimeMinute;
+
     private final FirebaseDatabase db = FirebaseDatabase.getInstance();
     private String username;
 
@@ -56,9 +82,11 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_give_ride);
+        findViewsFields();
+
         locationText = findViewById(R.id.giveARideLocationText);
         username = getIntent().getExtras().getString("username");
 
@@ -114,20 +142,26 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
         }
     }
 
+    private void findViewsFields() {
+
+        leavingOnDateEditText = findViewById(R.id.giveARideLeavingOnField);
+        pickupTimeEditText = findViewById(R.id.giveARidePickupTimeField);
+        returnDateEditText = findViewById(R.id.giveARideReturnDateField);
+        returnTimeEditText = findViewById(R.id.giveARideReturnTimeField);
+        destinationAutoCompleteTextView = findViewById(R.id.giveARideDestinationField);
+        passengersEditText = findViewById(R.id.giveARidePassengersField);
+        carLicenseEditText = findViewById(R.id.giveARideCarLicenseField);
+        carModelEditText = findViewById(R.id.giveARideCarModelField);
+        skiRackSpinner = findViewById(R.id.giveARideSkiRackField);
+        specialRequestsEditText = findViewById(R.id.giveARideSpecialRequestsField);
+
+    }
+
     private boolean checkFields() {
 
         boolean anyFieldEmpty = false;
 
-        EditText leavingOnDateEditText = findViewById(R.id.giveARideLeavingOnField);
-        EditText pickupTimeEditText = findViewById(R.id.giveARidePickupTimeField);
-        EditText returnDateEditText = findViewById(R.id.giveARideReturnDateField);
-        EditText returnTimeEditText = findViewById(R.id.giveARideReturnTimeField);
-        AutoCompleteTextView destinationAutoCompleteTextView = findViewById(R.id.giveARideDestinationField);
-        EditText passengersEditText = findViewById(R.id.giveARidePassengersField);
-        EditText carLicenseEditText = findViewById(R.id.giveARideCarLicenseField);
-        EditText carModelEditText = findViewById(R.id.giveARideCarModelField);
-        Spinner skiRackSpinner = findViewById(R.id.giveARideSkiRackField);
-        EditText specialRequestsEditText = findViewById(R.id.giveARideSpecialRequestsField);
+        findViewsFields();
 
         if (TextUtils.isEmpty(leavingOnDateEditText.getText().toString())) {
             leavingOnDateEditText.setError("Please enter a departure date!");
