@@ -20,18 +20,20 @@ public class MyRidesActivity extends AppCompatActivity {
 
      ArrayList<myRideModel> rides = new ArrayList<>();
      myRidesRecyclerViewAdapter adapter;
+     String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_rides);
 
+      username = getIntent().getExtras().getString("username");
+
       RecyclerView recyclerView = findViewById(R.id.myRidesRecycler);
 
       populateRides();
 
       adapter = new myRidesRecyclerViewAdapter(this, rides);
-
 
       recyclerView.setAdapter(adapter);
 
@@ -47,14 +49,17 @@ public class MyRidesActivity extends AppCompatActivity {
           rides.clear();
 
           for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-             String departureLocation = snapshot.child("departureLocation").getValue().toString();
-             String destination = snapshot.child("destination").getValue().toString();
-             String pickupDate = snapshot.child("pickupDate").getValue().toString();
-             String returnDate = snapshot.child("returnDate").getValue().toString();
-             String licensePlate = snapshot.child("licensePlate").getValue().toString();
 
-             myRideModel ride = new myRideModel(departureLocation, destination, pickupDate, returnDate, licensePlate);
-             rides.add(ride);
+            if(snapshot.child("username").getValue().toString().equals(username)){
+              String departureLocation = snapshot.child("departureLocation").getValue().toString();
+              String destination = snapshot.child("destination").getValue().toString();
+              String pickupDate = snapshot.child("pickupDate").getValue().toString();
+              String returnDate = snapshot.child("returnDate").getValue().toString();
+              String licensePlate = snapshot.child("licensePlate").getValue().toString();
+
+              myRideModel ride = new myRideModel(departureLocation, destination, pickupDate, returnDate, licensePlate);
+              rides.add(ride);
+            }
           }
           adapter.notifyDataSetChanged();
         }

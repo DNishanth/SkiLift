@@ -1,6 +1,7 @@
 package edu.neu.madcourse.skilift;
 
 public class myRideModel {
+
   String origin, destination, pickup, returnTime, license;
 
   public myRideModel(String origin, String destination, String pickup, String returnTime, String license) {
