@@ -6,6 +6,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.location.LocationManagerCompat;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -20,9 +22,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -37,6 +41,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Calendar;
 import java.util.List;
 
 import com.google.firebase.database.DatabaseReference;
@@ -45,7 +50,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import edu.neu.madcourse.skilift.models.Resorts;
 import edu.neu.madcourse.skilift.models.RideInfo;
 
-public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
     EditText leavingOnDateEditText;
     EditText pickupTimeEditText;
@@ -86,6 +91,11 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_give_ride);
         findViewsFields();
+
+        leavingOnDateEditText.setOnClickListener(this);
+        pickupTimeEditText.setOnClickListener(this);
+        returnDateEditText.setOnClickListener(this);
+        returnTimeEditText.setOnClickListener(this);
 
         locationText = findViewById(R.id.giveARideLocationText);
         username = getIntent().getExtras().getString("username");
@@ -139,6 +149,64 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
                 break;
             default:
                 break;
+        }
+        if (view == leavingOnDateEditText) {
+            final Calendar leavingOnDateCalendar = Calendar.getInstance();
+            leavingOnDateMonth = leavingOnDateCalendar.get(Calendar.MONTH);
+            leavingOnDateDay = leavingOnDateCalendar.get(Calendar.DAY_OF_MONTH);
+            leavingOnDateYear = leavingOnDateCalendar.get(Calendar.YEAR);
+
+            DatePickerDialog leavingOnDateDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                    leavingOnDateEditText.setText((month + 1) + "/" + day + "/" + year);
+                }
+            }, leavingOnDateYear, leavingOnDateMonth, leavingOnDateDay);
+            leavingOnDateDatePickerDialog.setTitle("Enter Departure Date");
+            leavingOnDateDatePickerDialog.show();
+        }
+        else if (view == pickupTimeEditText) {
+            final Calendar pickupTimeCalendar = Calendar.getInstance();
+            pickupTimeHour = pickupTimeCalendar.get(Calendar.HOUR_OF_DAY);
+            pickupTimeMinute = pickupTimeCalendar.get(Calendar.MINUTE);
+
+            TimePickerDialog pickupTimeTimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                    pickupTimeEditText.setText(hour + ":" + minute);
+                }
+            }, pickupTimeHour, pickupTimeMinute, true);
+            pickupTimeTimePickerDialog.setTitle("Enter Pickup Time");
+            pickupTimeTimePickerDialog.show();
+        }
+        else if (view == returnDateEditText) {
+            final Calendar returnDateCalendar = Calendar.getInstance();
+            returnDateMonth = returnDateCalendar.get(Calendar.MONTH);
+            returnDateDay = returnDateCalendar.get(Calendar.DAY_OF_MONTH);
+            returnDateYear = returnDateCalendar.get(Calendar.YEAR);
+
+            DatePickerDialog returnDateDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                    returnDateEditText.setText((month + 1) + "/" + day + "/" + year);
+                }
+            }, returnDateYear, returnDateMonth, returnDateDay);
+            returnDateDatePickerDialog.setTitle("Enter Return Date");
+            returnDateDatePickerDialog.show();
+        }
+        else if (view == returnTimeEditText) {
+            final Calendar returnTimeCalendar = Calendar.getInstance();
+            returnTimeHour = returnTimeCalendar.get(Calendar.HOUR_OF_DAY);
+            returnTimeMinute = returnTimeCalendar.get(Calendar.MINUTE);
+
+            TimePickerDialog returnTimeTimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                    returnTimeEditText.setText(hour + ":" + minute);
+                }
+            }, returnTimeHour, returnTimeMinute, true);
+            returnTimeTimePickerDialog.setTitle("Enter Return Time");
+            returnTimeTimePickerDialog.show();
         }
     }
 
@@ -309,5 +377,10 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
     public boolean isLocationDataOn (Context context){
         LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         return manager != null && LocationManagerCompat.isLocationEnabled(manager);
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        super.onPointerCaptureChanged(hasCapture);
     }
 }
