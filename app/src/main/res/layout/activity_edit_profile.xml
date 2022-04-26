@@ -42,4 +42,16 @@
         app:layout_constraintStart_toEndOf="@+id/editProfilePictureImageView"
         app:layout_constraintTop_toTopOf="@+id/editProfilePictureImageView"
         app:srcCompat="@drawable/adaptive_icon" />
+
+    <TextView
+        android:id="@+id/editProfileUsernameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:textSize="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfilePictureImageView"
+        app:layout_constraintVertical_bias="0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

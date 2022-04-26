@@ -8,10 +8,11 @@ public class UserProfile {
     private String funFact;
     private String profilePictureSrc;
     private double rating;
+    private int numRatings;
 
     public UserProfile(long memberDate, int ridesCompleted, String skiType,
                        String favoriteMountains, String funFact, String profilePictureSrc,
-                       Double rating) {
+                       Double rating, int numRatings) {
         this.memberDate = memberDate;
         this.ridesCompleted = ridesCompleted;
         this.skiType = skiType;
@@ -19,6 +20,7 @@ public class UserProfile {
         this.funFact = funFact;
         this.profilePictureSrc = profilePictureSrc;
         this.rating = rating;
+        this.numRatings = numRatings;
     }
 
     // Used by Firebase to reconstruct UserProfile
@@ -51,5 +53,9 @@ public class UserProfile {
 
     public double getRating() {
         return rating;
+    }
+
+    public int getNumRatings() {
+        return numRatings;
     }
 }
