@@ -104,15 +104,19 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
 
         locationText = findViewById(R.id.locationText);
 
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.maps);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.maps);
 
-//        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(this);
 
         Button back = findViewById(R.id.backButton);
         back.setOnClickListener(view -> openActivity(HomeActivity.class));
 
         Button searchRidesButton = findViewById(R.id.searchRidesButton);
-        searchRidesButton.setOnClickListener(view -> openActivity(FoundRidesActivity.class));
+        searchRidesButton.setOnClickListener(view -> {
+            if (!checkFields()) {
+                openActivity(FoundRidesActivity.class);
+            }
+        });
 
         // Create adapter to autocomplete destination field
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
