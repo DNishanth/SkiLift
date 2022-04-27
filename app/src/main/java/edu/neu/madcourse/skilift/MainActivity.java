@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import edu.neu.madcourse.skilift.models.UserProfile;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -222,6 +223,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             };
             DatabaseReference dbRef3 = db.getReference().child("users").child(username).child("salt");
             dbRef3.addListenerForSingleValueEvent(valueEventListener3);
+
+            // Add profile information to database
+            ValueEventListener valueEventListener4 = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        shortToast("Username is already registered");
+                    }
+                    else {
+                        UserProfile userProfile = new UserProfile(System.currentTimeMillis()/1000L, 0, "", "", "", "profile_pictures/" + username + ".jpg", 0.0, 0);
+                        DatabaseReference ref = db.getReference().child("users").child(username).child("profile");
+                        Task<Void> createUser = ref.setValue(userProfile);
+                        createUser.addOnCompleteListener(task -> {
+                            if (!createUser.isSuccessful()) {
+                                shortToast("Register user failed");
+                            }
+                            else {
+                                shortToast("User " + username + " is now registered");
+                            }
+                        });
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.e(TAG, "onCancelled in Main Activity register(): " + error);
+                }
+            };
+            DatabaseReference dbRef4 = db.getReference().child("users").child(username).child("profile");
+            dbRef4.addListenerForSingleValueEvent(valueEventListener4);
         } catch (Exception e) {
             Log.e(TAG, "Error in hashing: " + e.getMessage());
         }

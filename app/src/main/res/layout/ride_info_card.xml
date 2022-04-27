@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/profileInfoLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:id="@+id/rideInfoProfilePicture"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/default_user_img"
+                android:contentDescription="@string/profilePicture" />
+
+            <TextView
+                android:id="@+id/rideInfoUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                tools:text="Username" />
+        </LinearLayout>
+
+        <RatingBar
+            android:id="@+id/rideInfoUserRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="3dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+        </RatingBar>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@id/profileInfoLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rideInfoUserRating"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="10dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/rideInfoDepLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/departureLocation"/>
+
+            <TextView
+                android:id="@+id/rideInfoDestination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/destination" />
+
+            <TextView
+                android:id="@+id/rideInfoDepDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/departureDate" />
+
+            <TextView
+                android:id="@+id/rideInfoReturnDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/returnDate" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

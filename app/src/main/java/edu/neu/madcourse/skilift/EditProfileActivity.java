@@ -17,25 +17,31 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import edu.neu.madcourse.skilift.models.Resorts;
+import edu.neu.madcourse.skilift.models.UserProfile;
 
+// TODO: Set favorite destination(s)
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageView profilePictureImageView;
     StorageReference profilePictureRef;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     String username;
-    // TODO: Be able to change name??
-    // TODO: Set favorite destination(s)
-    // TODO: Set default location for pickup (general and/or specific)
+    private final FirebaseDatabase db = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         // Set profile picture to stored image
         this.profilePictureImageView = findViewById(R.id.editProfilePictureImageView);
         setProfilePicture();
+
+        // Get UserProfile data
+        getProfileData();
 
         // Edit image button
         FloatingActionButton editProfilePictureButton = findViewById(R.id.editProfilePictureFloatingActionButton);
@@ -141,5 +150,39 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 profilePictureImageView.setImageResource(R.drawable.default_user_img);
             }
         });
+    }
+
+    private void getProfileData() {
+        ValueEventListener profileListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    UserProfile userProfile = snapshot.getValue(UserProfile.class);
+                    if (userProfile != null) {
+                        TextView ridesCompletedTextView = findViewById(R.id.editProfileRidesCompletedTextView);
+                        TextView skiTypeTextView = findViewById(R.id.editProfileSkiTypeTextView);
+                        TextView favoriteMountainsTextView = findViewById(R.id.editProfileFavoriteMountainsTextView);
+                        TextView funFactTextView = findViewById(R.id.editProfileFunFactTextView);
+                        TextView ratingTextView = findViewById(R.id.editProfileRatingTextView);
+                        ridesCompletedTextView.setText("Rides Completed: " + String.valueOf(userProfile.getRidesCompleted()));
+                        skiTypeTextView.setText("Skiier Type: " + userProfile.getSkiType());
+                        favoriteMountainsTextView.setText("Favorite Mountains: " + userProfile.getFavoriteMountains());
+                        funFactTextView.setText("Fun Fact: " + userProfile.getFunFact());
+                        ratingTextView.setText("Rating: " + String.valueOf(userProfile.getRating()));
+                    }
+                    else {
+                        Log.w(MainActivity.TAG, "Null userProfile in getProfileData in ProfileActivity");
+                    }
+                } catch (Exception e) {
+                    Log.e(MainActivity.TAG, "Error in getProfileData in ProfileActivity");
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(MainActivity.TAG, "Could not get profile data");
+            }
+        };
+        DatabaseReference dbRef = db.getReference().child("users").child(username).child("profile");
+        dbRef.addListenerForSingleValueEvent(profileListener);
     }
 }

@@ -6,4 +6,139 @@
     android:layout_height="match_parent"
     tools:context=".RideInfoActivity">
 
+    <LinearLayout
+        android:id="@+id/profileInfoLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/default_user_img"
+            android:contentDescription="@string/profilePicture" />
+
+        <TextView
+            android:id="@+id/rideInfoUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:text="Username" />
+    </LinearLayout>
+
+    <RatingBar
+        android:id="@+id/rideInfoUserRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+    </RatingBar>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/userInfo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/profileInfoLayout"
+        app:layout_constraintTop_toBottomOf="@id/rideInfoUserRating"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/rideInfoDepLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/departureLocation"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/rideInfoDestination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/destination"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/rideInfoDepDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/departureDate"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/rideInfoReturnDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/returnDate"
+            android:layout_marginBottom="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/userInfo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileInfoLayout"
+        app:layout_constraintBottom_toTopOf="@id/messageUserButton">
+
+        <TextView
+            android:id="@+id/rideInfoMemberDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/memberDate"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/rideInfoRidesCompleted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ridesCompleted"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/rideInfoSkiType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/skiType"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/rideInfoFavMountains"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/favoriteMountains"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/rideInfoFunFact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/funFact"
+            android:layout_marginBottom="10dp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/messageUserButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send_message"
+        app:layout_constraintTop_toBottomOf="@id/userInfo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

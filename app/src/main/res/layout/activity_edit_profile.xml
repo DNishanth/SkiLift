@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.64" />
 
     <ImageView
         android:id="@+id/editProfilePictureImageView"
@@ -41,5 +41,78 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editProfilePictureImageView"
         app:layout_constraintTop_toTopOf="@+id/editProfilePictureImageView"
-        app:srcCompat="@drawable/adaptive_icon" />
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <TextView
+        android:id="@+id/editProfileUsernameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:textSize="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfilePictureImageView"
+        app:layout_constraintVertical_bias="0" />
+
+    <TextView
+        android:id="@+id/editProfileRidesCompletedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="# Rides Completed"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/editProfileSkiTypeTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileUsernameTextView"
+        app:layout_constraintVertical_bias="0.10" />
+
+    <TextView
+        android:id="@+id/editProfileSkiTypeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ski Type"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/editProfileFavoriteMountainsTextView"
+        app:layout_constraintEnd_toEndOf="@+id/editProfileRidesCompletedTextView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/editProfileRidesCompletedTextView"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileRidesCompletedTextView" />
+
+    <TextView
+        android:id="@+id/editProfileFavoriteMountainsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Favorite Mountains"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/editProfileFunFactTextView"
+        app:layout_constraintEnd_toEndOf="@+id/editProfileSkiTypeTextView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/editProfileSkiTypeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileSkiTypeTextView" />
+
+    <TextView
+        android:id="@+id/editProfileFunFactTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fun Fact"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/editProfileRatingTextView"
+        app:layout_constraintEnd_toEndOf="@+id/editProfileFavoriteMountainsTextView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/editProfileFavoriteMountainsTextView"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileFavoriteMountainsTextView" />
+
+    <TextView
+        android:id="@+id/editProfileRatingTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rating"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/editProfileFunFactTextView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/editProfileFunFactTextView"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileFunFactTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
