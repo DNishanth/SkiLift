@@ -15,12 +15,13 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,14 +35,20 @@ import java.io.ByteArrayOutputStream;
 import edu.neu.madcourse.skilift.models.Resorts;
 import edu.neu.madcourse.skilift.models.UserProfile;
 
-// TODO: Set favorite destination(s)
+// TODO: Fix layout (resorts spinner and fun fact)
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageView profilePictureImageView;
     StorageReference profilePictureRef;
     FirebaseStorage storage = FirebaseStorage.getInstance();
-    String username;
     private final FirebaseDatabase db = FirebaseDatabase.getInstance();
+    String username;
+    ArrayAdapter<String> resortsDropdownAdapter;
+    ArrayAdapter<String> skierTypeDropdownAdapter;
+    UserProfile userProfile;
+    Spinner skiTypeSpinner;
+    Spinner favoriteMountainsSpinner;
+    EditText funFactEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +65,22 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         this.profilePictureImageView = findViewById(R.id.editProfilePictureImageView);
         setProfilePicture();
 
+        // Get each of the editable fields
+        skiTypeSpinner = findViewById(R.id.editProfileSkiTypeSpinner);
+        favoriteMountainsSpinner = findViewById(R.id.preferredResortsSpinner);
+        funFactEditText = findViewById(R.id.editProfileFunFactEditText);
+
+        // Create skier type dropdown
+        skierTypeDropdownAdapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, new String[]{"Ski", "Snowboard"});
+        skierTypeDropdownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        skiTypeSpinner.setAdapter(skierTypeDropdownAdapter);
+
+        // Create the resorts dropdown
+        favoriteMountainsSpinner = findViewById(R.id.preferredResortsSpinner);
+        resortsDropdownAdapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, Resorts.resortArray);
+        resortsDropdownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        favoriteMountainsSpinner.setAdapter(resortsDropdownAdapter);
+
         // Get UserProfile data
         getProfileData();
 
@@ -65,13 +88,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         FloatingActionButton editProfilePictureButton = findViewById(R.id.editProfilePictureFloatingActionButton);
         editProfilePictureButton.setOnClickListener(this);
 
-        // Create the resorts dropdown
-        // TODO: Create array for this spinner which does not include already included resorts
-        // TODO: Allow user to select favorite mountain?
-        Spinner resortsDropdown = findViewById(R.id.preferredResortsSpinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, Resorts.resortArray);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        resortsDropdown.setAdapter(adapter);
+        // Save profile button
+        FloatingActionButton editProfileSavePrefsButton = findViewById(R.id.editProfileSavePrefsFloatingActionButton);
+        editProfileSavePrefsButton.setOnClickListener(this);
     }
 
     @Override
@@ -79,6 +98,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.editProfilePictureFloatingActionButton:
                 takeProfilePicture();
+                break;
+            case R.id.editProfileSavePrefsFloatingActionButton:
+                savePrefs();
                 break;
         }
     }
@@ -157,18 +179,11 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
-                    UserProfile userProfile = snapshot.getValue(UserProfile.class);
+                    userProfile = snapshot.getValue(UserProfile.class);
                     if (userProfile != null) {
-                        TextView ridesCompletedTextView = findViewById(R.id.editProfileRidesCompletedTextView);
-                        TextView skiTypeTextView = findViewById(R.id.editProfileSkiTypeTextView);
-                        TextView favoriteMountainsTextView = findViewById(R.id.editProfileFavoriteMountainsTextView);
-                        TextView funFactTextView = findViewById(R.id.editProfileFunFactTextView);
-                        TextView ratingTextView = findViewById(R.id.editProfileRatingTextView);
-                        ridesCompletedTextView.setText("Rides Completed: " + String.valueOf(userProfile.getRidesCompleted()));
-                        skiTypeTextView.setText("Skiier Type: " + userProfile.getSkiType());
-                        favoriteMountainsTextView.setText("Favorite Mountains: " + userProfile.getFavoriteMountains());
-                        funFactTextView.setText("Fun Fact: " + userProfile.getFunFact());
-                        ratingTextView.setText("Rating: " + String.valueOf(userProfile.getRating()));
+                        skiTypeSpinner.setSelection(skierTypeDropdownAdapter.getPosition(userProfile.getSkiType()));
+                        favoriteMountainsSpinner.setSelection(resortsDropdownAdapter.getPosition(userProfile.getFavoriteMountains()));
+                        funFactEditText.setText(userProfile.getFunFact());
                     }
                     else {
                         Log.w(MainActivity.TAG, "Null userProfile in getProfileData in ProfileActivity");
@@ -184,5 +199,38 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         };
         DatabaseReference dbRef = db.getReference().child("users").child(username).child("profile");
         dbRef.addListenerForSingleValueEvent(profileListener);
+    }
+
+    private void savePrefs() {
+        // Update profile information database
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserProfile newUserProfile = new UserProfile(userProfile.getMemberDate(),
+                        userProfile.getRidesCompleted(),
+                        skiTypeSpinner.getSelectedItem().toString(),
+                        favoriteMountainsSpinner.getSelectedItem().toString(),
+                        funFactEditText.getText().toString(),
+                        userProfile.getProfilePictureSrc(),
+                        userProfile.getRating(),
+                        userProfile.getNumRatings());
+                DatabaseReference ref = db.getReference().child("users").child(username).child("profile");
+                Task<Void> updateProfile = ref.setValue(newUserProfile);
+                updateProfile.addOnCompleteListener(task -> {
+                    if (!updateProfile.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "Profile failed to update", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(MainActivity.TAG, "onCancelled in Main Activity register(): " + error);
+            }
+        };
+        DatabaseReference dbRef = db.getReference().child("users").child(username).child("profile");
+        dbRef.addListenerForSingleValueEvent(valueEventListener);
     }
 }

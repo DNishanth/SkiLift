@@ -6,16 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".EditProfileActivity">
 
-    <Spinner
-        android:id="@+id/preferredResortsSpinner"
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:gravity="center"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/editProfileSavePrefsFloatingActionButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:contentDescription="Save Preferences"
+        app:backgroundTint="#FFFFFF"
+        app:layout_anchorGravity="top|left|start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.64" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@android:drawable/ic_menu_save" />
 
     <ImageView
         android:id="@+id/editProfilePictureImageView"
@@ -44,75 +50,65 @@
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <TextView
-        android:id="@+id/editProfileUsernameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Username"
-        android:textSize="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editProfilePictureImageView"
-        app:layout_constraintVertical_bias="0" />
-
-    <TextView
-        android:id="@+id/editProfileRidesCompletedTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="# Rides Completed"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/editProfileSkiTypeTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editProfileUsernameTextView"
-        app:layout_constraintVertical_bias="0.10" />
-
-    <TextView
         android:id="@+id/editProfileSkiTypeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ski Type: "
+        app:layout_constraintBottom_toBottomOf="@+id/editProfileSkiTypeSpinner"
+        app:layout_constraintEnd_toStartOf="@+id/editProfileSkiTypeSpinner"
+        app:layout_constraintTop_toTopOf="@+id/editProfileSkiTypeSpinner" />
+
+    <Spinner
+        android:id="@+id/editProfileSkiTypeSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ski Type"
         android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/editProfileFavoriteMountainsTextView"
-        app:layout_constraintEnd_toEndOf="@+id/editProfileRidesCompletedTextView"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/editProfileRidesCompletedTextView"
-        app:layout_constraintTop_toBottomOf="@+id/editProfileRidesCompletedTextView" />
+        app:layout_constraintBottom_toTopOf="@+id/preferredResortsSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfilePictureImageView" />
 
     <TextView
         android:id="@+id/editProfileFavoriteMountainsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Favorite Mountains"
+        android:text="Favorite Mountains: "
         android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/editProfileFunFactTextView"
-        app:layout_constraintEnd_toEndOf="@+id/editProfileSkiTypeTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/preferredResortsSpinner"
+        app:layout_constraintEnd_toStartOf="@+id/preferredResortsSpinner"
+        app:layout_constraintTop_toTopOf="@+id/preferredResortsSpinner" />
+
+    <Spinner
+        android:id="@+id/preferredResortsSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="start"
+        app:layout_constraintBottom_toTopOf="@+id/editProfileFunFactEditText"
+        app:layout_constraintEnd_toEndOf="@+id/editProfileSkiTypeSpinner"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/editProfileSkiTypeTextView"
-        app:layout_constraintTop_toBottomOf="@+id/editProfileSkiTypeTextView" />
+        app:layout_constraintStart_toStartOf="@+id/editProfileSkiTypeSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileSkiTypeSpinner" />
 
     <TextView
         android:id="@+id/editProfileFunFactTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fun Fact"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/editProfileRatingTextView"
-        app:layout_constraintEnd_toEndOf="@+id/editProfileFavoriteMountainsTextView"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/editProfileFavoriteMountainsTextView"
-        app:layout_constraintTop_toBottomOf="@+id/editProfileFavoriteMountainsTextView" />
+        android:text="Fun Fact: "
+        app:layout_constraintBottom_toBottomOf="@+id/editProfileFunFactEditText"
+        app:layout_constraintEnd_toStartOf="@+id/editProfileFunFactEditText"
+        app:layout_constraintTop_toTopOf="@+id/editProfileFunFactEditText" />
 
-    <TextView
-        android:id="@+id/editProfileRatingTextView"
+    <EditText
+        android:id="@+id/editProfileFunFactEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rating"
+        android:text="Fun Fact"
         android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/editProfileFunFactTextView"
+        app:layout_constraintEnd_toEndOf="@+id/preferredResortsSpinner"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/editProfileFunFactTextView"
-        app:layout_constraintTop_toBottomOf="@+id/editProfileFunFactTextView" />
+        app:layout_constraintStart_toStartOf="@+id/preferredResortsSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/preferredResortsSpinner" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
