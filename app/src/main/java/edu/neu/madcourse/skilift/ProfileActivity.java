@@ -52,9 +52,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         // Display username
         usernameTextView.setText(this.username);
-
-        // TODO: System for preferred destinations?
-        // TODO: Default location for pickup? (Could store general and/or specific location)
     }
 
     @Override
@@ -95,7 +92,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         TextView funFactTextView = findViewById(R.id.profileFunFactTextView);
                         TextView ratingTextView = findViewById(R.id.profileRatingTextView);
                         ridesCompletedTextView.setText("Rides Completed: " + String.valueOf(userProfile.getRidesCompleted()));
-                        skiTypeTextView.setText("Skiier Type: " + userProfile.getSkiType());
+                        skiTypeTextView.setText("Skier Type: " + userProfile.getSkiType());
                         favoriteMountainsTextView.setText("Favorite Mountains: " + userProfile.getFavoriteMountains());
                         funFactTextView.setText("Fun Fact: " + userProfile.getFunFact());
                         ratingTextView.setText("Rating: " + String.valueOf(userProfile.getRating()));

@@ -76,7 +76,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         skiTypeSpinner.setAdapter(skierTypeDropdownAdapter);
 
         // Create the resorts dropdown
-        favoriteMountainsSpinner = findViewById(R.id.preferredResortsSpinner);
         resortsDropdownAdapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, Resorts.resortArray);
         resortsDropdownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         favoriteMountainsSpinner.setAdapter(resortsDropdownAdapter);
