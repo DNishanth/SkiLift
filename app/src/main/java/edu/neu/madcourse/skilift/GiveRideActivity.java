@@ -41,7 +41,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.google.firebase.database.DatabaseReference;
@@ -63,19 +66,39 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
     Spinner skiRackSpinner;
     EditText specialRequestsEditText;
 
+    private double locationLatitude;
+    private double locationLongitude;
+
+    private int pickupUnixTimestamp;
+    private int returnUnixTimestamp;
+
+    private String leavingOnDateString;
     private int leavingOnDateMonth;
+    private String leavingOnDateMonthString;
     private int leavingOnDateDay;
+    private String leavingOnDateDayString;
     private int leavingOnDateYear;
+    private String leavingOnDateYearString;
 
+    private String pickupTimeString;
     private int pickupTimeHour;
+    private String pickupTimeHourString;
     private int pickupTimeMinute;
+    private String pickupTimeMinuteString;
 
+    private String returnDateString;
     private int returnDateMonth;
+    private String returnDateMonthString;
     private int returnDateDay;
+    private String returnDateDayString;
     private int returnDateYear;
+    private String returnDateYearString;
 
+    private String returnTimeString;
     private int returnTimeHour;
+    private String returnTimeHourString;
     private int returnTimeMinute;
+    private String returnTimeMinuteString;
 
     private final FirebaseDatabase db = FirebaseDatabase.getInstance();
     private String username;
@@ -159,7 +182,11 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
             DatePickerDialog leavingOnDateDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    leavingOnDateEditText.setText((month + 1) + "/" + day + "/" + year);
+                    leavingOnDateMonthString = singleDigitToDoubleDigit(month + 1);
+                    leavingOnDateDayString = singleDigitToDoubleDigit(day);
+                    leavingOnDateYearString = String.valueOf(year);
+                    leavingOnDateString = leavingOnDateMonthString + "/" + leavingOnDateDayString + "/" + leavingOnDateYearString;
+                    leavingOnDateEditText.setText(leavingOnDateString);
                 }
             }, leavingOnDateYear, leavingOnDateMonth, leavingOnDateDay);
             leavingOnDateDatePickerDialog.setTitle("Enter Departure Date");
@@ -173,7 +200,10 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
             TimePickerDialog pickupTimeTimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                    pickupTimeEditText.setText(hour + ":" + minute);
+                    pickupTimeHourString = singleDigitToDoubleDigit(hour);
+                    pickupTimeMinuteString = singleDigitToDoubleDigit(minute);
+                    pickupTimeString = pickupTimeHourString + ":" + pickupTimeMinuteString;
+                    pickupTimeEditText.setText(pickupTimeString);
                 }
             }, pickupTimeHour, pickupTimeMinute, true);
             pickupTimeTimePickerDialog.setTitle("Enter Pickup Time");
@@ -188,7 +218,11 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
             DatePickerDialog returnDateDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    returnDateEditText.setText((month + 1) + "/" + day + "/" + year);
+                    returnDateMonthString = singleDigitToDoubleDigit(month + 1);
+                    returnDateDayString = singleDigitToDoubleDigit(day);
+                    returnDateYearString = String.valueOf(year);
+                    returnDateString = returnDateMonthString + "/" + returnDateDayString + "/" + returnDateYearString;
+                    returnDateEditText.setText(returnDateString);
                 }
             }, returnDateYear, returnDateMonth, returnDateDay);
             returnDateDatePickerDialog.setTitle("Enter Return Date");
@@ -202,7 +236,10 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
             TimePickerDialog returnTimeTimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                    returnTimeEditText.setText(hour + ":" + minute);
+                    returnTimeHourString = singleDigitToDoubleDigit(hour);
+                    returnTimeMinuteString = singleDigitToDoubleDigit(minute);
+                    returnTimeString = returnTimeHourString + ":" + returnTimeMinuteString;
+                    returnTimeEditText.setText(returnTimeString);
                 }
             }, returnTimeHour, returnTimeMinute, true);
             returnTimeTimePickerDialog.setTitle("Enter Return Time");
@@ -276,16 +313,38 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
 
     }
 
-    private int getDateAsInt(EditText dateField) {
-        String dateString = dateField.getText().toString();
+    private int getDateAsInt(String dateString) {
         String dateStringParsed = dateString.replaceAll("\\/", "");
         return Integer.parseInt(dateStringParsed);
     }
 
-    private int getTimeAsInt(EditText timeField) {
-        String timeString = timeField.getText().toString();
+    private int getTimeAsInt(String timeString) {
         String timeStringParsed = timeString.replaceAll("\\:", "");
         return Integer.parseInt(timeStringParsed);
+    }
+
+    private String singleDigitToDoubleDigit(int inputInt) {
+        String inputString = String.valueOf(inputInt);
+        if (inputInt >= 0 && inputInt <= 9) {
+            inputString = "0" + inputString;
+        }
+        return inputString;
+    }
+
+    private int dateTimeToUnixTimestamp(String monthString,
+                                        String dayString,
+                                        String yearString,
+                                        String hourString,
+                                        String minuteString) {
+        try {
+            SimpleDateFormat dateTimeSDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date dateTimeDate = dateTimeSDF.parse(yearString + "-" + monthString + "-" + dayString + " " + hourString + ":" + minuteString + ":" + "00");
+            long unixTimestampFull = dateTimeDate.getTime();
+            return (int) (unixTimestampFull / 1000);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     private void submitRide() {
@@ -296,14 +355,22 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
         }
 
         findViewsFields();
+        pickupUnixTimestamp = dateTimeToUnixTimestamp(leavingOnDateMonthString, leavingOnDateDayString, leavingOnDateYearString, pickupTimeHourString, pickupTimeMinuteString);
+        returnUnixTimestamp = dateTimeToUnixTimestamp(returnDateMonthString, returnDateDayString, returnDateYearString, returnTimeHourString, returnTimeMinuteString);
 
         String rideID = db.getReference("rides").push().getKey();
         RideInfo rideInfo = new RideInfo(
                 rideID,
                 username,
                 "placeholder location",
-                getDateAsInt(leavingOnDateEditText),
-                getDateAsInt(returnDateEditText),
+                locationLatitude,
+                locationLongitude,
+                pickupUnixTimestamp,
+                getDateAsInt(leavingOnDateString),
+                pickupTimeString,
+                returnUnixTimestamp,
+                getDateAsInt(returnDateString),
+                returnTimeString,
                 destinationAutoCompleteTextView.getText().toString(),
                 Integer.parseInt(passengersEditText.getText().toString()),
                 carModelEditText.getText().toString(),
@@ -340,8 +407,6 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
                 requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 99);
             }
         }
-
-
     }
 
     @Override
@@ -355,13 +420,9 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
             Toast.makeText(this, "App needs permission to work correctly", Toast.LENGTH_SHORT).show();
             finish();
         }
-
-
-
     }
 
     private void updateUIValues(Location location){
-
 
         locationText.setText(String.valueOf("Pickup Location\n" + location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
         LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
@@ -377,6 +438,9 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
         } catch(Exception e) {
             locationText.setText(String.valueOf("Pickup Location\n" + location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
         }
+
+        locationLatitude = location.getLatitude();
+        locationLongitude = location.getLongitude();
 
     }
 
