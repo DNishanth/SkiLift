@@ -276,7 +276,18 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
 
     }
 
-    // TODO: Use some type of date/time picker to get time info
+    private int getDateAsInt(EditText dateField) {
+        String dateString = dateField.getText().toString();
+        String dateStringParsed = dateString.replaceAll("\\/", "");
+        return Integer.parseInt(dateStringParsed);
+    }
+
+    private int getTimeAsInt(EditText timeField) {
+        String timeString = timeField.getText().toString();
+        String timeStringParsed = timeString.replaceAll("\\:", "");
+        return Integer.parseInt(timeStringParsed);
+    }
+
     private void submitRide() {
 
         // Do not submit ride details if any required fields are empty (special requests may be empty)
@@ -284,26 +295,21 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
             return;
         }
 
-        AutoCompleteTextView destination = findViewById(R.id.giveARideDestinationField);
-        EditText passengers = findViewById(R.id.giveARidePassengersField);
-        EditText carLicense = findViewById(R.id.giveARideCarLicenseField);
-        EditText carModel = findViewById(R.id.giveARideCarModelField);
-        Spinner skiRack = findViewById(R.id.giveARideSkiRackField);
-        EditText specialRequests = findViewById(R.id.giveARideSpecialRequestsField);
+        findViewsFields();
 
         String rideID = db.getReference("rides").push().getKey();
         RideInfo rideInfo = new RideInfo(
                 rideID,
                 username,
                 "placeholder location",
-                1650780310,
-                1650891600,
-                destination.getText().toString(),
-                Integer.parseInt(passengers.getText().toString()),
-                carModel.getText().toString(),
-                carLicense.getText().toString(),
-                skiRack.getSelectedItem().toString(),
-                specialRequests.getText().toString());
+                getDateAsInt(leavingOnDateEditText),
+                getDateAsInt(returnDateEditText),
+                destinationAutoCompleteTextView.getText().toString(),
+                Integer.parseInt(passengersEditText.getText().toString()),
+                carModelEditText.getText().toString(),
+                carLicenseEditText.getText().toString(),
+                skiRackSpinner.getSelectedItem().toString(),
+                specialRequestsEditText.getText().toString());
         db.getReference("rides/" + rideID).setValue(rideInfo);
         openActivity(MyRidesActivity.class);
     }
