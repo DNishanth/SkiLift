@@ -70,8 +70,8 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
     private double locationLatitude;
     private double locationLongitude;
 
-    private int pickupUnixTimestamp;
-    private int returnUnixTimestamp;
+    private long pickupUnixTimestamp;
+    private long returnUnixTimestamp;
 
     private String leavingOnDateString;
     private int leavingOnDateMonth;
@@ -333,7 +333,7 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
         return inputString;
     }
 
-    private int dateTimeToUnixTimestamp(String monthString,
+    private long dateTimeToUnixTimestamp(String monthString,
                                         String dayString,
                                         String yearString,
                                         String hourString,
@@ -342,7 +342,7 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
             SimpleDateFormat dateTimeSDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date dateTimeDate = dateTimeSDF.parse(yearString + "-" + monthString + "-" + dayString + " " + hourString + ":" + minuteString + ":" + "00");
             long unixTimestampFull = dateTimeDate.getTime();
-            return (int) (unixTimestampFull / 1000);
+            return unixTimestampFull / 1000;
         } catch (ParseException exception) {
             exception.printStackTrace();
             return 0;

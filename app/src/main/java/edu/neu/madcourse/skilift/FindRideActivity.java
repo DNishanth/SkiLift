@@ -32,6 +32,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -71,8 +72,8 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     private double locationLatitude;
     private double locationLongitude;
 
-    private int pickupUnixTimestamp;
-    private int returnUnixTimestamp;
+    private long pickupUnixTimestamp;
+    private long returnUnixTimestamp;
 
     private String pickupDateString;
     private int pickupDateMonth;
@@ -145,7 +146,13 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
                 findViewsFields();
                 pickupUnixTimestamp = dateTimeToUnixTimestamp(pickupDateMonthString, pickupDateDayString, pickupDateYearString, pickupTimeHourString, pickupTimeMinuteString);
                 returnUnixTimestamp = dateTimeToUnixTimestamp(returnDateMonthString, returnDateDayString, returnDateYearString, returnTimeHourString, returnTimeMinuteString);
-                openActivity(FoundRidesActivity.class);
+                username = getIntent().getExtras().getString("username");
+                Intent intent = new Intent(this, FoundRidesActivity.class);
+                intent.putExtra("username", username);
+                intent.putExtra("pickupTime", pickupUnixTimestamp);
+                intent.putExtra("returnTime", returnUnixTimestamp);
+                intent.putExtra("destination", destinationAutoCompleteTextView.getText().toString());
+                startActivity(intent);
             }
         });
 
@@ -153,8 +160,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 com.google.android.material.R.layout.support_simple_spinner_dropdown_item,
                 Resorts.resortArray);
-        AutoCompleteTextView textView = findViewById(R.id.findARideDestinationField);
-        textView.setAdapter(adapter);
+        destinationAutoCompleteTextView.setAdapter(adapter);
     }
 
     public void openActivity(Class activity) {
@@ -192,7 +198,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
         return inputString;
     }
 
-    private int dateTimeToUnixTimestamp(String monthString,
+    private long dateTimeToUnixTimestamp(String monthString,
                                         String dayString,
                                         String yearString,
                                         String hourString,
@@ -201,7 +207,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
             SimpleDateFormat dateTimeSDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date dateTimeDate = dateTimeSDF.parse(yearString + "-" + monthString + "-" + dayString + " " + hourString + ":" + minuteString + ":" + "00");
             long unixTimestampFull = dateTimeDate.getTime();
-            return (int) (unixTimestampFull / 1000);
+            return unixTimestampFull / 1000;
         } catch (ParseException exception) {
             exception.printStackTrace();
             return 0;

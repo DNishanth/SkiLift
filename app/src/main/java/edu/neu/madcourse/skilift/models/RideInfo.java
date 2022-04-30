@@ -6,10 +6,10 @@ public class RideInfo {
     private String departureLocation;
     private double departureLatitude;
     private double departureLongitude;
-    private int pickupUnixTimestamp;
+    private long pickupUnixTimestamp;
     private long pickupDate;
     private String pickupTime;
-    private int returnUnixTimestamp;
+    private long returnUnixTimestamp;
     private long returnDate;
     private String returnTime;
     private String destination;
@@ -21,8 +21,8 @@ public class RideInfo {
 
     public RideInfo(String rideID, String username, String departureLocation,
                     double departureLatitude, double departureLongitude,
-                    int pickupUnixTimestamp, long pickupDate,
-                    String pickupTime, int returnUnixTimestamp, long returnDate, String returnTime, String destination, int passengers, String carModel,
+                    long pickupUnixTimestamp, long pickupDate,
+                    String pickupTime, long returnUnixTimestamp, long returnDate, String returnTime, String destination, int passengers, String carModel,
                     String licensePlate, String skiRack, String specialRequests) {
         this.rideID = rideID;
         this.username = username;
@@ -47,7 +47,7 @@ public class RideInfo {
     @SuppressWarnings("unused")
     public RideInfo() {}
 
-    public int getPickupUnixTimestamp() {
+    public long getPickupUnixTimestamp() {
         return pickupUnixTimestamp;
     }
 
@@ -55,7 +55,7 @@ public class RideInfo {
         return pickupTime;
     }
 
-    public int getReturnUnixTimestamp() {
+    public long getReturnUnixTimestamp() {
         return returnUnixTimestamp;
     }
 

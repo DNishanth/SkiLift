@@ -83,7 +83,10 @@ public class MyRidesActivity extends AppCompatActivity {
           for(DataSnapshot snapshot : dataSnapshot.getChildren()){
 
             if(snapshot.child("username").getValue().toString().equals(username)){
-              String departureLocation = snapshot.child("departureLocation").getValue().toString();
+              String departureLocation = (String) snapshot.child("departureLocation").getValue();
+              if (departureLocation == null) {
+                  departureLocation = "";
+              };
               String destination = snapshot.child("destination").getValue().toString();
               String pickupDate = snapshot.child("pickupDate").getValue().toString();
               String returnDate = snapshot.child("returnDate").getValue().toString();

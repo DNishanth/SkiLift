@@ -110,6 +110,9 @@ public class RideInfoActivity extends AppCompatActivity {
         TextView favoriteMountains = findViewById(R.id.rideInfoFavMountains);
         TextView funFact = findViewById(R.id.rideInfoFunFact);
 
+        Log.d(TAG, "pickupdate: " + rideInfo.getPickupUnixTimestamp() * 1000);
+        Log.d(TAG, "returndate: " + rideInfo.getReturnUnixTimestamp() * 1000);
+
         username.setText(rideInfo.getUsername());
         userRating.setRating((float) userProfile.getRating());
         departureLocation.setText(formatString(R.string.departureLocation,
@@ -118,12 +121,14 @@ public class RideInfoActivity extends AppCompatActivity {
                 rideInfo.getDestination()));
         DateFormat dateFormat = new SimpleDateFormat("M/d/y 'at' h:mm a", Locale.US);
         departureDate.setText(formatString(
-                R.string.departureDate, dateFormat.format(new Date(rideInfo.getPickupDate()))));
-        returnDate.setText(formatString(R.string.returnDate,
-                dateFormat.format(new Date(rideInfo.getReturnDate()))));
+                R.string.departureDate,
+                dateFormat.format(new Date(rideInfo.getPickupUnixTimestamp() * 1000))));
+        returnDate.setText(formatString(
+                R.string.returnDate,
+                dateFormat.format(new Date(rideInfo.getReturnUnixTimestamp() * 1000))));
         dateFormat = new SimpleDateFormat("M/d/y", Locale.US);
         memberDate.setText(formatString(R.string.memberDate,
-                dateFormat.format(new Date(userProfile.getMemberDate()))));
+                dateFormat.format(new Date(userProfile.getMemberDate() * 1000))));
         ridesCompleted.setText(formatString(R.string.ridesCompleted,
                 String.valueOf(userProfile.getRidesCompleted())));
         skiType.setText(formatString(R.string.skiType,

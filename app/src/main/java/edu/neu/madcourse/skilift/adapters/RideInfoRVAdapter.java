@@ -60,9 +60,9 @@ public class RideInfoRVAdapter extends RecyclerView.Adapter<RideInfoViewHolder> 
                 R.string.destination, rideInfo.getDestination()));
         DateFormat dateFormat = new SimpleDateFormat("M/d/y 'at' h:mm a", Locale.US);
         holder.departureDate.setText(formatString(R.string.departureDate,
-                dateFormat.format(new Date(rideInfo.getPickupDate()))));
+                dateFormat.format(new Date(rideInfo.getPickupUnixTimestamp() * 1000))));
         holder.returnDate.setText(formatString(R.string.returnDate,
-                dateFormat.format(new Date(rideInfo.getReturnDate()))));
+                dateFormat.format(new Date(rideInfo.getReturnUnixTimestamp() * 1000))));
         // Set the profile picture
         setProfilePicture(holder.profilePicture, rideInfo.getUsername());
     }
