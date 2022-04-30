@@ -144,8 +144,6 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
         searchRidesButton.setOnClickListener(view -> {
             if (!checkFields()) {
                 findViewsFields();
-                pickupUnixTimestamp = dateTimeToUnixTimestamp(pickupDateMonthString, pickupDateDayString, pickupDateYearString, pickupTimeHourString, pickupTimeMinuteString);
-                returnUnixTimestamp = dateTimeToUnixTimestamp(returnDateMonthString, returnDateDayString, returnDateYearString, returnTimeHourString, returnTimeMinuteString);
                 username = getIntent().getExtras().getString("username");
                 Intent intent = new Intent(this, FoundRidesActivity.class);
                 intent.putExtra("username", username);
@@ -297,38 +295,60 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
         findViewsFields();
 
         if (TextUtils.isEmpty(pickupDateEditText.getText().toString())) {
-            pickupDateEditText.setError("Please enter a departure date!");
-            anyFieldEmpty = true;
+            setDefaultPickupCalendar();
         }
         if (TextUtils.isEmpty(pickupTimeEditText.getText().toString())) {
-            pickupTimeEditText.setError("Please enter a pickup time!");
-            anyFieldEmpty = true;
+            pickupTimeHourString = "00";
+            pickupTimeMinuteString = "00";
         }
         if (TextUtils.isEmpty(returnDateEditText.getText().toString())) {
-            returnDateEditText.setError("Please enter a return date!");
-            anyFieldEmpty = true;
+            setDefaultReturnCalendar();
+            returnDateYearString = String.valueOf(pickupDateYear + 1);
         }
         if (TextUtils.isEmpty(returnTimeEditText.getText().toString())) {
-            returnTimeEditText.setError("Please enter a return time!");
-            anyFieldEmpty = true;
+            returnTimeHourString = "11";
+            returnTimeMinuteString = "59";
         }
         if (TextUtils.isEmpty(destinationAutoCompleteTextView.getText().toString())) {
             destinationAutoCompleteTextView.setError("Please enter a destination!");
             anyFieldEmpty = true;
         }
-
+        pickupUnixTimestamp = dateTimeToUnixTimestamp(pickupDateMonthString, pickupDateDayString, pickupDateYearString, pickupTimeHourString, pickupTimeMinuteString);
+        returnUnixTimestamp = dateTimeToUnixTimestamp(returnDateMonthString, returnDateDayString, returnDateYearString, returnTimeHourString, returnTimeMinuteString);
+        Log.d("FINDRIDE", returnDateYearString);
+        Log.d("FINDRIDE", returnDateMonthString);
+        Log.d("FINDRIDE", returnDateDayString);
+        Log.d("FINDRIDE", returnTimeHourString);
+        Log.d("FINDRIDE", returnTimeMinuteString);
+        Log.d("FINDRIDE", String.valueOf(returnUnixTimestamp));
         return anyFieldEmpty;
 
+    }
+
+    void setDefaultPickupCalendar() {
+        final Calendar pickupDateCalendar = Calendar.getInstance();
+        pickupDateMonth = pickupDateCalendar.get(Calendar.MONTH);
+        pickupDateDay = pickupDateCalendar.get(Calendar.DAY_OF_MONTH);
+        pickupDateYear = pickupDateCalendar.get(Calendar.YEAR);
+        pickupDateMonthString = singleDigitToDoubleDigit(pickupDateMonth + 1);
+        pickupDateDayString = singleDigitToDoubleDigit(pickupDateDay);
+        pickupDateYearString = String.valueOf(pickupDateYear);
+    }
+
+    void setDefaultReturnCalendar() {
+        final Calendar returnDateCalendar = Calendar.getInstance();
+        returnDateMonth = returnDateCalendar.get(Calendar.MONTH);
+        returnDateDay = returnDateCalendar.get(Calendar.DAY_OF_MONTH);
+        returnDateYear = returnDateCalendar.get(Calendar.YEAR);
+        returnDateMonthString = singleDigitToDoubleDigit(returnDateMonth + 1);
+        returnDateDayString = singleDigitToDoubleDigit(returnDateDay);
+        returnDateYearString = String.valueOf(returnDateYear);
     }
 
     @Override
     public void onClick(View view) {
         if (view == pickupDateEditText) {
-            final Calendar pickupDateCalendar = Calendar.getInstance();
-            pickupDateMonth = pickupDateCalendar.get(Calendar.MONTH);
-            pickupDateDay = pickupDateCalendar.get(Calendar.DAY_OF_MONTH);
-            pickupDateYear = pickupDateCalendar.get(Calendar.YEAR);
-
+            setDefaultPickupCalendar();
             DatePickerDialog pickupDateDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -339,6 +359,8 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
                     pickupDateEditText.setText(pickupDateString);
                 }
             }, pickupDateYear, pickupDateMonth, pickupDateDay);
+            // TODO: Disables past dates, uncomment before submitting
+//            pickupDateDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
             pickupDateDatePickerDialog.setTitle("Enter Departure Date");
             pickupDateDatePickerDialog.show();
         }
@@ -360,11 +382,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
             pickupTimeTimePickerDialog.show();
         }
         else if (view == returnDateEditText) {
-            final Calendar returnDateCalendar = Calendar.getInstance();
-            returnDateMonth = returnDateCalendar.get(Calendar.MONTH);
-            returnDateDay = returnDateCalendar.get(Calendar.DAY_OF_MONTH);
-            returnDateYear = returnDateCalendar.get(Calendar.YEAR);
-
+            setDefaultReturnCalendar();
             DatePickerDialog returnDateDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -375,6 +393,8 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
                     returnDateEditText.setText(returnDateString);
                 }
             }, returnDateYear, returnDateMonth, returnDateDay);
+            // TODO: Disables past dates, uncomment before submitting
+//            returnDateDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
             returnDateDatePickerDialog.setTitle("Enter Return Date");
             returnDateDatePickerDialog.show();
         }
