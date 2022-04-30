@@ -69,8 +69,8 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     AutoCompleteTextView destinationAutoCompleteTextView;
 
     private String locationString;
-    private double locationLatitude;
-    private double locationLongitude;
+    private double locationLatitude = 42.3409094; // TODO: placeholder until we guarantee location in db
+    private double locationLongitude = -71.0905898;
 
     private long pickupUnixTimestamp;
     private long returnUnixTimestamp;
@@ -152,6 +152,8 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
                 intent.putExtra("pickupTime", pickupUnixTimestamp);
                 intent.putExtra("returnTime", returnUnixTimestamp);
                 intent.putExtra("destination", destinationAutoCompleteTextView.getText().toString());
+                intent.putExtra("latitude", locationLatitude);
+                intent.putExtra("longitude", locationLongitude);
                 startActivity(intent);
             }
         });

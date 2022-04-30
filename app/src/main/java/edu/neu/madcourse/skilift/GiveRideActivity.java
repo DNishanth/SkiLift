@@ -67,8 +67,8 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
     EditText specialRequestsEditText;
 
     private String locationString;
-    private double locationLatitude;
-    private double locationLongitude;
+    private double locationLatitude = 42.3409094; // TODO: placeholder until we guarantee location in db
+    private double locationLongitude = -71.0905898;
 
     private long pickupUnixTimestamp;
     private long returnUnixTimestamp;
