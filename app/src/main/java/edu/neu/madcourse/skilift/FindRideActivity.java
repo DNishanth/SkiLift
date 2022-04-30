@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.FirebaseDatabase;
 
 import android.Manifest;
 import android.accessibilityservice.AccessibilityService;
@@ -41,7 +42,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import edu.neu.madcourse.skilift.models.Message;
@@ -49,12 +53,12 @@ import edu.neu.madcourse.skilift.models.Resorts;
 
 public class FindRideActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
+    private final FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private String username;
+
     FusedLocationProviderClient fusedLocationProviderClient;
-
     LocationRequest locationRequest;
-
     TextView locationText;
-
     GoogleMap map;
 
     EditText pickupDateEditText;
@@ -63,26 +67,49 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     EditText returnTimeEditText;
     AutoCompleteTextView destinationAutoCompleteTextView;
 
+    private String locationString;
+    private double locationLatitude;
+    private double locationLongitude;
+
+    private int pickupUnixTimestamp;
+    private int returnUnixTimestamp;
+
+    private String pickupDateString;
     private int pickupDateMonth;
+    private String pickupDateMonthString;
     private int pickupDateDay;
+    private String pickupDateDayString;
     private int pickupDateYear;
+    private String pickupDateYearString;
 
+    private String pickupTimeString;
     private int pickupTimeHour;
+    private String pickupTimeHourString;
     private int pickupTimeMinute;
+    private String pickupTimeMinuteString;
 
+    private String returnDateString;
     private int returnDateMonth;
+    private String returnDateMonthString;
     private int returnDateDay;
+    private String returnDateDayString;
     private int returnDateYear;
+    private String returnDateYearString;
 
+    private String returnTimeString;
     private int returnTimeHour;
+    private String returnTimeHourString;
     private int returnTimeMinute;
+    private String returnTimeMinuteString;
 
     @Override
     protected void onStart() {
         super.onStart();
         if (isLocationDataOn(this)) {
             updateGPS();
-        } else {
+        }
+        else {
+            locationString = "Location Unavailable";
             View findARideLayout = findViewById(R.id.findARideLayout);
             Snackbar snackbar = Snackbar.make(findARideLayout, "Location services need to be enabled in Settings to use App", Snackbar.LENGTH_INDEFINITE);
             snackbar.getView().setOnClickListener(view -> snackbar.dismiss());
@@ -93,6 +120,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_ride);
         findViewsFields();
@@ -103,9 +131,9 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
         returnTimeEditText.setOnClickListener(this);
 
         locationText = findViewById(R.id.locationText);
+        username = getIntent().getExtras().getString("username");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.maps);
-
         mapFragment.getMapAsync(this);
 
         Button back = findViewById(R.id.backButton);
@@ -114,6 +142,9 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
         Button searchRidesButton = findViewById(R.id.searchRidesButton);
         searchRidesButton.setOnClickListener(view -> {
             if (!checkFields()) {
+                findViewsFields();
+                pickupUnixTimestamp = dateTimeToUnixTimestamp(pickupDateMonthString, pickupDateDayString, pickupDateYearString, pickupTimeHourString, pickupTimeMinuteString);
+                returnUnixTimestamp = dateTimeToUnixTimestamp(returnDateMonthString, returnDateDayString, returnDateYearString, returnTimeHourString, returnTimeMinuteString);
                 openActivity(FoundRidesActivity.class);
             }
         });
@@ -127,13 +158,11 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     public void openActivity(Class activity) {
-        String username = getIntent().getExtras().getString("username");
+        username = getIntent().getExtras().getString("username");
         Intent intent = new Intent(this, activity);
         intent.putExtra("username", username);
         startActivity(intent);
     }
-
-    ;
 
     private void findViewsFields() {
 
@@ -145,6 +174,42 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
 
     }
 
+    private int getDateAsInt(String dateString) {
+        String dateStringParsed = dateString.replaceAll("\\/", "");
+        return Integer.parseInt(dateStringParsed);
+    }
+
+    private int getTimeAsInt(String timeString) {
+        String timeStringParsed = timeString.replaceAll("\\:", "");
+        return Integer.parseInt(timeStringParsed);
+    }
+
+    private String singleDigitToDoubleDigit(int inputInt) {
+        String inputString = String.valueOf(inputInt);
+        if (inputInt >= 0 && inputInt <= 9) {
+            inputString = "0" + inputString;
+        }
+        return inputString;
+    }
+
+    private int dateTimeToUnixTimestamp(String monthString,
+                                        String dayString,
+                                        String yearString,
+                                        String hourString,
+                                        String minuteString) {
+        try {
+            SimpleDateFormat dateTimeSDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date dateTimeDate = dateTimeSDF.parse(yearString + "-" + monthString + "-" + dayString + " " + hourString + ":" + minuteString + ":" + "00");
+            long unixTimestampFull = dateTimeDate.getTime();
+            return (int) (unixTimestampFull / 1000);
+        } catch (ParseException exception) {
+            exception.printStackTrace();
+            return 0;
+        } catch (NullPointerException exception) {
+            exception.printStackTrace();
+            return 0;
+        }
+    }
 
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
@@ -172,8 +237,6 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 99);
             }
         }
-
-
     }
 
     @Override
@@ -187,14 +250,12 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
             Toast.makeText(this, "App needs permission to work correctly", Toast.LENGTH_SHORT).show();
             finish();
         }
-
-
     }
 
     private void updateUIValues(Location location) {
 
-
-        locationText.setText(String.valueOf("Pickup Location\n" + location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
+        locationString = String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude());
+        locationText.setText("Pickup Location\n" + locationString);
         LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
         map.addMarker(new MarkerOptions().position(currentLocation).title("Current Location"));
         map.moveCamera(CameraUpdateFactory.zoomTo(15.0F));
@@ -204,10 +265,15 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
 
         try {
             List<Address> addresses = geo.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            locationText.setText("Pickup Location\n" + String.valueOf(addresses.get(0).getAddressLine(0)));
-        } catch (Exception e) {
-            locationText.setText(String.valueOf("Pickup Location\n" + location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
+            locationString = String.valueOf(addresses.get(0).getAddressLine(0));
+            locationText.setText("Pickup Location\n" + locationString);
+        } catch (Exception exception) {
+            locationString = String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude());
+            locationText.setText("Pickup Location\n" + locationString);
         }
+
+        locationLatitude = location.getLatitude();
+        locationLongitude = location.getLongitude();
 
     }
 
@@ -250,20 +316,25 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     public void onClick(View view) {
         if (view == pickupDateEditText) {
-            final Calendar leavingOnDateCalendar = Calendar.getInstance();
-            pickupDateMonth = leavingOnDateCalendar.get(Calendar.MONTH);
-            pickupDateDay = leavingOnDateCalendar.get(Calendar.DAY_OF_MONTH);
-            pickupDateYear = leavingOnDateCalendar.get(Calendar.YEAR);
+            final Calendar pickupDateCalendar = Calendar.getInstance();
+            pickupDateMonth = pickupDateCalendar.get(Calendar.MONTH);
+            pickupDateDay = pickupDateCalendar.get(Calendar.DAY_OF_MONTH);
+            pickupDateYear = pickupDateCalendar.get(Calendar.YEAR);
 
-            DatePickerDialog leavingOnDateDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            DatePickerDialog pickupDateDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    pickupDateEditText.setText((month + 1) + "/" + day + "/" + year);
+                    pickupDateMonthString = singleDigitToDoubleDigit(month + 1);
+                    pickupDateDayString = singleDigitToDoubleDigit(day);
+                    pickupDateYearString = String.valueOf(year);
+                    pickupDateString = pickupDateMonthString + "/" + pickupDateDayString + "/" + pickupDateYearString;
+                    pickupDateEditText.setText(pickupDateString);
                 }
             }, pickupDateYear, pickupDateMonth, pickupDateDay);
-            leavingOnDateDatePickerDialog.setTitle("Enter Departure Date");
-            leavingOnDateDatePickerDialog.show();
-        } else if (view == pickupTimeEditText) {
+            pickupDateDatePickerDialog.setTitle("Enter Departure Date");
+            pickupDateDatePickerDialog.show();
+        }
+        else if (view == pickupTimeEditText) {
             final Calendar pickupTimeCalendar = Calendar.getInstance();
             pickupTimeHour = pickupTimeCalendar.get(Calendar.HOUR_OF_DAY);
             pickupTimeMinute = pickupTimeCalendar.get(Calendar.MINUTE);
@@ -271,12 +342,16 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
             TimePickerDialog pickupTimeTimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                    pickupTimeEditText.setText(hour + ":" + minute);
+                    pickupTimeHourString = singleDigitToDoubleDigit(hour);
+                    pickupTimeMinuteString = singleDigitToDoubleDigit(minute);
+                    pickupTimeString = pickupTimeHourString + ":" + pickupTimeMinuteString;
+                    pickupTimeEditText.setText(pickupTimeString);
                 }
             }, pickupTimeHour, pickupTimeMinute, true);
             pickupTimeTimePickerDialog.setTitle("Enter Pickup Time");
             pickupTimeTimePickerDialog.show();
-        } else if (view == returnDateEditText) {
+        }
+        else if (view == returnDateEditText) {
             final Calendar returnDateCalendar = Calendar.getInstance();
             returnDateMonth = returnDateCalendar.get(Calendar.MONTH);
             returnDateDay = returnDateCalendar.get(Calendar.DAY_OF_MONTH);
@@ -285,12 +360,17 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
             DatePickerDialog returnDateDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    returnDateEditText.setText((month + 1) + "/" + day + "/" + year);
+                    returnDateMonthString = singleDigitToDoubleDigit(month + 1);
+                    returnDateDayString = singleDigitToDoubleDigit(day);
+                    returnDateYearString = String.valueOf(year);
+                    returnDateString = returnDateMonthString + "/" + returnDateDayString + "/" + returnDateYearString;
+                    returnDateEditText.setText(returnDateString);
                 }
             }, returnDateYear, returnDateMonth, returnDateDay);
             returnDateDatePickerDialog.setTitle("Enter Return Date");
             returnDateDatePickerDialog.show();
-        } else if (view == returnTimeEditText) {
+        }
+        else if (view == returnTimeEditText) {
             final Calendar returnTimeCalendar = Calendar.getInstance();
             returnTimeHour = returnTimeCalendar.get(Calendar.HOUR_OF_DAY);
             returnTimeMinute = returnTimeCalendar.get(Calendar.MINUTE);
@@ -298,7 +378,10 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
             TimePickerDialog returnTimeTimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                    returnTimeEditText.setText(hour + ":" + minute);
+                    returnTimeHourString = singleDigitToDoubleDigit(hour);
+                    returnTimeMinuteString = singleDigitToDoubleDigit(minute);
+                    returnTimeString = returnTimeHourString + ":" + returnTimeMinuteString;
+                    returnTimeEditText.setText(returnTimeString);
                 }
             }, returnTimeHour, returnTimeMinute, true);
             returnTimeTimePickerDialog.setTitle("Enter Return Time");

@@ -66,6 +66,7 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
     Spinner skiRackSpinner;
     EditText specialRequestsEditText;
 
+    private String locationString;
     private double locationLatitude;
     private double locationLongitude;
 
@@ -148,6 +149,7 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
             updateGPS();
         }
         else {
+            locationString = "Location Unavailable";
             View giveARideLayout = findViewById(R.id.giveARideLayout);
             Snackbar snackbar = Snackbar.make(giveARideLayout, "Location services need to be enabled in Settings to use App", Snackbar.LENGTH_INDEFINITE);
             snackbar.getView().setOnClickListener(view -> snackbar.dismiss());
@@ -341,8 +343,11 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
             Date dateTimeDate = dateTimeSDF.parse(yearString + "-" + monthString + "-" + dayString + " " + hourString + ":" + minuteString + ":" + "00");
             long unixTimestampFull = dateTimeDate.getTime();
             return (int) (unixTimestampFull / 1000);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (ParseException exception) {
+            exception.printStackTrace();
+            return 0;
+        } catch (NullPointerException exception) {
+            exception.printStackTrace();
             return 0;
         }
     }
@@ -362,7 +367,7 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
         RideInfo rideInfo = new RideInfo(
                 rideID,
                 username,
-                "placeholder location",
+                locationString,
                 locationLatitude,
                 locationLongitude,
                 pickupUnixTimestamp,
@@ -424,7 +429,8 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
 
     private void updateUIValues(Location location){
 
-        locationText.setText(String.valueOf("Pickup Location\n" + location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
+        locationString = String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude());
+        locationText.setText("Pickup Location\n" + locationString);
         LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
         map.addMarker(new MarkerOptions().position(currentLocation).title("Current Location"));
         map.moveCamera(CameraUpdateFactory.zoomTo(15.0F));
@@ -434,9 +440,11 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
 
         try {
             List<Address> addresses = geo.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            locationText.setText("Pickup Location\n" + String.valueOf(addresses.get(0).getAddressLine(0)));
-        } catch(Exception e) {
-            locationText.setText(String.valueOf("Pickup Location\n" + location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
+            locationString = String.valueOf(addresses.get(0).getAddressLine(0));
+            locationText.setText("Pickup Location\n" + locationString);
+        } catch(Exception exception) {
+            locationString = String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude());
+            locationText.setText("Pickup Location\n" + locationString);
         }
 
         locationLatitude = location.getLatitude();
