@@ -9,17 +9,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.maps.android.SphericalUtil;
 
 import java.util.ArrayList;
 
-import edu.neu.madcourse.skilift.adapters.GroupMessageRVAdapter;
 import edu.neu.madcourse.skilift.adapters.RideInfoRVAdapter;
-import edu.neu.madcourse.skilift.interfaces.IGroupMessageClickListener;
 import edu.neu.madcourse.skilift.interfaces.IRideInfoClickListener;
 import edu.neu.madcourse.skilift.models.RideInfo;
 import edu.neu.madcourse.skilift.viewholders.RideInfoViewHolder;
@@ -33,6 +33,8 @@ public class FoundRidesActivity extends AppCompatActivity {
     private long pickupTime;
     private long returnTime;
     private String destination;
+    private double latitude;
+    private double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +45,14 @@ public class FoundRidesActivity extends AppCompatActivity {
         pickupTime = getIntent().getExtras().getLong("pickupTime");
         returnTime = getIntent().getExtras().getLong("returnTime");
         destination = getIntent().getExtras().getString("destination");
+        latitude = getIntent().getExtras().getDouble("latitude");
+        longitude = getIntent().getExtras().getDouble("longitude");
         Log.d(TAG, username);
         Log.d(TAG, String.valueOf(pickupTime));
         Log.d(TAG, String.valueOf(returnTime));
         Log.d(TAG, destination);
-
+        Log.d(TAG, String.valueOf(latitude));
+        Log.d(TAG, String.valueOf(longitude));
 
         // Create recycler view
         createRecyclerView();
@@ -99,11 +104,20 @@ public class FoundRidesActivity extends AppCompatActivity {
 
     private void addFilteredList(ArrayList<RideInfo> unfilteredRides) {
         for (RideInfo ride : unfilteredRides) {
+            LatLng myLoc = new LatLng(ride.getDepartureLatitude(), ride.getDepartureLongitude());
             if (ride.getDestination().equals(destination) &&
-                    ride.getReturnUnixTimestamp() <= returnTime) {
+                    ride.getReturnUnixTimestamp() <= returnTime &&
+                    withinRange(myLoc)) {
                 rideInfoList.add(ride);
             }
         }
         adapter.notifyItemInserted(rideInfoList.size());
+    }
+
+    private Boolean withinRange(LatLng pickupLoc) {
+        LatLng myLocation = new LatLng(latitude, longitude);
+        double metersDistance = SphericalUtil.computeDistanceBetween(myLocation, pickupLoc);
+        double milesDistance = metersDistance / 1609.344;
+        return milesDistance < 60;
     }
 }
