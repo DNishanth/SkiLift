@@ -1,25 +1,6 @@
 package edu.neu.madcourse.skilift;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.location.LocationManagerCompat;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.FirebaseDatabase;
-
 import android.Manifest;
-import android.accessibilityservice.AccessibilityService;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -43,13 +24,30 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.location.LocationManagerCompat;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import edu.neu.madcourse.skilift.models.Message;
 import edu.neu.madcourse.skilift.models.Resorts;
 
 public class FindRideActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
@@ -67,6 +65,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     EditText returnDateEditText;
     EditText returnTimeEditText;
     AutoCompleteTextView destinationAutoCompleteTextView;
+    EditText searchRadius;
 
     private String locationString;
     private double locationLatitude = 0.0;
@@ -153,6 +152,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
                 intent.putExtra("destination", destinationAutoCompleteTextView.getText().toString());
                 intent.putExtra("latitude", locationLatitude);
                 intent.putExtra("longitude", locationLongitude);
+                intent.putExtra("radius", Long.parseLong(searchRadius.getText().toString(), 10));
                 startActivity(intent);
             }
         });
@@ -186,7 +186,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
         returnDateEditText = findViewById(R.id.editTextTextPersonName4);
         returnTimeEditText = findViewById(R.id.editTextTextPersonName5);
         destinationAutoCompleteTextView = findViewById(R.id.findARideDestinationField);
-
+        searchRadius = findViewById(R.id.searchRadius);
     }
 
     private int getDateAsInt(String dateString) {
@@ -315,6 +315,10 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
         }
         if (TextUtils.isEmpty(destinationAutoCompleteTextView.getText().toString())) {
             destinationAutoCompleteTextView.setError("Please enter a destination!");
+            anyFieldEmpty = true;
+        }
+        if (TextUtils.isEmpty(searchRadius.getText().toString())) {
+            searchRadius.setError("Please enter a search radius");
             anyFieldEmpty = true;
         }
         if ((locationLatitude == 0.0) || (locationLongitude == 0.0)) {

@@ -35,6 +35,7 @@ public class FoundRidesActivity extends AppCompatActivity {
     private String destination;
     private double latitude;
     private double longitude;
+    private Long radius;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +48,14 @@ public class FoundRidesActivity extends AppCompatActivity {
         destination = getIntent().getExtras().getString("destination");
         latitude = getIntent().getExtras().getDouble("latitude");
         longitude = getIntent().getExtras().getDouble("longitude");
+        radius = getIntent().getExtras().getLong("radius");
         Log.d(TAG, username);
         Log.d(TAG, String.valueOf(pickupTime));
         Log.d(TAG, String.valueOf(returnTime));
         Log.d(TAG, destination);
         Log.d(TAG, String.valueOf(latitude));
         Log.d(TAG, String.valueOf(longitude));
+        Log.d(TAG, String.valueOf(radius));
 
         // Create recycler view
         createRecyclerView();
@@ -107,17 +110,17 @@ public class FoundRidesActivity extends AppCompatActivity {
             LatLng myLoc = new LatLng(ride.getDepartureLatitude(), ride.getDepartureLongitude());
             if (ride.getDestination().equals(destination) &&
                     ride.getReturnUnixTimestamp() <= returnTime &&
-                    withinRange(myLoc)) {
+                    withinRange(myLoc, radius)) {
                 rideInfoList.add(ride);
             }
         }
         adapter.notifyItemInserted(rideInfoList.size());
     }
 
-    private Boolean withinRange(LatLng pickupLoc) {
+    private Boolean withinRange(LatLng pickupLoc, long radius) {
         LatLng myLocation = new LatLng(latitude, longitude);
         double metersDistance = SphericalUtil.computeDistanceBetween(myLocation, pickupLoc);
         double milesDistance = metersDistance / 1609.344;
-        return milesDistance < 60;
+        return milesDistance < radius;
     }
 }
