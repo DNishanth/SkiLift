@@ -35,7 +35,7 @@ public class FirebaseMessageReceiver extends FirebaseMessagingService {
     }
 
     public void showNotification(String title, String message, String icon) {
-        Intent intent = new Intent(this, MessagesActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         String channel_id = "notification_channel";
         String fileName = icon.toLowerCase();
         int resourceID = getResources().getIdentifier(fileName, "drawable", getPackageName());
