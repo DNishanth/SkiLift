@@ -70,7 +70,7 @@
         android:id="@+id/profileFavoriteMountainsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Favorite Mountains"
+        android:text="Favorite Mountain"
         android:textSize="16dp"
         app:layout_constraintBottom_toTopOf="@+id/profileFunFactTextView"
         app:layout_constraintEnd_toEndOf="@+id/profileSkiTypeTextView"
