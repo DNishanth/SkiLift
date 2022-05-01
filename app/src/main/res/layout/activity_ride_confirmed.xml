@@ -4,6 +4,131 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RideConfirmedActivity">
+    tools:context=".RideInfoActivity">
 
+    <TextView
+        android:id="@+id/ride_confirmed_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ride_confirmed"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold"
+        android:textSize="22sp">
+    </TextView>
+
+    <ImageView
+        android:id="@+id/profilePicture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/default_user_img"
+        android:contentDescription="@string/profilePicture"
+        app:layout_constraintTop_toBottomOf="@id/ride_confirmed_heading"
+        app:layout_constraintStart_toEndOf="info1"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="15dp"/>
+
+    <LinearLayout
+        android:id="@+id/info1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/info2"
+        app:layout_constraintEnd_toStartOf="@id/profilePicture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ride_confirmed_heading"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/rideInfoDepLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/with"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/rideInfoDestination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/confirmedDestination"
+            android:layout_marginBottom="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/info2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/info1"
+        app:layout_constraintBottom_toTopOf="@id/messageUserButton">
+
+        <TextView
+            android:id="@+id/rideInfoDepDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/departureDate"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/rideInfoReturnDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/returnDate"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/pickupLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pickupLocation"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/car"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/car"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/plate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/plate"
+            android:layout_marginBottom="10dp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/messageUserButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send_message"
+        app:layout_constraintTop_toBottomOf="@id/info2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <Button
+        android:id="@+id/viewRidesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/view_rides"
+        app:layout_constraintTop_toBottomOf="@id/messageUserButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/returnHomeButton"/>
+    <Button
+        android:id="@+id/returnHomeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/return_home"
+        app:layout_constraintTop_toBottomOf="@id/viewRidesButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

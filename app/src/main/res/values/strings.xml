@@ -38,5 +38,14 @@
     <string name="skiType">&lt;b>Skier or Snowboarder: &lt;/b>%1$s</string>
     <string name="favoriteMountains">&lt;b>Favorite Mountains: &lt;/b>%1$s</string>
     <string name="funFact">&lt;b>Fun Fact: &lt;/b>%1$s</string>
+    <string name="ride_confirmed">Ride Confirmed!</string>
+    <string name="view_rides">View Rides</string>
+    <string name="return_home">Return Home</string>
+
+    <string name="with">&lt;b>With: &lt;/b>%1$s</string>
+    <string name="confirmedDestination">&lt;b>Destination: &lt;/b>%1$s</string>
+    <string name="pickupLocation">&lt;b>Pickup Location: &lt;/b>%1$s</string>
+    <string name="car">&lt;b>Car Model: &lt;/b>%1$s</string>
+    <string name="plate">&lt;b>License Plate: &lt;/b>%1$s</string>
 
 </resources>

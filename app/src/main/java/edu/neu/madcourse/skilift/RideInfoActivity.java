@@ -37,7 +37,7 @@ import edu.neu.madcourse.skilift.models.RideInfo;
 import edu.neu.madcourse.skilift.models.UserProfile;
 
 public class RideInfoActivity extends AppCompatActivity {
-    private static final String TAG = FoundRidesActivity.class.getSimpleName();
+    private static final String TAG = RideInfoActivity.class.getSimpleName();
     private final FirebaseDatabase db = FirebaseDatabase.getInstance();
     private String username;
     private String rideHostUsername;
