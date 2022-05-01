@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -28,9 +29,13 @@ public class MyRidesActivity extends AppCompatActivity {
      ArrayList<String> passengerRideIds = new ArrayList<>();
      myRidesRecyclerViewAdapter adapter;
      String username;
+     String profileUsername;
      Button past;
      Button upcoming;
      Context context;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +69,15 @@ public class MyRidesActivity extends AppCompatActivity {
 
       RecyclerView recyclerView = findViewById(R.id.myRidesRecycler);
 
-
-
-      adapter = new myRidesRecyclerViewAdapter(this, rides);
+      adapter = new myRidesRecyclerViewAdapter(this, rides, username);
 
       recyclerView.setAdapter(adapter);
 
       recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
     }
+
+
+
 
     private String helperDateFormat(String date){
       String newDate = "";

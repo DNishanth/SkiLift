@@ -1,6 +1,7 @@
 package edu.neu.madcourse.skilift;
 
 import android.content.Context;
+import android.content.Intent;
 import android.telecom.TelecomManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,12 @@ public class myRidesRecyclerViewAdapter extends RecyclerView.Adapter<myRidesRecy
 
   ArrayList<myRideModel> rides;
 
-  public myRidesRecyclerViewAdapter(Context context, ArrayList<myRideModel> rides){
+  String username;
+
+  public myRidesRecyclerViewAdapter(Context context, ArrayList<myRideModel> rides, String username){
       this.context = context;
       this.rides = rides;
+      this.username = username;
   }
 
   @NonNull
@@ -39,6 +43,16 @@ public class myRidesRecyclerViewAdapter extends RecyclerView.Adapter<myRidesRecy
       holder.pickup.setText(this.rides.get(position).getPickup());
       holder.returnTime.setText(this.rides.get(position).getReturnTime());
       holder.driver.setText(this.rides.get(position).getDriver());
+      holder.driver.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        Intent profileIntent = new Intent(context, ProfileActivity.class);
+        profileIntent.putExtra("username", username);
+        profileIntent.putExtra("profileUsername", holder.driver.getText());
+        context.startActivity(profileIntent);
+      }
+      });
+
   }
 
   @Override
