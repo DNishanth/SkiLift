@@ -13,6 +13,7 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:contentDescription="Profile Floating Action Button"
+        app:tint="@null"
         app:backgroundTint="#FFFFFF"
         app:layout_anchorGravity="bottom|right|end"
         app:layout_constraintBottom_toBottomOf="parent"

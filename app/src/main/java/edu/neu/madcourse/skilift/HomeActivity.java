@@ -1,26 +1,36 @@
 package edu.neu.madcourse.skilift;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     String username;
+    StorageReference profilePictureRef;
+    FloatingActionButton profileButton;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        FloatingActionButton profileButton = findViewById(R.id.profileHomeFloatingActionButton);
+        this.profileButton = findViewById(R.id.profileHomeFloatingActionButton);
         FloatingActionButton messagesButton = findViewById(R.id.messagesHomeFloatingActionButton);
         Button myRidesButton = findViewById(R.id.myRidesHomeButton);
         Button findRideButton = findViewById(R.id.findRideHomeButton);
@@ -33,6 +43,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = getIntent();
         this.username = intent.getStringExtra("username");
+
+        // Set image to profile picture
+        this.profilePictureRef = storage.getReference().child("profile_pictures").child(username+".jpg");
+        setProfilePicture();
     }
 
     @Override
@@ -64,5 +78,23 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(giveRideIntent);
                 break;
         }
+    }
+
+    private void setProfilePicture() {
+        final long ONE_MEGABYTE = 1024 * 1024;
+        profilePictureRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Set profile picture ImageView to downloaded data
+                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                profileButton.setImageBitmap(bmp);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Could not get image, so set profile pic to default
+                profileButton.setImageResource(R.drawable.default_user_img);
+            }
+        });
     }
 }
