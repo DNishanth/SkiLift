@@ -98,9 +98,9 @@ public class MyRidesActivity extends AppCompatActivity {
     }
 
     private void populateRides(int id){
-
-      DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("rides");
-      DatabaseReference passengerReference = FirebaseDatabase.getInstance().getReference().child(username).child("rides");
+      FirebaseDatabase db = FirebaseDatabase.getInstance();
+      DatabaseReference reference = db.getReference("rides");
+      DatabaseReference passengerReference = db.getReference("users/" + username + "/rides");
       passengerReference.addValueEventListener(new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

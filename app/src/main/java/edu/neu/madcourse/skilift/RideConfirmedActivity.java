@@ -40,6 +40,7 @@ public class RideConfirmedActivity extends AppCompatActivity {
     private String rideHostUsername;
     private String username;
     private String rideID;
+    private String groupID;
 
 
     @Override
@@ -48,7 +49,16 @@ public class RideConfirmedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ride_confirmed);
         username = getIntent().getExtras().getString("username");
         rideID = getIntent().getExtras().getString("rideID");
+        groupID = getIntent().getExtras().getString("groupID");
         pickupLocation = getIntent().getExtras().getString("pickupLocation");
+
+        Button messageGroupButton = findViewById(R.id.messageGroupButton);
+        messageGroupButton.setOnClickListener(view -> {
+            Intent messagesIntent = new Intent(this, MessagesActivity.class);
+            messagesIntent.putExtra("username", username);
+            messagesIntent.putExtra("groupID", groupID);
+            startActivity(messagesIntent);
+        });
 
         Button viewRidesButton = findViewById(R.id.viewRidesButton);
         viewRidesButton.setOnClickListener(view -> {
@@ -97,7 +107,7 @@ public class RideConfirmedActivity extends AppCompatActivity {
         TextView car = findViewById(R.id.car);
         TextView plate = findViewById(R.id.plate);
 
-        confirmedRideHost.setText(rideInfo.getUsername());
+        confirmedRideHost.setText(formatString(R.string.with, rideInfo.getUsername()));
         destination.setText(formatString(R.string.destination,
                 rideInfo.getDestination()));
         DateFormat dateFormat = new SimpleDateFormat("M/d/y 'at' h:mm a", Locale.US);

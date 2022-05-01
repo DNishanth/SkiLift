@@ -72,10 +72,12 @@ public class FoundRidesActivity extends AppCompatActivity {
         // Open group message on click
         IRideInfoClickListener rideInfoClickListener = itemPosition -> {
             String rideID = rideInfoList.get(itemPosition).getRideID();
+            String groupID = rideInfoList.get(itemPosition).getGroupID();
             Intent rideInfoIntent = new Intent(this,
                     RideInfoActivity.class);
             rideInfoIntent.putExtra("username", username);
             rideInfoIntent.putExtra("rideID", rideID);
+            rideInfoIntent.putExtra("groupID", groupID);
             rideInfoIntent.putExtra("pickupLocation", pickupLocation);
             startActivity(rideInfoIntent);
         };
