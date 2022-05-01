@@ -41,6 +41,7 @@
             android:exported="false" />
         <activity
             android:name=".GiveRideActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
 
         <meta-data
@@ -49,9 +50,11 @@
 
         <activity
             android:name=".FindRideActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MyRidesActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".HomeActivity"
