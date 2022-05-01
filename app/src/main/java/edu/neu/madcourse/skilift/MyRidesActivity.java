@@ -25,6 +25,7 @@ import java.util.ArrayList;
 public class MyRidesActivity extends AppCompatActivity {
 
      ArrayList<myRideModel> rides = new ArrayList<>();
+     ArrayList<String> passengerRideIds = new ArrayList<>();
      myRidesRecyclerViewAdapter adapter;
      String username;
      Button past;
@@ -99,17 +100,35 @@ public class MyRidesActivity extends AppCompatActivity {
     private void populateRides(int id){
 
       DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("rides");
+      DatabaseReference passengerReference = FirebaseDatabase.getInstance().getReference().child(username).child("rides");
+      passengerReference.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+          for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+            String rideId = snapshot.getValue().toString();
+            passengerRideIds.add(rideId);
+          }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+      });
+
+
       reference.addValueEventListener(new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
           rides.clear();
 
-          for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-
-            if(snapshot.child("username").getValue().toString().equals(username)){
+          for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+            String rideId = snapshot.child("rideID").getValue().toString();
+            if (snapshot.child("username").getValue().toString().equals(username) || passengerRideIds.contains(rideId)) {
               String departureLocation = (String) snapshot.child("departureLocation").getValue();
               if (departureLocation == null) {
-                  departureLocation = "";
+                departureLocation = "";
               };
               String destination = snapshot.child("destination").getValue().toString();
               String pickupDate = helperDateFormat(snapshot.child("pickupDate").getValue().toString());
@@ -121,18 +140,18 @@ public class MyRidesActivity extends AppCompatActivity {
               String licensePlate = snapshot.child("licensePlate").getValue().toString();
               Long rideTime = Long.parseLong(snapshot.child("pickupUnixTimestamp").getValue().toString());
 
-              myRideModel ride = new myRideModel(departureLocation, destination, fullPickup, fullReturn, licensePlate);
+              myRideModel ride = new myRideModel(departureLocation, destination, fullPickup, fullReturn, licensePlate, snapshot.child("username").getValue().toString());
 
               String secondsString = String.valueOf(System.currentTimeMillis());
-              int now = Integer.valueOf(secondsString.substring(0, secondsString.length()-3));
+              int now = Integer.valueOf(secondsString.substring(0, secondsString.length() - 3));
               System.out.println("NOW:");
               System.out.println(now);
               System.out.println("Ride time:");
               System.out.println(rideTime);
 
-              if(id == R.id.upcoming && (rideTime > now) ){
+              if (id == R.id.upcoming && (rideTime > now)) {
                 rides.add(ride);
-              }else if(id == R.id.past && (rideTime < now) ){
+              } else if (id == R.id.past && (rideTime < now)) {
                 rides.add(ride);
               }
 
@@ -141,11 +160,13 @@ public class MyRidesActivity extends AppCompatActivity {
           }
           adapter.notifyDataSetChanged();
         }
-
         @Override
         public void onCancelled(@NonNull DatabaseError error) {
 
         }
       });
+
+
+
     }
 }

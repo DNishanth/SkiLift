@@ -38,6 +38,7 @@ public class myRidesRecyclerViewAdapter extends RecyclerView.Adapter<myRidesRecy
       holder.origin.setText(this.rides.get(position).getOrigin());
       holder.pickup.setText(this.rides.get(position).getPickup());
       holder.returnTime.setText(this.rides.get(position).getReturnTime());
+      holder.driver.setText(this.rides.get(position).getDriver());
   }
 
   @Override
@@ -47,7 +48,7 @@ public class myRidesRecyclerViewAdapter extends RecyclerView.Adapter<myRidesRecy
 
   public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-    TextView origin, destination, pickup, returnTime, license;
+    TextView origin, destination, pickup, returnTime, license, driver;
 
     public MyViewHolder(@NonNull View itemView) {
       super(itemView);
@@ -56,6 +57,7 @@ public class myRidesRecyclerViewAdapter extends RecyclerView.Adapter<myRidesRecy
       license = itemView.findViewById(R.id.myRideLicense);
       pickup = itemView.findViewById(R.id.myRidePickup);
       returnTime = itemView.findViewById(R.id.myRideReturn);
+      driver = itemView.findViewById(R.id.myRideDriver);
     }
   }
 }

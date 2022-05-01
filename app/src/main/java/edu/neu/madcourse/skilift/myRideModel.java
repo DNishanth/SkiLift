@@ -2,14 +2,15 @@ package edu.neu.madcourse.skilift;
 
 public class myRideModel {
 
-  String origin, destination, pickup, returnTime, license;
+  String origin, destination, pickup, returnTime, license, driver;
 
-  public myRideModel(String origin, String destination, String pickup, String returnTime, String license) {
+  public myRideModel(String origin, String destination, String pickup, String returnTime, String license, String driver) {
     this.origin = origin;
     this.destination = destination;
     this.pickup = pickup;
     this.returnTime = returnTime;
     this.license = license;
+    this.driver = driver;
   }
 
   public String getOrigin() {
@@ -30,5 +31,9 @@ public class myRideModel {
 
   public String getLicense() {
     return license;
+  }
+
+  public String getDriver() {
+    return driver;
   }
 }
