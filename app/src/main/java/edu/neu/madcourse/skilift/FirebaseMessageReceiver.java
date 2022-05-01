@@ -21,8 +21,8 @@ public class FirebaseMessageReceiver extends FirebaseMessagingService {
             String title = remoteMessage.getNotification().getTitle();
             String body = remoteMessage.getNotification().getBody();
             String icon = remoteMessage.getData().get("icon");
-            assert icon != null;
-            showNotification(title, body, icon);
+            // assert icon != null;
+            showNotification(title, body, "snowy_mountains");
         }
     }
 
@@ -34,10 +34,10 @@ public class FirebaseMessageReceiver extends FirebaseMessagingService {
         return remoteViews;
     }
 
-    public void showNotification(String title, String message, String sticker) {
-        Intent intent = new Intent(this, MainActivity.class);
+    public void showNotification(String title, String message, String icon) {
+        Intent intent = new Intent(this, MessagesActivity.class);
         String channel_id = "notification_channel";
-        String fileName = sticker.toLowerCase();
+        String fileName = icon.toLowerCase();
         int resourceID = getResources().getIdentifier(fileName, "drawable", getPackageName());
         if (resourceID == 0) resourceID = R.drawable.snowy_mountains;
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
