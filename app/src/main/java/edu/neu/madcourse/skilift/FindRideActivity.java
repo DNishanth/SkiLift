@@ -69,8 +69,8 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     AutoCompleteTextView destinationAutoCompleteTextView;
 
     private String locationString;
-    private double locationLatitude = 42.3409094; // TODO: placeholder until we guarantee location in db
-    private double locationLongitude = -71.0905898;
+    private double locationLatitude = 0.0;
+    private double locationLongitude = 0.0;
 
     private long pickupUnixTimestamp;
     private long returnUnixTimestamp;
@@ -268,28 +268,34 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     private void updateUIValues(Location location) {
-
-        locationString = String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude());
-        locationText.setText("Pickup Location\n" + locationString);
-        LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        map.addMarker(new MarkerOptions().position(currentLocation).title("Current Location"));
-        map.moveCamera(CameraUpdateFactory.zoomTo(15.0F));
-        map.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
-
-        Geocoder geo = new Geocoder(FindRideActivity.this);
-
-        try {
-            List<Address> addresses = geo.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            locationString = String.valueOf(addresses.get(0).getAddressLine(0));
-            locationText.setText("Pickup Location\n" + locationString);
-        } catch (Exception exception) {
+        if (location == null) {
+            Log.e(MainActivity.TAG, "Could not get location after getting permissions");
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.findARideLayout), "Location services need to be enabled in Settings to use App", Snackbar.LENGTH_SHORT);
+            snackbar.getView().setOnClickListener(view -> snackbar.dismiss());
+            snackbar.show();
+        }
+        else {
             locationString = String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude());
             locationText.setText("Pickup Location\n" + locationString);
+            LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+            map.addMarker(new MarkerOptions().position(currentLocation).title("Current Location"));
+            map.moveCamera(CameraUpdateFactory.zoomTo(15.0F));
+            map.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+
+            Geocoder geo = new Geocoder(FindRideActivity.this);
+
+            try {
+                List<Address> addresses = geo.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                locationString = String.valueOf(addresses.get(0).getAddressLine(0));
+                locationText.setText("Pickup Location\n" + locationString);
+            } catch (Exception exception) {
+                locationString = String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude());
+                locationText.setText("Pickup Location\n" + locationString);
+            }
+
+            locationLatitude = location.getLatitude();
+            locationLongitude = location.getLongitude();
         }
-
-        locationLatitude = location.getLatitude();
-        locationLongitude = location.getLongitude();
-
     }
 
     public boolean isLocationDataOn(Context context) {
@@ -311,6 +317,11 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
             destinationAutoCompleteTextView.setError("Please enter a destination!");
             anyFieldEmpty = true;
         }
+        if ((locationLatitude == 0.0) || (locationLongitude == 0.0)) {
+            updateGPS();
+            anyFieldEmpty = true;
+        }
+
         pickupUnixTimestamp = dateTimeToUnixTimestamp(pickupDateMonthString, pickupDateDayString, pickupDateYearString, pickupTimeHourString, pickupTimeMinuteString);
         returnUnixTimestamp = dateTimeToUnixTimestamp(returnDateMonthString, returnDateDayString, returnDateYearString, returnTimeHourString, returnTimeMinuteString);
         if (returnUnixTimestamp <= pickupUnixTimestamp) {
@@ -323,7 +334,6 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
             anyFieldEmpty = true;
         }
         return anyFieldEmpty;
-
     }
 
     void setDefaultPickupCalendar() {
