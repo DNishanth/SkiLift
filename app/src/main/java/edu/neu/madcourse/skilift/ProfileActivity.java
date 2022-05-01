@@ -43,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
       getProfileData();
       setProfilePicture();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -193,7 +194,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 newTotalRating,
                                 numRatings + 1
                         );
-                        DatabaseReference ref = db.getReference().child("users").child(username).child("profile");
+                        DatabaseReference ref = db.getReference().child("users").child(profileUsername).child("profile");
                         Task<Void> updateRating = ref.setValue(newProfile);
                         updateRating.addOnCompleteListener(task -> {
                             if (!updateRating.isSuccessful()) {
@@ -218,7 +219,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Log.e(MainActivity.TAG, "onCancelled in Main Activity register(): " + error);
             }
         };
-        DatabaseReference dbRef = db.getReference().child("users").child(username).child("profile");
+        DatabaseReference dbRef = db.getReference().child("users").child(profileUsername).child("profile");
         dbRef.addListenerForSingleValueEvent(updateRatingListener);
     }
 }
