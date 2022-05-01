@@ -39,19 +39,33 @@ import edu.neu.madcourse.skilift.models.UserProfile;
 public class RideInfoActivity extends AppCompatActivity {
     private static final String TAG = RideInfoActivity.class.getSimpleName();
     private final FirebaseDatabase db = FirebaseDatabase.getInstance();
-    private String username;
     private String rideHostUsername;
+    private String rideID;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ride_info);
         username = getIntent().getExtras().getString("username");
+        rideID = getIntent().getExtras().getString("rideID");
 
         Button messageUserButton = findViewById(R.id.messageUserButton);
         messageUserButton.setOnClickListener(view -> sendMessage());
 
-        getRide(getIntent().getExtras().getString("rideID"));
+        Button confirmRideButton = findViewById(R.id.confirmRideButton);
+        confirmRideButton.setOnClickListener(view -> confirmRide(rideID));
+
+        getRide(rideID);
+    }
+
+    private void confirmRide(String rideID) {
+        DatabaseReference myRidesRef = db.getReference(username + "/rides").push();
+        myRidesRef.setValue(rideID);
+        Intent confirmedIntent = new Intent(this, RideConfirmedActivity.class);
+        confirmedIntent.putExtra("username", username);
+        confirmedIntent.putExtra("rideID", rideID);
+        startActivity(confirmedIntent);
     }
 
     private void getRide(String rideID) {
