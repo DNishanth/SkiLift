@@ -106,9 +106,11 @@ public class MyRidesActivity extends AppCompatActivity {
       FirebaseDatabase db = FirebaseDatabase.getInstance();
       DatabaseReference reference = db.getReference("rides");
       DatabaseReference passengerReference = db.getReference("users/" + username + "/rides");
+
       passengerReference.addValueEventListener(new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
           for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
             String rideId = snapshot.getValue().toString();
@@ -145,14 +147,10 @@ public class MyRidesActivity extends AppCompatActivity {
               String licensePlate = snapshot.child("licensePlate").getValue().toString();
               Long rideTime = Long.parseLong(snapshot.child("pickupUnixTimestamp").getValue().toString());
 
-              myRideModel ride = new myRideModel(departureLocation, destination, fullPickup, fullReturn, licensePlate, snapshot.child("username").getValue().toString());
+              myRideModel ride = new myRideModel(departureLocation, destination, fullPickup, fullReturn, licensePlate, snapshot.child("username").getValue().toString(), rideId);
 
               String secondsString = String.valueOf(System.currentTimeMillis());
               int now = Integer.valueOf(secondsString.substring(0, secondsString.length() - 3));
-              System.out.println("NOW:");
-              System.out.println(now);
-              System.out.println("Ride time:");
-              System.out.println(rideTime);
 
               if (id == R.id.upcoming && (rideTime > now)) {
                 rides.add(ride);

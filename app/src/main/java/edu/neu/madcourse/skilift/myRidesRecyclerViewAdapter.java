@@ -6,10 +6,14 @@ import android.telecom.TelecomManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -20,6 +24,8 @@ public class myRidesRecyclerViewAdapter extends RecyclerView.Adapter<myRidesRecy
   ArrayList<myRideModel> rides;
 
   String username;
+
+  FirebaseDatabase db;
 
   public myRidesRecyclerViewAdapter(Context context, ArrayList<myRideModel> rides, String username){
       this.context = context;
@@ -52,6 +58,14 @@ public class myRidesRecyclerViewAdapter extends RecyclerView.Adapter<myRidesRecy
         context.startActivity(profileIntent);
       }
       });
+      db = FirebaseDatabase.getInstance();
+      int index = position;
+      holder.delete.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            db.getReference("rides").child(rides.get(index).getRideID()).removeValue();
+        }
+      });
 
   }
 
@@ -63,6 +77,7 @@ public class myRidesRecyclerViewAdapter extends RecyclerView.Adapter<myRidesRecy
   public static class MyViewHolder extends RecyclerView.ViewHolder{
 
     TextView origin, destination, pickup, returnTime, license, driver;
+    ImageView delete;
 
     public MyViewHolder(@NonNull View itemView) {
       super(itemView);
@@ -72,6 +87,7 @@ public class myRidesRecyclerViewAdapter extends RecyclerView.Adapter<myRidesRecy
       pickup = itemView.findViewById(R.id.myRidePickup);
       returnTime = itemView.findViewById(R.id.myRideReturn);
       driver = itemView.findViewById(R.id.myRideDriver);
+      delete = itemView.findViewById(R.id.delete);
     }
   }
 }
