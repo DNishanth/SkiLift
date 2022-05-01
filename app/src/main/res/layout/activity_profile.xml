@@ -96,9 +96,20 @@
         android:layout_height="wrap_content"
         android:text="Rating"
         android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/profileSetRatingButton"
         app:layout_constraintEnd_toEndOf="@+id/profileFunFactTextView"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/profileFunFactTextView"
         app:layout_constraintTop_toBottomOf="@+id/profileFunFactTextView" />
+
+    <Button
+        android:id="@+id/profileSetRatingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set rating"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/profileRatingTextView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/profileRatingTextView"
+        app:layout_constraintTop_toBottomOf="@+id/profileRatingTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

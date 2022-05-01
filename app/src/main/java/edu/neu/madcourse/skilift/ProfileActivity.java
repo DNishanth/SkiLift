@@ -2,17 +2,23 @@ package edu.neu.madcourse.skilift;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,14 +44,17 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         TextView usernameTextView = findViewById(R.id.profileUsernameTextView);
         Button editProfileButton = findViewById(R.id.editProfileButton);
+        Button setRatingButton = findViewById(R.id.profileSetRatingButton);
         this.profilePictureImageView = findViewById(R.id.profilePictureImageView);
         editProfileButton.setOnClickListener(this);
+        setRatingButton.setOnClickListener(this);
 
         Intent intent = getIntent();
         this.username = intent.getStringExtra("username");
         this.profileUsername = intent.getStringExtra("profileUsername");
         if (profileUsername == null) {
             profileUsername = username;
+            setRatingButton.setVisibility(View.GONE);
         }
         if (!profileUsername.equals(username)) {
             editProfileButton.setVisibility(View.GONE);
@@ -64,9 +73,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        Intent editProfileIntent = new Intent(ProfileActivity.this, EditProfileActivity.class);
-        editProfileIntent.putExtra("username", username);
-        startActivity(editProfileIntent);
+        switch (view.getId()){
+            case R.id.editProfileButton:
+                Intent editProfileIntent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+                editProfileIntent.putExtra("username", username);
+                startActivity(editProfileIntent);
+                break;
+            case R.id.profileSetRatingButton:
+                openRatingPickerDialog();
+                break;
+        }
     }
 
     private void setProfilePicture() {
@@ -103,7 +119,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         skiTypeTextView.setText("Skier Type: " + userProfile.getSkiType());
                         favoriteMountainsTextView.setText("Favorite Mountains: " + userProfile.getFavoriteMountains());
                         funFactTextView.setText("Fun Fact: " + userProfile.getFunFact());
-                        ratingTextView.setText("Rating: " + String.valueOf(userProfile.getRating()));
+                        if (userProfile.getNumRatings() == 0) {
+                            ratingTextView.setText("No ratings");
+                        }
+                        else if (String.valueOf(userProfile.getRating()).length() > 3) {
+                            ratingTextView.setText("Rating: " + String.valueOf(userProfile.getRating()).substring(0, 3) + " - " + userProfile.getNumRatings() + " Ratings");
+                        }
+                        else {
+                            ratingTextView.setText("Rating: " + String.valueOf(userProfile.getRating()) + " - " + userProfile.getNumRatings() + " Ratings");
+                        }
                     }
                     else {
                         Log.w(MainActivity.TAG, "Null userProfile in getProfileData in ProfileActivity");
@@ -119,5 +143,76 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         };
         DatabaseReference dbRef = db.getReference().child("users").child(profileUsername).child("profile");
         dbRef.addListenerForSingleValueEvent(profileListener);
+    }
+
+    private void openRatingPickerDialog() {
+        NumberPicker ratingNumberPicker = new NumberPicker(ProfileActivity.this);
+        ratingNumberPicker.setMinValue(1);
+        ratingNumberPicker.setMaxValue(5);
+
+        FrameLayout frameLayout = new FrameLayout(ProfileActivity.this);
+        frameLayout.addView(ratingNumberPicker, new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                Gravity.CENTER));
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ProfileActivity.this);
+        alertDialogBuilder.setView(frameLayout);
+        alertDialogBuilder.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+            // Update rating with value
+            updateRating(ratingNumberPicker.getValue());
+        });
+        alertDialogBuilder.setNegativeButton(android.R.string.cancel, null);
+        alertDialogBuilder.show();
+    }
+
+    private void updateRating(int newRating) {
+        // Update the rating in the database
+        ValueEventListener updateRatingListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    UserProfile userProfile = snapshot.getValue(UserProfile.class);
+                    if (userProfile != null) {
+                        double rating = userProfile.getRating();
+                        int numRatings = userProfile.getNumRatings();
+                        double newTotalRating = ((rating * numRatings) + newRating) / (numRatings + 1);
+                        UserProfile newProfile = new UserProfile(
+                                userProfile.getMemberDate(),
+                                userProfile.getRidesCompleted(),
+                                userProfile.getSkiType(),
+                                userProfile.getFavoriteMountains(),
+                                userProfile.getFunFact(),
+                                userProfile.getProfilePictureSrc(),
+                                newTotalRating,
+                                numRatings + 1
+                        );
+                        DatabaseReference ref = db.getReference().child("users").child(username).child("profile");
+                        Task<Void> updateRating = ref.setValue(newProfile);
+                        updateRating.addOnCompleteListener(task -> {
+                            if (!updateRating.isSuccessful()) {
+                                Toast.makeText(ProfileActivity.this, "Failed to update user rating", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(ProfileActivity.this, "Successfully rated user " + String.valueOf(newRating) + " stars", Toast.LENGTH_SHORT).show();
+                                getProfileData();
+                            }
+                        });
+                    }
+                    else {
+                        Log.w(MainActivity.TAG, "Null userProfile in getProfileData in ProfileActivity");
+                    }
+                }
+                else {
+                    Log.e(MainActivity.TAG, "");
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(MainActivity.TAG, "onCancelled in Main Activity register(): " + error);
+            }
+        };
+        DatabaseReference dbRef = db.getReference().child("users").child(username).child("profile");
+        dbRef.addListenerForSingleValueEvent(updateRatingListener);
     }
 }
