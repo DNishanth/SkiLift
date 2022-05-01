@@ -100,8 +100,10 @@ public class GroupMessagesActivity extends AppCompatActivity implements View.OnC
                         assert name != null;
                         if (!name.equals(username)) groupMembersList.add(name);
                     }
-                    groupMessageList.add(new GroupMessage(groupID, groupMembersList));
-                    adapter.notifyItemInserted(groupMembersList.size());
+                    if (!groupMembersList.isEmpty())  {
+                        groupMessageList.add(new GroupMessage(groupID, groupMembersList));
+                        adapter.notifyItemInserted(groupMembersList.size());
+                    }
                 }
             }
 

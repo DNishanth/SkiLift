@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import edu.neu.madcourse.skilift.models.Message;
 import edu.neu.madcourse.skilift.models.RideInfo;
 import edu.neu.madcourse.skilift.models.UserProfile;
 
@@ -41,6 +43,7 @@ public class RideInfoActivity extends AppCompatActivity {
     private final FirebaseDatabase db = FirebaseDatabase.getInstance();
     private String rideHostUsername;
     private String rideID;
+    private String groupID;
     private String username;
     private String pickupLocation;
 
@@ -50,6 +53,7 @@ public class RideInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ride_info);
         username = getIntent().getExtras().getString("username");
         rideID = getIntent().getExtras().getString("rideID");
+        groupID = getIntent().getExtras().getString("groupID");
         pickupLocation = getIntent().getExtras().getString(pickupLocation);
 
         Button messageUserButton = findViewById(R.id.messageUserButton);
@@ -62,13 +66,45 @@ public class RideInfoActivity extends AppCompatActivity {
     }
 
     private void confirmRide(String rideID) {
-        DatabaseReference myRidesRef = db.getReference(username + "/rides").push();
-        myRidesRef.setValue(rideID);
         Intent confirmedIntent = new Intent(this, RideConfirmedActivity.class);
-        confirmedIntent.putExtra("username", username);
-        confirmedIntent.putExtra("rideID", rideID);
-        confirmedIntent.putExtra("pickupLocation", pickupLocation);
-        startActivity(confirmedIntent);
+        String myRidesPath = "users/" + username + "/rides";
+        DatabaseReference myRidesRef = db.getReference(myRidesPath);
+        ValueEventListener checkRideExists = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot rideIDKey : snapshot.getChildren()) {
+                        String rideIDVal = rideIDKey.getValue(String.class);
+                        if (rideID.equals(rideIDVal)) {
+                            shortToast("You have already confirmed this ride!");
+                            return;
+                        }
+                    }
+                }
+                // Store rideID under user's rides
+                DatabaseReference newRideRef = db.getReference(myRidesPath).push();
+                newRideRef.setValue(rideID);
+                // Store username under group members
+                String groupMembersPath = "groups/" + groupID + "/members";
+                db.getReference(groupMembersPath).push().setValue(username);
+                // Store groupID under username
+                String userGroupsPath = "users/" + username + "/groups";
+                DatabaseReference userGroupsRef = db.getReference(userGroupsPath).push();
+                userGroupsRef.setValue(groupID);
+
+                confirmedIntent.putExtra("username", username);
+                confirmedIntent.putExtra("rideID", rideID);
+                confirmedIntent.putExtra("groupID", groupID);
+                confirmedIntent.putExtra("pickupLocation", pickupLocation);
+                startActivity(confirmedIntent);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "onCancelled: " + error);
+            }
+        };
+        myRidesRef.addListenerForSingleValueEvent(checkRideExists);
     }
 
     private void getRide(String rideID) {
@@ -222,5 +258,9 @@ public class RideInfoActivity extends AppCompatActivity {
                 profilePictureImageView.setImageResource(R.drawable.default_user_img);
             }
         });
+    }
+
+    private void shortToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

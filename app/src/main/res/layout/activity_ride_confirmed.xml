@@ -101,11 +101,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/returnHomeButton"/>
     <Button
+        android:id="@+id/messageGroupButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/message_group"
+        app:layout_constraintTop_toBottomOf="@id/viewRidesButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/returnHomeButton"/>
+    <Button
         android:id="@+id/returnHomeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/return_home"
-        app:layout_constraintTop_toBottomOf="@id/viewRidesButton"
+        app:layout_constraintTop_toBottomOf="@id/messageGroupButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

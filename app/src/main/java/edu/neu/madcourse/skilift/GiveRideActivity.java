@@ -401,8 +401,17 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
         returnUnixTimestamp = dateTimeToUnixTimestamp(returnDateMonthString, returnDateDayString, returnDateYearString, returnTimeHourString, returnTimeMinuteString);
 
         String rideID = db.getReference("rides").push().getKey();
+        String groupID = db.getReference("groups").push().getKey();
+        // Store username under group
+        String groupMembersPath = "groups/" + groupID + "/members";
+        db.getReference(groupMembersPath).push().setValue(username);
+        // Store groupID under username
+        String userGroupsPath = "users/" + username + "/groups";
+        DatabaseReference userGroupsRef = db.getReference(userGroupsPath).push();
+        userGroupsRef.setValue(groupID);
         RideInfo rideInfo = new RideInfo(
                 rideID,
+                groupID,
                 username,
                 locationString,
                 locationLatitude,

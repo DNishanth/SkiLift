@@ -47,5 +47,6 @@
     <string name="pickupLocation">&lt;b>Pickup Location: &lt;/b>%1$s</string>
     <string name="car">&lt;b>Car Model: &lt;/b>%1$s</string>
     <string name="plate">&lt;b>License Plate: &lt;/b>%1$s</string>
+    <string name="message_group">Message Group</string>
 
 </resources>
