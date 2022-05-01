@@ -3,8 +3,6 @@ package edu.neu.madcourse.skilift;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +22,7 @@ import edu.neu.madcourse.skilift.interfaces.IGroupMessageClickListener;
 import edu.neu.madcourse.skilift.models.GroupMessage;
 import edu.neu.madcourse.skilift.viewholders.GroupMessageViewHolder;
 
-public class GroupMessagesActivity extends AppCompatActivity implements View.OnClickListener {
+public class GroupMessagesActivity extends AppCompatActivity {
     private static final String TAG = GroupMessagesActivity.class.getSimpleName();
     private final FirebaseDatabase db = FirebaseDatabase.getInstance();
     private final ArrayList<GroupMessage> groupMessageList = new ArrayList<>();
@@ -42,9 +40,6 @@ public class GroupMessagesActivity extends AppCompatActivity implements View.OnC
 
         // Populate recycler view with each group the user is a part of
         populateGroupMessages();
-
-        Button createGroupButton = findViewById(R.id.button_create_group);
-        createGroupButton.setOnClickListener(this);
     }
 
     private void createRecyclerView() {
@@ -113,27 +108,5 @@ public class GroupMessagesActivity extends AppCompatActivity implements View.OnC
             }
         };
         groupMembersRef.addListenerForSingleValueEvent(getGroupMembers);
-    }
-
-    // TODO: Temp method, remove after we can create groups from other activities
-    @Override
-    public void onClick(View view) {
-        // Create group and save groupID under each user in group
-        if (view.getId() == R.id.button_create_group) {
-            System.out.println("firing create group");
-            String groupID = db.getReference("groups").push().getKey();
-            String groupMembersPath = "groups/" + groupID + "/members";
-
-            String[] users = {"User1", "test", "test2"};
-            for (String user : users) {
-                // Store username under group
-                DatabaseReference groupMembersRef = db.getReference(groupMembersPath).push();
-                groupMembersRef.setValue(user);
-                // Store groupID under username
-                String userGroupsPath = "users/" + user + "/groups";
-                DatabaseReference userGroupsRef = db.getReference(userGroupsPath).push();
-                userGroupsRef.setValue(groupID);
-            }
-        }
     }
 }
