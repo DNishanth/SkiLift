@@ -18,7 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.security.cert.PolicyNode;
+import java.sql.Timestamp;
+
 import java.util.ArrayList;
 
 public class MyRidesActivity extends AppCompatActivity {
@@ -72,6 +73,29 @@ public class MyRidesActivity extends AppCompatActivity {
 
     }
 
+    private String helperDateFormat(String date){
+      String newDate = "";
+      int i;
+      if(date.length() == 8){
+        for(i = 0; i < date.length(); i++){
+          if(i == 1 || i == 3) {
+            newDate += date.charAt(i) + "/";
+          }else{
+            newDate += date.charAt(i);
+          }
+        }
+      }else{
+        for(i = 0; i < date.length(); i++){
+          if(i == 0 || i == 2) {
+            newDate += date.charAt(i) + "/";
+          }else{
+            newDate += date.charAt(i);
+          }
+        }
+      }
+      return newDate;
+    }
+
     private void populateRides(int id){
 
       DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("rides");
@@ -88,19 +112,27 @@ public class MyRidesActivity extends AppCompatActivity {
                   departureLocation = "";
               };
               String destination = snapshot.child("destination").getValue().toString();
-              String pickupDate = snapshot.child("pickupDate").getValue().toString();
-              String returnDate = snapshot.child("returnDate").getValue().toString();
+              String pickupDate = helperDateFormat(snapshot.child("pickupDate").getValue().toString());
+              String pickupTime = snapshot.child("pickupTime").getValue().toString();
+              String fullPickup = pickupTime + " " + pickupDate;
+              String returnDate = helperDateFormat(snapshot.child("returnDate").getValue().toString());
+              String returnTime = snapshot.child("returnTime").getValue().toString();
+              String fullReturn = returnTime + " " + returnDate;
               String licensePlate = snapshot.child("licensePlate").getValue().toString();
-              Long rideTime = Long.parseLong(snapshot.child("pickupDate").getValue().toString());
+              Long rideTime = Long.parseLong(snapshot.child("pickupUnixTimestamp").getValue().toString());
 
-              myRideModel ride = new myRideModel(departureLocation, destination, pickupDate, returnDate, licensePlate);
+              myRideModel ride = new myRideModel(departureLocation, destination, fullPickup, fullReturn, licensePlate);
+
+              String secondsString = String.valueOf(System.currentTimeMillis());
+              int now = Integer.valueOf(secondsString.substring(0, secondsString.length()-3));
               System.out.println("NOW:");
-              System.out.println(System.currentTimeMillis());
+              System.out.println(now);
               System.out.println("Ride time:");
               System.out.println(rideTime);
-              if(id == R.id.upcoming && (rideTime > System.currentTimeMillis()) ){
+
+              if(id == R.id.upcoming && (rideTime > now) ){
                 rides.add(ride);
-              }else if(id == R.id.past && (rideTime < System.currentTimeMillis()) ){
+              }else if(id == R.id.past && (rideTime < now) ){
                 rides.add(ride);
               }
 
