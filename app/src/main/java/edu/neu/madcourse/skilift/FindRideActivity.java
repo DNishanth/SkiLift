@@ -153,6 +153,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
                 intent.putExtra("latitude", locationLatitude);
                 intent.putExtra("longitude", locationLongitude);
                 intent.putExtra("radius", Long.parseLong(searchRadius.getText().toString(), 10));
+                intent.putExtra("pickupLocation", locationString);
                 startActivity(intent);
             }
         });

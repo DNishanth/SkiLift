@@ -42,6 +42,7 @@ public class RideInfoActivity extends AppCompatActivity {
     private String rideHostUsername;
     private String rideID;
     private String username;
+    private String pickupLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class RideInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ride_info);
         username = getIntent().getExtras().getString("username");
         rideID = getIntent().getExtras().getString("rideID");
+        pickupLocation = getIntent().getExtras().getString(pickupLocation);
 
         Button messageUserButton = findViewById(R.id.messageUserButton);
         messageUserButton.setOnClickListener(view -> sendMessage());
@@ -65,6 +67,7 @@ public class RideInfoActivity extends AppCompatActivity {
         Intent confirmedIntent = new Intent(this, RideConfirmedActivity.class);
         confirmedIntent.putExtra("username", username);
         confirmedIntent.putExtra("rideID", rideID);
+        confirmedIntent.putExtra("pickupLocation", pickupLocation);
         startActivity(confirmedIntent);
     }
 

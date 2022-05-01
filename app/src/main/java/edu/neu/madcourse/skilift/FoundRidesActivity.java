@@ -36,6 +36,7 @@ public class FoundRidesActivity extends AppCompatActivity {
     private double latitude;
     private double longitude;
     private Long radius;
+    private String pickupLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,8 @@ public class FoundRidesActivity extends AppCompatActivity {
         latitude = getIntent().getExtras().getDouble("latitude");
         longitude = getIntent().getExtras().getDouble("longitude");
         radius = getIntent().getExtras().getLong("radius");
+        pickupLocation = getIntent().getExtras().getString("pickupLocation");
+
         Log.d(TAG, username);
         Log.d(TAG, String.valueOf(pickupTime));
         Log.d(TAG, String.valueOf(returnTime));
@@ -73,6 +76,7 @@ public class FoundRidesActivity extends AppCompatActivity {
                     RideInfoActivity.class);
             rideInfoIntent.putExtra("username", username);
             rideInfoIntent.putExtra("rideID", rideID);
+            rideInfoIntent.putExtra("pickupLocation", pickupLocation);
             startActivity(rideInfoIntent);
         };
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
