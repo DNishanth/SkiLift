@@ -130,6 +130,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
         pickupTimeEditText.setOnClickListener(this);
         returnDateEditText.setOnClickListener(this);
         returnTimeEditText.setOnClickListener(this);
+        setDefaultFields();
 
         locationText = findViewById(R.id.locationText);
         username = getIntent().getExtras().getString("username");
@@ -163,6 +164,15 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
         destinationAutoCompleteTextView.setAdapter(adapter);
     }
 
+    private void setDefaultFields() {
+        setDefaultPickupCalendar();
+        pickupDateString = pickupDateMonthString + "/" + pickupDateDayString + "/" + pickupDateYearString;
+        pickupDateEditText.setText(pickupDateString);
+        setDefaultReturnCalendar();
+        returnDateString = returnDateMonthString + "/" + returnDateDayString + "/" + returnDateYearString;
+        returnDateEditText.setText(returnDateString);
+    }
+
     public void openActivity(Class activity) {
         username = getIntent().getExtras().getString("username");
         Intent intent = new Intent(this, activity);
@@ -171,7 +181,6 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     private void findViewsFields() {
-
         pickupDateEditText = findViewById(R.id.editTextTextPersonName2);
         pickupTimeEditText = findViewById(R.id.editTextTextPersonName3);
         returnDateEditText = findViewById(R.id.editTextTextPersonName4);
@@ -295,21 +304,10 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     private boolean checkFields() {
-
         boolean anyFieldEmpty = false;
-
-        findViewsFields();
-
-        if (TextUtils.isEmpty(pickupDateEditText.getText().toString())) {
-            setDefaultPickupCalendar();
-        }
         if (TextUtils.isEmpty(pickupTimeEditText.getText().toString())) {
             pickupTimeHourString = "00";
             pickupTimeMinuteString = "00";
-        }
-        if (TextUtils.isEmpty(returnDateEditText.getText().toString())) {
-            setDefaultReturnCalendar();
-            returnDateYearString = String.valueOf(pickupDateYear + 1);
         }
         if (TextUtils.isEmpty(returnTimeEditText.getText().toString())) {
             returnTimeHourString = "11";
@@ -326,12 +324,15 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
 
         pickupUnixTimestamp = dateTimeToUnixTimestamp(pickupDateMonthString, pickupDateDayString, pickupDateYearString, pickupTimeHourString, pickupTimeMinuteString);
         returnUnixTimestamp = dateTimeToUnixTimestamp(returnDateMonthString, returnDateDayString, returnDateYearString, returnTimeHourString, returnTimeMinuteString);
-        Log.d("FINDRIDE", returnDateYearString);
-        Log.d("FINDRIDE", returnDateMonthString);
-        Log.d("FINDRIDE", returnDateDayString);
-        Log.d("FINDRIDE", returnTimeHourString);
-        Log.d("FINDRIDE", returnTimeMinuteString);
-        Log.d("FINDRIDE", String.valueOf(returnUnixTimestamp));
+        if (returnUnixTimestamp <= pickupUnixTimestamp) {
+            if (returnDateString.equals(pickupDateString)) {
+                returnTimeEditText.setError("Return time must come after pickup time");
+            }
+            else {
+                returnDateEditText.setError("Return date must come after pickup date");
+            }
+            anyFieldEmpty = true;
+        }
         return anyFieldEmpty;
     }
 
@@ -349,7 +350,7 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
         final Calendar returnDateCalendar = Calendar.getInstance();
         returnDateMonth = returnDateCalendar.get(Calendar.MONTH);
         returnDateDay = returnDateCalendar.get(Calendar.DAY_OF_MONTH);
-        returnDateYear = returnDateCalendar.get(Calendar.YEAR);
+        returnDateYear = returnDateCalendar.get(Calendar.YEAR) + 1;
         returnDateMonthString = singleDigitToDoubleDigit(returnDateMonth + 1);
         returnDateDayString = singleDigitToDoubleDigit(returnDateDay);
         returnDateYearString = String.valueOf(returnDateYear);
@@ -358,7 +359,6 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     public void onClick(View view) {
         if (view == pickupDateEditText) {
-            setDefaultPickupCalendar();
             DatePickerDialog pickupDateDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -378,7 +378,6 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
             final Calendar pickupTimeCalendar = Calendar.getInstance();
             pickupTimeHour = pickupTimeCalendar.get(Calendar.HOUR_OF_DAY);
             pickupTimeMinute = pickupTimeCalendar.get(Calendar.MINUTE);
-
             TimePickerDialog pickupTimeTimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker timePicker, int hour, int minute) {
@@ -392,7 +391,6 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
             pickupTimeTimePickerDialog.show();
         }
         else if (view == returnDateEditText) {
-            setDefaultReturnCalendar();
             DatePickerDialog returnDateDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -412,7 +410,6 @@ public class FindRideActivity extends AppCompatActivity implements OnMapReadyCal
             final Calendar returnTimeCalendar = Calendar.getInstance();
             returnTimeHour = returnTimeCalendar.get(Calendar.HOUR_OF_DAY);
             returnTimeMinute = returnTimeCalendar.get(Calendar.MINUTE);
-
             TimePickerDialog returnTimeTimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker timePicker, int hour, int minute) {
