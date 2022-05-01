@@ -38,6 +38,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private final FirebaseDatabase db = FirebaseDatabase.getInstance();
 
     @Override
+    protected void onStart() {
+      super.onStart();
+      getProfileData();
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
