@@ -406,9 +406,9 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
         String groupMembersPath = "groups/" + groupID + "/members";
         db.getReference(groupMembersPath).push().setValue(username);
         // Store groupID under username
-        String userGroupsPath = "users/" + username + "/groups";
-        DatabaseReference userGroupsRef = db.getReference(userGroupsPath).push();
-        userGroupsRef.setValue(groupID);
+        String userRideGroupsPath = "users/" + username + "/ride_groups";
+        DatabaseReference userRideGroupsRef = db.getReference(userRideGroupsPath).push();
+        userRideGroupsRef.setValue(groupID);
         RideInfo rideInfo = new RideInfo(
                 rideID,
                 groupID,

@@ -20,6 +20,7 @@
         android:theme="@style/Theme.SkiLift">
         <activity
             android:name=".RideConfirmedActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".RideInfoActivity"

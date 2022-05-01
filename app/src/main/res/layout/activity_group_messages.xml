@@ -7,13 +7,40 @@
     android:layout_height="match_parent"
     tools:context=".GroupMessagesActivity">
 
+    <Button
+        android:id="@+id/direct_message_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/direct_messages"
+        app:cornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ride_messages_button"
+        app:layout_constraintHorizontal_bias="0.158"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.025" />
+
+    <Button
+        android:id="@+id/ride_messages_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ride_messages"
+        app:cornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.758"
+        app:layout_constraintStart_toEndOf="@id/direct_message_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.025" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/group_messages_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/recycler_bg"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/direct_message_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.0"

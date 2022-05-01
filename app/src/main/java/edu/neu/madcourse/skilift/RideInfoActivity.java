@@ -88,8 +88,8 @@ public class RideInfoActivity extends AppCompatActivity {
                 String groupMembersPath = "groups/" + groupID + "/members";
                 db.getReference(groupMembersPath).push().setValue(username);
                 // Store groupID under username
-                String userGroupsPath = "users/" + username + "/groups";
-                DatabaseReference userGroupsRef = db.getReference(userGroupsPath).push();
+                String userRideGroupsPath = "users/" + username + "/ride_groups";
+                DatabaseReference userGroupsRef = db.getReference(userRideGroupsPath).push();
                 userGroupsRef.setValue(groupID);
 
                 confirmedIntent.putExtra("username", username);

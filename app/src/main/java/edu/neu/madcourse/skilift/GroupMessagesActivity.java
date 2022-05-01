@@ -1,8 +1,10 @@
 package edu.neu.madcourse.skilift;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,8 +40,29 @@ public class GroupMessagesActivity extends AppCompatActivity {
         // Create recycler view
         createRecyclerView();
 
-        // Populate recycler view with each group the user is a part of
-        populateGroupMessages();
+        // Populate recycler view with direct message groups or ride groups
+        Button directMessagesButton = findViewById(R.id.direct_message_button);
+        Button rideMessagesButton = findViewById(R.id.ride_messages_button);
+        directMessagesButton.setSelected(true);
+        directMessagesButton.setBackgroundColor(Color.GREEN);
+        rideMessagesButton.setBackgroundColor(Color.RED);
+
+        directMessagesButton.setOnClickListener(view -> {
+            directMessagesButton.setSelected(true);
+            rideMessagesButton.setSelected(false);
+            directMessagesButton.setBackgroundColor(Color.GREEN);
+            rideMessagesButton.setBackgroundColor(Color.RED);
+            populateGroupMessages("users/" + username + "/groups");
+        });
+
+        rideMessagesButton.setOnClickListener(view -> {
+            rideMessagesButton.setSelected(true);
+            directMessagesButton.setSelected(false);
+            directMessagesButton.setBackgroundColor(Color.RED);
+            rideMessagesButton.setBackgroundColor(Color.GREEN);
+            populateGroupMessages("users/" + username + "/ride_groups");
+        });
+        populateGroupMessages("users/" + username + "/groups");
     }
 
     private void createRecyclerView() {
@@ -59,8 +82,10 @@ public class GroupMessagesActivity extends AppCompatActivity {
     }
 
     // Get groupIDs of user and populate recycler view with their group members
-    private void populateGroupMessages() {
-        String groupsPath = "users/" + username + "/groups";
+    private void populateGroupMessages(String groupsPath) {
+        int listSize = groupMessageList.size();
+        groupMessageList.clear();
+        adapter.notifyItemRangeRemoved(0, listSize);
         DatabaseReference groupsRef = db.getReference(groupsPath);
         ValueEventListener getGroupMessages = new ValueEventListener() {
             @Override
