@@ -41,6 +41,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     protected void onStart() {
       super.onStart();
       getProfileData();
+      setProfilePicture();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

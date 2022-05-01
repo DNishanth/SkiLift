@@ -118,6 +118,7 @@ public class GroupMessagesActivity extends AppCompatActivity implements View.OnC
     public void onClick(View view) {
         // Create group and save groupID under each user in group
         if (view.getId() == R.id.button_create_group) {
+            System.out.println("firing create group");
             String groupID = db.getReference("groups").push().getKey();
             String groupMembersPath = "groups/" + groupID + "/members";
 
