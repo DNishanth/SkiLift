@@ -58,7 +58,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = getIntent();
         this.username = intent.getStringExtra("username");
         this.profileUsername = intent.getStringExtra("profileUsername");
-        if (profileUsername == null) {
+        if (profileUsername == null || profileUsername.equals(username)) {
             profileUsername = username;
             setRatingButton.setVisibility(View.GONE);
         }
