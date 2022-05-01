@@ -24,6 +24,7 @@ import edu.neu.madcourse.skilift.models.UserProfile;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
+    String profileUsername;
     String username;
     ImageView profilePictureImageView;
     StorageReference profilePictureRef;
@@ -42,16 +43,23 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         Intent intent = getIntent();
         this.username = intent.getStringExtra("username");
+        this.profileUsername = intent.getStringExtra("profileUsername");
+        if (profileUsername == null) {
+            profileUsername = username;
+        }
+        if (!profileUsername.equals(username)) {
+            editProfileButton.setVisibility(View.GONE);
+        }
 
         // Set image to profile picture
-        this.profilePictureRef = storage.getReference().child("profile_pictures").child(username+".jpg");
+        this.profilePictureRef = storage.getReference().child("profile_pictures").child(profileUsername+".jpg");
         setProfilePicture();
 
         // Get UserProfile data
         getProfileData();
 
-        // Display username
-        usernameTextView.setText(this.username);
+        // Display profileUsername
+        usernameTextView.setText(this.profileUsername);
     }
 
     @Override
@@ -109,7 +117,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Log.e(MainActivity.TAG, "Could not get profile data");
             }
         };
-        DatabaseReference dbRef = db.getReference().child("users").child(username).child("profile");
+        DatabaseReference dbRef = db.getReference().child("users").child(profileUsername).child("profile");
         dbRef.addListenerForSingleValueEvent(profileListener);
     }
 }
