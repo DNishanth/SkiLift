@@ -192,6 +192,13 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
                     leavingOnDateEditText.setText(leavingOnDateString);
                 }
             }, leavingOnDateYear, leavingOnDateMonth, leavingOnDateDay);
+            String returningDateString = returnDateEditText.getText().toString();
+            if (!returningDateString.equals("")) {
+                // Set max return date to be same day as returning day
+                long maxDateMillis = dateTimeToUnixTimestamp(returnDateMonthString, returnDateDayString, returnDateYearString, "0", "0") * 1000;
+                leavingOnDateDatePickerDialog.getDatePicker().setMaxDate(maxDateMillis);
+            }
+            leavingOnDateDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
             leavingOnDateDatePickerDialog.setTitle("Enter Departure Date");
             leavingOnDateDatePickerDialog.show();
         }
@@ -209,6 +216,21 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
                     pickupTimeEditText.setText(pickupTimeString);
                 }
             }, pickupTimeHour, pickupTimeMinute, true);
+            /*
+            String returningDateString = returnDateEditText.getText().toString();
+            String leavingDateString = leavingOnDateEditText.getText().toString();
+            if (!returningDateString.equals("") && !leavingDateString.equals("")) {
+                if (returnDateYear == leavingOnDateYear && returnDateMonth == leavingOnDateMonth && returnDateDay == leavingOnDateDay) {
+                    String returningTimeString = returnTimeEditText.getText().toString();
+                    if (!returningTimeString.equals("")) {
+                        // TODO: Leaving and returning on same day, so pickup time must be less than return time
+                    }
+                }
+                if (...) {  // TODO: Check if we are in current day
+                    // TODO: Pickup time must be at least the current time for the current day
+                }
+            }
+             */
             pickupTimeTimePickerDialog.setTitle("Enter Pickup Time");
             pickupTimeTimePickerDialog.show();
         }
@@ -228,6 +250,15 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
                     returnDateEditText.setText(returnDateString);
                 }
             }, returnDateYear, returnDateMonth, returnDateDay);
+            String leavingDateString = leavingOnDateEditText.getText().toString();
+            if (!leavingDateString.equals("")) {
+                // Set min return date to be same day as leaving day
+                long minDateMillis = dateTimeToUnixTimestamp(leavingOnDateMonthString, leavingOnDateDayString, leavingOnDateYearString, "0", "0") * 1000;
+                returnDateDatePickerDialog.getDatePicker().setMinDate(minDateMillis);
+            }
+            else {
+                returnDateDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+            }
             returnDateDatePickerDialog.setTitle("Enter Return Date");
             returnDateDatePickerDialog.show();
         }
@@ -245,6 +276,7 @@ public class GiveRideActivity extends AppCompatActivity implements OnMapReadyCal
                     returnTimeEditText.setText(returnTimeString);
                 }
             }, returnTimeHour, returnTimeMinute, true);
+            // TODO: Set min returning time
             returnTimeTimePickerDialog.setTitle("Enter Return Time");
             returnTimeTimePickerDialog.show();
         }
