@@ -75,8 +75,13 @@ public class MyRidesActivity extends AppCompatActivity {
 
       recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-
-
+    @Override
+    public void onStart() {
+      super.onStart();
+      upcoming.setSelected(true);
+      past.setSelected(false);
+      populateRides(R.id.upcoming);
+    }
 
 
     private String helperDateFormat(String date){
