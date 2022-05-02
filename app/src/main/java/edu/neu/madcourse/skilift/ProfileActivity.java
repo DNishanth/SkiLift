@@ -124,7 +124,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         TextView ratingTextView = findViewById(R.id.profileRatingTextView);
                         ridesCompletedTextView.setText("Rides Completed: " + String.valueOf(userProfile.getRidesCompleted()));
                         skiTypeTextView.setText("Skier Type: " + userProfile.getSkiType());
-                        favoriteMountainsTextView.setText("Favorite Mountains: " + userProfile.getFavoriteMountains());
+                        favoriteMountainsTextView.setText("Favorite Mountain: " + userProfile.getFavoriteMountains());
                         funFactTextView.setText("Fun Fact: " + userProfile.getFunFact());
                         if (userProfile.getNumRatings() == 0) {
                             ratingTextView.setText("No ratings");
